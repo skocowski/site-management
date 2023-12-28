@@ -4,6 +4,17 @@ import { Button } from './ui/button'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { Icons } from './icons'
+import { cn } from '@/lib/utils'
+import { CheckIcon } from '@radix-ui/react-icons'
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from './ui/command'
+
+const contractors = [
+    { label: "Mercury", value: "mercury" },
+    { label: "Boston", value: "boston" },
+    { label: "Gradx", value: "gradx" },
+
+] as const
 
 const CreateAccount = () => {
   return (
@@ -17,8 +28,8 @@ const CreateAccount = () => {
           <CardContent className="grid gap-4">
               <div className="grid grid-cols-2 gap-6">
                   <Button variant="outline">
-                      <Icons.gitHub className="mr-2 h-4 w-4" />
-                      Github
+                      <Icons.twitter className="mr-2 h-4 w-4" />
+                      Twitter
                   </Button>
                   <Button variant="outline">
                       <Icons.google className="mr-2 h-4 w-4" />
@@ -36,6 +47,19 @@ const CreateAccount = () => {
                   </div>
               </div>
               <div className="grid gap-2">
+                  <Label htmlFor="name">Name</Label>
+                  <Input id="name" type='text' placeholder="Name" />
+              </div>
+              <div className="grid gap-2">
+                  <Label htmlFor="surname">Surname</Label>
+                  <Input id="surname" type="text" placeholder="Surname" />
+              </div>
+              <div className="grid gap-2">
+                  <Label htmlFor="phone">Phone number</Label>
+                  <Input id="phone" type="phone" placeholder="Phone number" />
+              </div>
+
+              <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input id="email" type="email" placeholder="m@example.com" />
               </div>
@@ -47,6 +71,44 @@ const CreateAccount = () => {
                   <Label htmlFor="password2">Repeat Password</Label>
                   <Input id="password2" type="password" />
               </div>
+              <div className="grid gap-2">
+               
+                      <Label>Permit type</Label>
+                      <Popover>
+                          <PopoverTrigger asChild>
+
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[200px] p-0">
+                              <Command>
+                                  <CommandInput placeholder="Search permit..." />
+                                  <CommandEmpty>No permit found.</CommandEmpty>
+                                  <CommandGroup>
+                                      {contractors.map((contractor) => (
+                                          <CommandItem
+                                              value={contractor.label}
+                                              key={contractor.value}
+                                       
+                                          >
+                                              <CheckIcon
+                                                  className={cn(
+                                                      "mr-2 h-4 w-4",
+                                                      contractor.value === contractor.value
+                                                          ? "opacity-100"
+                                                          : "opacity-0"
+                                                  )}
+                                              />
+                                              {contractor.label}
+                                          </CommandItem>
+                                      ))}
+                                  </CommandGroup>
+                              </Command>
+                          </PopoverContent>
+                      </Popover>
+
+                
+           
+              </div>
+
           </CardContent>
           <CardFooter>
               <Button className="w-full">Create account</Button>

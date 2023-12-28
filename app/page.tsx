@@ -24,7 +24,7 @@ export default function Home() {
       <div className="flex-grow max-w-7xl mx-auto">
       
 
-        <div className='grid grid-cols-2 gap-8'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
           <TeamMembers />
           <ReportAnIssue />
           <CreateAccount />
