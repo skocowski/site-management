@@ -15,9 +15,15 @@ const [user] = useAuthState(auth)
  /*  const userSession = sessionStorage.getItem('user') */
   
   /*   if (!user && !userSession) { */
-   if (!user) {
+/*    if (!user) {
     router.push('/sign-up')
-  } 
+  }  */
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/sign-up')
+    } 
+  },[])
 
 
   return (
