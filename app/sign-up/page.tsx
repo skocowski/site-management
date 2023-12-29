@@ -10,8 +10,9 @@ import * as z from "zod"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Link } from "lucide-react";
+
 
 
 const defaultValues: Partial<AccountFormValues> = {
@@ -41,7 +42,7 @@ type AccountFormValues = z.infer<typeof FormSchema>
 
 const SignUp = () => {
 
-
+const [showLogIn, setShowLogIn] = useState(false)
 
 
 
@@ -54,10 +55,10 @@ const SignUp = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-<AccountForm />
+        <AccountForm setShowLogIn={setShowLogIn} />
       </CardContent>
       <CardFooter>
-        To the Moon!
+        {showLogIn && <Link href="/sign-in">Now go to Log In</Link> }
       </CardFooter>
     </Card>
   );
@@ -65,20 +66,18 @@ const SignUp = () => {
 
   export default SignUp
 
-const AccountForm = () => {
+const AccountForm = ({ setShowLogIn }: { setShowLogIn: (value: boolean) => void }) => {
+
   const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth)
-  const router = useRouter()
-  const [push, setPush] = useState(false)
-  useEffect(() => {
-    router.push('/sign-in')
-  }, [push])
+
+
 
   const handleSignUp = async ({ email, password }: { email: string, password: string }) => {
     try {
       const res = await createUserWithEmailAndPassword(email, password)
       console.log({res})
     /*   sessionStorage.setItem('user', 'true') */
-      setPush(true)
+  setShowLogIn(true)
 
     } catch (e) {
       console.error(e)
