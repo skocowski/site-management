@@ -11,9 +11,10 @@ import { signOut } from "firebase/auth";
 export default function Home() {
 const [user] = useAuthState(auth)
   const router = useRouter()
-  const userSession = sessionStorage.getItem('user')
+ /*  const userSession = sessionStorage.getItem('user') */
   
-  if (!user && !userSession) {
+  /*   if (!user && !userSession) { */
+  if (!user) {
     router.push('/sign-up')
   }
   return (

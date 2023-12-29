@@ -67,7 +67,7 @@ const AccountForm = () => {
     const handleSignIn = async ({ email, password }: { email: string, password: string }) => {
         try {
             const res = await signInWithEmailAndPassword(email, password)
-            sessionStorage.setItem('user', 'true')
+       /*      sessionStorage.setItem('user', 'true') */
 router.push('/')
         } catch (e) {
             console.error(e)
