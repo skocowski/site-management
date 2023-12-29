@@ -18,11 +18,7 @@ const [user] = useAuthState(auth)
   
   /*   if (!user && !userSession) { */
 
-  useEffect(() => {
-    if (!user) {
-      router.push('/sign-up')
-    }  
-  },[])
+
 
 
 
