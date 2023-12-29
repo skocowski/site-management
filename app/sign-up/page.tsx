@@ -78,7 +78,7 @@ const AccountForm = ({ setShowLogIn }: { setShowLogIn: (value: boolean) => void 
       const res = await createUserWithEmailAndPassword(email, password)
       console.log({res})
     /*   sessionStorage.setItem('user', 'true') */
-/*   setShowLogIn(true) */
+  setShowLogIn(true) 
 
     } catch (e) {
       console.error(e)
