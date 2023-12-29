@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 
 const defaultValues: Partial<AccountFormValues> = {
@@ -64,11 +65,15 @@ export default SignIn
 const AccountForm = () => {
     const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth)
     const router = useRouter()
+    const [push, setPush] = useState(false)
+    useEffect(() => {
+        router.push('/')
+    }, [push])
     const handleSignIn = async ({ email, password }: { email: string, password: string }) => {
         try {
             const res = await signInWithEmailAndPassword(email, password)
             /*      sessionStorage.setItem('user', 'true') */
-            router.push('/')
+            setPush(true)
         } catch (e) {
             console.error(e)
         }

@@ -4,6 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from '@/app/firebase/config'
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
+import { useEffect, useState } from "react";
 
 
 
@@ -14,9 +15,16 @@ const [user] = useAuthState(auth)
  /*  const userSession = sessionStorage.getItem('user') */
   
   /*   if (!user && !userSession) { */
-  if (!user) {
+/*   if (!user) {
     router.push('/sign-up')
-  }
+  } */
+  const [push, setPush] = useState(false)
+  useEffect(() => {
+    if (!user) {
+      router.push('/sign-up')
+    } 
+  }, [user])
+
   return (
    
       <div className=' min-h-screen mx-auto flex flex-col gap-5'>
