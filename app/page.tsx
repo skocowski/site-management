@@ -1,11 +1,10 @@
-"use client";
+
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from '@/app/firebase/config'
 import { redirect, useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
-import { useEffect, useState } from "react";
-import SignUp from "./sign-up/page";
+
 import Link from "next/link";
 
 
@@ -17,9 +16,9 @@ const [user] = useAuthState(auth)
  /*  const userSession = sessionStorage.getItem('user') */
   
   /*   if (!user && !userSession) { */
-/*    if (!user) {
+   if (!user) {
     router.push('/sign-up')
-  }  */
+  }  
 
   if (auth.currentUser === null) {
   () => redirect('/sign-up')
