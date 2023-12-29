@@ -72,6 +72,7 @@ const AccountForm = () => {
   useEffect(() => {
     router.push('/')
   }, [push])
+  
   const handleSignUp = async ({ email, password }: { email: string, password: string }) => {
     try {
       const res = await  createUserWithEmailAndPassword(email, password)

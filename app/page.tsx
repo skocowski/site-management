@@ -5,6 +5,7 @@ import { auth } from '@/app/firebase/config'
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
+import SignUp from "./sign-up/page";
 
 
 
@@ -19,11 +20,9 @@ const [user] = useAuthState(auth)
     router.push('/sign-up')
   }  */
 
-  useEffect(() => {
-    if (!user) {
-      router.push('/sign-up')
-    } 
-  },[])
+
+    if (!user) return <SignUp />
+
 
 
   return (
@@ -36,7 +35,7 @@ const [user] = useAuthState(auth)
       <div>
         <button onClick={() => {
           signOut(auth)
-          sessionStorage.removeItem('user')
+         /*  sessionStorage.removeItem('user') */
         } }>
           WYLOGUJ SIĘ
         </button>
