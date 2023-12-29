@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 
 import Link from "next/link";
+import { useEffect } from "react";
 
 
 
@@ -16,9 +17,13 @@ const [user] = useAuthState(auth)
  /*  const userSession = sessionStorage.getItem('user') */
   
   /*   if (!user && !userSession) { */
-   if (!user) {
-    router.push('/sign-up')
-  }  
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/sign-up')
+    }  
+  },[])
+
 
 
 
