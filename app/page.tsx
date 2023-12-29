@@ -22,7 +22,7 @@ const [user] = useAuthState(auth)
   }  */
 
   if (auth.currentUser === null) {
-  redirect('/sign-up')
+  () => redirect('/sign-up')
 }
  
 
@@ -47,7 +47,7 @@ const [user] = useAuthState(auth)
 
       </div>
       <div>
-        {!user && <Link href='/sign-up'>SIGN UP</Link>}
+        {auth.currentUser === null && <Link href='/sign-up'>SIGN UP</Link>}
       </div>
 
 
