@@ -70,12 +70,13 @@ const AccountForm = () => {
   const router = useRouter()
   const [push, setPush] = useState(false)
   useEffect(() => {
-    router.push('/')
+    router.push('/sign-in')
   }, [push])
-  
+
   const handleSignUp = async ({ email, password }: { email: string, password: string }) => {
     try {
-      const res = await  createUserWithEmailAndPassword(email, password)
+      const res = await createUserWithEmailAndPassword(email, password)
+      console.log({res})
     /*   sessionStorage.setItem('user', 'true') */
       setPush(true)
 
