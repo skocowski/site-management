@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import SignUp from "./sign-up/page";
+import Link from "next/link";
 
 
 
@@ -21,7 +22,7 @@ const [user] = useAuthState(auth)
   }  */
 
 
-    if (!user) return <SignUp />
+ 
 
 
 
@@ -33,12 +34,18 @@ const [user] = useAuthState(auth)
         Hello Rawai!
       </div>
       <div>
-        <button onClick={() => {
-          signOut(auth)
-         /*  sessionStorage.removeItem('user') */
-        } }>
-          WYLOGUJ SIĘ
-        </button>
+        {user &&
+          <button onClick={() => {
+            signOut(auth)
+            /*  sessionStorage.removeItem('user') */
+          }}>
+            WYLOGUJ SIĘ
+          </button>
+        }
+
+      </div>
+      <div>
+        {!user && <Link href='/sign-up'>SIGN UP</Link>}
       </div>
 
 
