@@ -55,7 +55,7 @@ const SignIn = () => {
                 <AccountForm setShowMain={setShowMain}/>
             </CardContent>
             <CardFooter>
-                {showMain && <Link href="/">Now go to Log In</Link>}
+                {showMain && <Link href="/">Now go to Main</Link>}
             </CardFooter>
         </Card>
     );
