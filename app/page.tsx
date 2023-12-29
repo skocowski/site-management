@@ -8,7 +8,7 @@ import { signOut } from "firebase/auth";
 
 
 
-export default function Home() {
+const Home = () => {
 const [user] = useAuthState(auth)
   const router = useRouter()
  /*  const userSession = sessionStorage.getItem('user') */
@@ -38,3 +38,5 @@ const [user] = useAuthState(auth)
   
   );
 }
+
+export default Home
