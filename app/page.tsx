@@ -38,20 +38,3 @@ const [user] = useAuthState(auth)
   
   );
 }
-
-
-{/* <div className="flex-grow max-w-7xl mx-auto">
-
-
-  <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
-    <TeamMembers />
-    <ReportAnIssue />
-    <CreateAccount />
-    <AddPermit />
-
-
-
-  </div>
-
-
-</div> */}
