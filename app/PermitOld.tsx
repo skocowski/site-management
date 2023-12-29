@@ -1,4 +1,4 @@
-import { Avatar, Badge, Card } from 'flowbite-react'
+/* import { Avatar, Badge, Card } from 'flowbite-react'
 import React from 'react'
 
 const PermitOld = () => {
@@ -71,4 +71,4 @@ const PermitOld = () => {
     )
 }
 
-export default PermitOld
+export default PermitOld */

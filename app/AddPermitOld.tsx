@@ -1,4 +1,4 @@
-'use client';
+/* 'use client';
 
 import { Button, Checkbox, Datepicker, Label, Select, TextInput, Textarea } from 'flowbite-react';
 
@@ -67,3 +67,4 @@ export default AddPermitOld
 
 
 
+ */

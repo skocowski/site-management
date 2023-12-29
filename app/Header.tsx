@@ -1,12 +1,11 @@
 'use client';
 import DarkModeToggle from '@/components/DarkModeToggle';
-import { Navbar } from 'flowbite-react';
-import Link from 'next/link';
+
 
 const Header = () => {
 
     return (
-        <header>  {/*  <header className='sticky top-0 z-50'></header> */}
+        <header> 
             <nav className='flex flex-col sm:flex-row items-center p-5 pl-2  max-w-7xl mx-auto'>
                 LOGO
 

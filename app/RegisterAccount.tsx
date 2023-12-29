@@ -1,4 +1,4 @@
-'use client';
+/* 'use client';
 
 import { Button, Checkbox, Datepicker, FileInput, Label, Select, TextInput, Textarea } from 'flowbite-react';
 
@@ -71,4 +71,4 @@ const RegisterAccount = () => {
     )
 }
 
-export default RegisterAccount
+export default RegisterAccount */

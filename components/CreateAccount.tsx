@@ -1,4 +1,4 @@
-import React from 'react'
+/* import React, { useState } from 'react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card'
 import { Button } from './ui/button'
 import { Label } from './ui/label'
@@ -17,7 +17,47 @@ const contractors = [
 ] as const
 
 const CreateAccount = () => {
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
   return (
+      <Card>
+          <CardHeader className="space-y-1">
+              <CardTitle className="text-2xl">Create an account</CardTitle>
+              <CardDescription>
+                  Enter your email below to create your account
+              </CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+
+
+
+
+              <div className="grid gap-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input id="email" type="email" value={email} placeholder="m@example.com" />
+              </div>
+              <div className="grid gap-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input id="password" type="password" value={password} />
+              </div>
+
+
+
+          </CardContent>
+          <CardFooter>
+              <Button className="w-full">Create account</Button>
+          </CardFooter>
+      </Card>
+  )
+}
+
+export default CreateAccount
+
+ */
+
+/*
+
+
       <Card>
           <CardHeader className="space-y-1">
               <CardTitle className="text-2xl">Create an account</CardTitle>
@@ -71,7 +111,7 @@ const CreateAccount = () => {
                   <Label htmlFor="password2">Repeat Password</Label>
                   <Input id="password2" type="password" />
               </div>
-              <div className="grid gap-2">
+             <div className="grid gap-2">
                
                       <Label>Permit type</Label>
                       <Popover>
@@ -107,14 +147,12 @@ const CreateAccount = () => {
 
                 
            
-              </div>
+              </div> 
 
           </CardContent>
           <CardFooter>
               <Button className="w-full">Create account</Button>
           </CardFooter>
       </Card>
-  )
-}
 
-export default CreateAccount
+*/

@@ -1,11 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack: (config) => {
-    config.resolve.fallback = { fs: false, net: false, tls: false };
-
+  webpack: (config, { isServer }) => {
+    config.externals.push("pino-pretty", "lokijs", "encoding");
+    if (!isServer) {
+      config.resolve.fallback = {
+        fs: false,
+      };
+    }
     return config;
   },
-
 };
 
 module.exports = nextConfig

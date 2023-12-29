@@ -1,42 +1,56 @@
 "use client";
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./firebase/config";
+import { useRouter } from "next/navigation";
+import { signOut } from "firebase/auth";
 
-import Image from 'next/image';
-import Header from './Header';
-import AddPermitOld from './AddPermitOld';
-import PermitOld from './PermitOld';
-import RegisterAccount from './RegisterAccount';
-import TeamMembers from '@/components/TeamMembers';
-import ReportAnIssue from '@/components/ReportAnIssue';
-import CreateAccount from '@/components/CreateAccount';
-import AddPermit from '@/components/AddPermit';
 
 
 
 export default function Home() {
-
-
+const [user] = useAuthState(auth)
+  const router = useRouter()
+  const userSession = sessionStorage.getItem('user')
+  
+  if (!user && !userSession) {
+    router.push('/sign-up')
+  }
   return (
    
-      <div className=' min-h-screen '>
+      <div className=' min-h-screen mx-auto flex flex-col gap-5'>
    
+      <div className='text-5xl'>
+        Hello Rawai!
+      </div>
+      <div>
+        <button onClick={() => {
+          signOut(auth)
+          sessionStorage.removeItem('user')
+        } }>
+          WYLOGUJ SIĘ
+        </button>
+      </div>
 
-      <div className="flex-grow max-w-7xl mx-auto">
-      
 
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
-          <TeamMembers />
-          <ReportAnIssue />
-          <CreateAccount />
-          <AddPermit />
-     
-
-       
-</div>
-       
-
-        </div>
       </div>
   
   );
 }
+
+
+{/* <div className="flex-grow max-w-7xl mx-auto">
+
+
+  <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+    <TeamMembers />
+    <ReportAnIssue />
+    <CreateAccount />
+    <AddPermit />
+
+
+
+  </div>
+
+
+</div> */}

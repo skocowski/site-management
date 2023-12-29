@@ -1,4 +1,4 @@
-'use client'
+/* 'use client'
 
 
 import { Button } from "./ui/button"
@@ -72,4 +72,4 @@ const ReportAnIssue = () => {
   )
 }
 
-export default ReportAnIssue
+export default ReportAnIssue */
