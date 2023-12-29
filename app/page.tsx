@@ -34,7 +34,7 @@ const [user] = useAuthState(auth)
         Hello Rawai!
       </div>
       <div>
-        {user &&
+        {auth.currentUser !== null &&
           <button onClick={() => {
             signOut(auth)
             /*  sessionStorage.removeItem('user') */

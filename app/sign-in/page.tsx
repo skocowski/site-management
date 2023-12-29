@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 
 const defaultValues: Partial<AccountFormValues> = {
@@ -41,7 +42,7 @@ const FormSchema = z.object({
 type AccountFormValues = z.infer<typeof FormSchema>
 
 const SignIn = () => {
-
+    const [showMain, setShowMain] = useState(false)
     return (
         <Card className="max-w-md mx-auto">
             <CardHeader className="space-y-1">
@@ -51,10 +52,10 @@ const SignIn = () => {
                 </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
-                <AccountForm />
+                <AccountForm setShowMain={setShowMain}/>
             </CardContent>
             <CardFooter>
-                To the Moon!
+                {showMain && <Link href="/">Now go to Log In</Link>}
             </CardFooter>
         </Card>
     );
@@ -62,19 +63,16 @@ const SignIn = () => {
 
 export default SignIn
 
-const AccountForm = () => {
+const AccountForm = ({ setShowMain }: { setShowMain: (value: boolean) => void }) => {
     const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth)
-    const router = useRouter()
-    const [push, setPush] = useState(false)
-    useEffect(() => {
-        router.push('/')
-    }, [push])
+
+
     const handleSignIn = async ({ email, password }: { email: string, password: string }) => {
         try {
             const res = await signInWithEmailAndPassword(email, password)
             console.log({ res })
             /*      sessionStorage.setItem('user', 'true') */
-            setPush(true)
+           setShowMain(true)
         } catch (e) {
             console.error(e)
         }
