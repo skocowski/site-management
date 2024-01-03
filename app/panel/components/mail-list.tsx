@@ -1,4 +1,4 @@
-import { ComponentProps } from "react"
+/* import { ComponentProps } from "react"
 import formatDistanceToNow from "date-fns/formatDistanceToNow"
 
 import { cn } from "@/lib/utils"
@@ -88,3 +88,4 @@ function getBadgeVariantFromLabel(
 
   return "secondary"
 }
+ */

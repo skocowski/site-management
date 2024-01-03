@@ -1,4 +1,4 @@
-"use client"
+/* "use client"
 
 import Link from "next/link"
 import { LucideIcon } from "lucide-react"
@@ -85,3 +85,4 @@ export function Nav({ links, isCollapsed }: NavProps) {
     </div>
   )
 }
+ */
