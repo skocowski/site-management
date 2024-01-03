@@ -26,13 +26,9 @@ const Home = () => {
 
    <MaxWidthWrapper className="space-y-10">
       
-      {auth.currentUser ? 
-        <>
-          <AddPermit />
-        </>
-    :
+
         <h1>Siema Rawai</h1>
-    }
+    
 
 
    
