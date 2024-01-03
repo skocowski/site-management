@@ -1,5 +1,5 @@
 "use client"
-import { Separator } from './ui/separator'
+import { Separator } from '@/components/ui/separator'
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons"
@@ -7,21 +7,24 @@ import { format } from "date-fns"
 import { auth, db } from '@/app/firebase/config'
 
 import * as z from "zod"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './ui/form'
-import { Input } from './ui/input'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
-import { Button } from './ui/button'
-import { Calendar } from './ui/calendar'
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from './ui/command'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+
+import { Calendar } from '@/components/ui/calendar'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command'
 import { cn } from '@/lib/utils'
-import { useToast } from './ui/use-toast'
-import { Textarea } from './ui/textarea'
-import { RadioGroup, RadioGroupItem } from './ui/radio-group'
+import { useToast } from '@/components/ui/use-toast'
+import { Textarea } from '@/components/ui/textarea'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { DocumentData, doc, setDoc } from 'firebase/firestore'
 import { User } from 'firebase/auth'
 import { readUser } from '@/app/utils/Functions'
 import useUserData from '@/hooks/useUserData'
+import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 
 
@@ -94,10 +97,12 @@ const defaultValues: Partial<AccountFormValues> = {
 
 const AddPermit = () => {
 
-    const {data: userData} = useUserData()
+
+
+    const { data: userData } = useUserData()
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 max-w-md">
             <div>
                 <h3 className="text-lg font-medium">Add Permit</h3>
                 <p className="text-sm text-muted-foreground">
@@ -105,24 +110,35 @@ const AddPermit = () => {
                 </p>
             </div>
             <Separator />
-            {userData && <AccountForm userData={userData} />} 
+            {userData && <AccountForm userData={userData} />}
         </div>
     )
 }
 
 export default AddPermit
 
-const AccountForm = ({userData} : {userData: DocumentData}) => {
-const {toast} = useToast()
-  
+const AccountForm = ({ userData }: { userData: DocumentData }) => {
+    const router = useRouter()
+
+    const [toPermits, setToPermits] = useState(false)
+
+    useEffect(() => {
+        if (toPermits) {
+            router.push('/panel/permits')
+        }
+
+    }, [toPermits]) 
+
+    const { toast } = useToast()
+
     const form = useForm<AccountFormValues>({
         resolver: zodResolver(accountFormSchema),
         defaultValues,
     })
 
     function onSubmit(values: AccountFormValues) {
-           writeData(values, userData)  
-        
+        writeData(values, userData)
+
         toast({
             title: "You submitted the following values:",
             description: (
@@ -130,7 +146,8 @@ const {toast} = useToast()
                     <code className="text-white">{JSON.stringify(values, null, 2)}</code>
                 </pre>
             ),
-        }) 
+        })
+        setToPermits(true)
     }
 
     return (
@@ -341,7 +358,7 @@ const {toast} = useToast()
             </form>
         </Form>
     )
-} 
+}
 
 async function writeData(data: AccountFormValues, userData: DocumentData) {
     console.log("write permit to db");
@@ -364,7 +381,7 @@ async function writeData(data: AccountFormValues, userData: DocumentData) {
         date: data.date,
         status: "pending",
         email: userData.email
-        
+
     };
 
     console.log(permit);

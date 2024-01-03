@@ -2,21 +2,19 @@
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from '@/app/firebase/config'
-import { useRouter } from "next/navigation";
-import { signOut } from "firebase/auth";
 
-import Link from "next/link";
-import { useEffect } from "react";
+import AddPermit from "@/components/AddPermit";
+import PermitsList from "@/components/PermitsList";
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { readUser } from "./utils/Functions";
 
 
 
 
 const Home = () => {
-const [user] = useAuthState(auth)
-  const router = useRouter()
- /*  const userSession = sessionStorage.getItem('user') */
-  
-  /*   if (!user && !userSession) { */
+ const [user] = useAuthState(auth) 
+
 
 
 
@@ -24,30 +22,24 @@ const [user] = useAuthState(auth)
 
 
   return (
+
+
+   <MaxWidthWrapper className="space-y-10">
+      
+      {auth.currentUser ? 
+        <>
+          <AddPermit />
+        </>
+    :
+        <h1>Siema Rawai</h1>
+    }
+
+
    
-      <div className=' min-h-screen mx-auto flex flex-col gap-5'>
-   
-      <div className='text-5xl'>
-        Hello Rawai!
-      </div>
-      <div>
-        {auth.currentUser !== null &&
-          <button onClick={() => {
-            signOut(auth)
-            /*  sessionStorage.removeItem('user') */
-          }}>
-            WYLOGUJ SIĘ
-          </button>
-        }
 
-      </div>
-      <div>
-        {auth.currentUser === null && <Link href='/sign-up'>SIGN UP</Link>}
-      </div>
+   </MaxWidthWrapper> 
 
 
-      </div>
-  
   );
 }
 

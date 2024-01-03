@@ -10,11 +10,23 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useEffect, useState } from "react"
 
 const DarkModeToggle = () => {
-    const { setTheme } = useTheme()
-  return (
-      <DropdownMenu>
+    const [mounted, setMounted] = useState(false)
+    const { theme, setTheme } = useTheme()
+
+    // useEffect only runs on the client, so now we can safely show the UI
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    if (!mounted) {
+        return null
+    }
+    return (
+   
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon">
                   <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -34,6 +46,7 @@ const DarkModeToggle = () => {
               </DropdownMenuItem>
           </DropdownMenuContent>
       </DropdownMenu>
+        
   )
 }
 

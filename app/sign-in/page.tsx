@@ -3,21 +3,20 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-
-
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import { auth } from '@/app/firebase/config'
 import * as z from "zod"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { readUser } from "../utils/Functions";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 
 const defaultValues: Partial<AccountFormValues> = {
-
+    email: "",
+    password: ""
 }
 
 const FormSchema = z.object({
@@ -28,21 +27,33 @@ const FormSchema = z.object({
         })
         .max(30, {
             message: "Email must not be longer than 30 characters.",
-        }),
+        })
+    .email(),
+
     password: z
         .string()
         .min(5, {
             message: "Password must be at least 5 characters.",
         })
         .max(30, {
-            message: "Location must not be longer than 30 characters.",
+            message: "Password must not be longer than 30 characters.",
         }),
 })
 
 type AccountFormValues = z.infer<typeof FormSchema>
 
 const SignIn = () => {
-    const [showMain, setShowMain] = useState(false)
+
+    const router = useRouter()
+    const [toPanel, setToPanel] = useState(false)
+
+    useEffect(() => {
+        if (toPanel) {
+            router.push('/panel/permits')
+        }
+
+    }, [toPanel]) 
+  
     return (
         <Card className="max-w-md mx-auto">
             <CardHeader className="space-y-1">
@@ -52,10 +63,10 @@ const SignIn = () => {
                 </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
-                <AccountForm setShowMain={setShowMain}/>
+                <AccountForm setToMain={setToPanel}/>
             </CardContent>
             <CardFooter>
-                {showMain && <Link href="/">Now go to Main</Link>}
+         
             </CardFooter>
         </Card>
     );
@@ -63,16 +74,26 @@ const SignIn = () => {
 
 export default SignIn
 
-const AccountForm = ({ setShowMain }: { setShowMain: (value: boolean) => void }) => {
+const AccountForm = ({ setToMain }: { setToMain: Dispatch<SetStateAction<boolean>> }) => {
+
+
+
     const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth)
 
 
-    const handleSignIn = async ({ email, password }: { email: string, password: string }) => {
+    const handleSignIn = async (data: AccountFormValues) => {
         try {
-            const res = await signInWithEmailAndPassword(email, password)
-            console.log({ res })
-            /*      sessionStorage.setItem('user', 'true') */
-           setShowMain(true)
+            const res = await signInWithEmailAndPassword(data.email, data.password)
+    
+       
+            if (res) {
+                const user = res.user;
+                if (user) {
+                    setToMain(true)
+                }
+            }
+            
+        
         } catch (e) {
             console.error(e)
         }
