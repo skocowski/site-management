@@ -90,6 +90,9 @@ const AccountForm = ({ setToMain }: { setToMain: Dispatch<SetStateAction<boolean
                 const user = res.user;
                 if (user) {
                     setToMain(true)
+
+            
+
                 }
             }
             
