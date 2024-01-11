@@ -4,11 +4,12 @@ import { useState, useEffect, useRef } from "react";
 
 
 export const useUserPermits = () => {
-  const [data, setData] = useState<Permit[]>(() => {
+    const [data, setData] = useState<Permit[]>([]);
+/*   const [data, setData] = useState<Permit[]>(() => {
     // Retrieve data from localStorage on initial mount
     const storedData = localStorage.getItem("permitsData");
     return storedData ? JSON.parse(storedData) : [];
-  });
+  }); */
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
