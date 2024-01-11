@@ -8,6 +8,9 @@ import Link from 'next/link';
 import { auth } from '@/app/firebase/config'
 import { User, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useEffect, useState } from 'react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import UserAvatar from '@/components/UserAvatar';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -35,7 +38,7 @@ const Header = () => {
                     <div className='hidden items-center space-x-4 sm:flex'>
 
                         <>
-                            {auth.currentUser ?
+                            {/*            {auth.currentUser ?
                                 <Button onClick={() => { signOut(auth) }} variant="ghost" size="sm">Sign Out</Button>
                                 :
                                 <Link href='/sign-in' className={buttonVariants({
@@ -43,7 +46,8 @@ const Header = () => {
                                     size: "sm"
                                 })}>Sign In</Link>
 
-                            }
+                            } */}
+                            <UserButton />
 
                             <Link href='/sign-up' className={buttonVariants({
                                 variant: "ghost",
@@ -60,5 +64,49 @@ const Header = () => {
 }
 
 export default Header
+
+
+
+
+const UserButton = () => {
+    const router = useRouter()
+
+
+    const [toMain, setToMain] = useState(false)
+
+
+
+    useEffect(() => {
+        if (toMain) {
+            router.push('/')
+        }
+
+    }, [toMain])
+
+    if (!auth.currentUser) return (
+        <Link href='/sign-in' className={buttonVariants({
+            variant: "ghost",
+            size: "sm"
+        })}>Sign In</Link>
+    )
+
+
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger><UserAvatar name={auth.currentUser.displayName} image={auth.currentUser.photoURL} /></DropdownMenuTrigger>
+            <DropdownMenuContent>
+                <DropdownMenuLabel>{auth.currentUser.displayName}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem onClick={() => {
+                    signOut(auth)
+                    setToMain(true)
+                }}>Sign Out</DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+
+    )
+}
+
 
 

@@ -94,7 +94,7 @@ const defaultValues: Partial<AccountFormValues> = {
 
 const AddPermit = () => {
 
-    const {data: userData} = useUserData()
+    const { data: userData } = useUserData()
 
     return (
         <div className="space-y-6">
@@ -105,24 +105,24 @@ const AddPermit = () => {
                 </p>
             </div>
             <Separator />
-            {userData && <AccountForm userData={userData} />} 
+            {userData && <AccountForm userData={userData} />}
         </div>
     )
 }
 
 export default AddPermit
 
-const AccountForm = ({userData} : {userData: DocumentData}) => {
-const {toast} = useToast()
-  
+const AccountForm = ({ userData }: { userData: DocumentData }) => {
+    const { toast } = useToast()
+
     const form = useForm<AccountFormValues>({
         resolver: zodResolver(accountFormSchema),
         defaultValues,
     })
 
     function onSubmit(values: AccountFormValues) {
-           writeData(values, userData)  
-        
+        writeData(values, userData)
+
         toast({
             title: "You submitted the following values:",
             description: (
@@ -130,7 +130,7 @@ const {toast} = useToast()
                     <code className="text-white">{JSON.stringify(values, null, 2)}</code>
                 </pre>
             ),
-        }) 
+        })
     }
 
     return (
@@ -341,7 +341,7 @@ const {toast} = useToast()
             </form>
         </Form>
     )
-} 
+}
 
 async function writeData(data: AccountFormValues, userData: DocumentData) {
     console.log("write permit to db");
@@ -364,7 +364,7 @@ async function writeData(data: AccountFormValues, userData: DocumentData) {
         date: data.date,
         status: "pending",
         email: userData.email
-        
+
     };
 
     console.log(permit);

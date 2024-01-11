@@ -90,9 +90,7 @@ const defaultValues: Partial<AccountFormValues> = {
     description: "",
     isolation: "yes"
 
-    // name: "Your name",
-    // location: "Work location",
-    // dob: new Date("2023-01-23"),
+
 }
 
 const AddPermit = () => {
@@ -284,7 +282,7 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
                                         selected={field.value}
                                         onSelect={field.onChange}
                                         disabled={(date) =>
-                                            date > new Date() || date < new Date("1900-01-01")
+                                            date < new Date() 
                                         }
                                         initialFocus
                                     />
@@ -378,13 +376,13 @@ async function writeData(data: AccountFormValues, userData: DocumentData) {
         rams: data.rams,
         badge: data.badge,
         isolation: data.isolation,
-        date: data.date,
+        date: data.date.getTime(),
         status: "pending",
         email: userData.email
 
     };
 
-    console.log(permit);
+  
     const ref = doc(db, "permits", permitId);
     try {
         await setDoc(ref, permit, { merge: true });

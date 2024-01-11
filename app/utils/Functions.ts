@@ -4,6 +4,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/config";
 
@@ -36,6 +37,19 @@ export async function fetchPermits() {
 
   return tempResult;
 }
+
+/* async function rejectPermit(permitId: string) {
+  const ref = doc(db, "permits", permitId);
+  try {
+    let status = "rejected";
+    let reason = "same babole";
+
+    await updateDoc(ref, { status: status, reason: reason }, { merge: true });
+    console.log("Document successfully written!");
+  } catch (error) {
+    console.error("Error writing document: ", error);
+  }
+} */
 
 /* export async function writeData() {
   console.log("write permit to db");

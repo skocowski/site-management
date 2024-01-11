@@ -47,19 +47,22 @@ const SignIn = () => {
     const router = useRouter()
     const [toPanel, setToPanel] = useState(false)
 
+
     useEffect(() => {
         if (toPanel) {
             router.push('/panel/permits')
         }
 
     }, [toPanel]) 
+
+
   
     return (
         <Card className="max-w-md mx-auto">
             <CardHeader className="space-y-1">
-                <CardTitle className="text-2xl">YEAH</CardTitle>
+                <CardTitle className="text-2xl">SIGN-IN</CardTitle>
                 <CardDescription>
-                    Teraz się zaloguj tymi samymi danymi
+                    Please log in with your e-mail and password
                 </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
@@ -89,9 +92,9 @@ const AccountForm = ({ setToMain }: { setToMain: Dispatch<SetStateAction<boolean
             if (res) {
                 const user = res.user;
                 if (user) {
+                   
                     setToMain(true)
-
-            
+                    console.log(user)
 
                 }
             }

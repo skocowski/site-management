@@ -1,5 +1,5 @@
 export type Permit = {
-    id?: string
+    id: string
     name?: string
     surname?: string
     phone?: string

@@ -10,21 +10,21 @@ import { ScrollArea, ScrollBar } from "./ui/scroll-area"
 
 const examples = [
   {
-    name: "Mail",
-    href: "/examples/mail",
+    name: "Permits",
+    href: "/panel/permits",
     code: "https://github.com/shadcn/ui/tree/main/apps/www/app/examples/mail",
   },
   {
-    name: "Dashboard",
-    href: "/examples/dashboard",
+    name: "Stats",
+    href: "/panel/stats",
     code: "https://github.com/shadcn/ui/tree/main/apps/www/app/examples/dashboard",
   },
   {
-    name: "Cards",
-    href: "/examples/cards",
+    name: "Settings",
+    href: "/panel/settings",
     code: "https://github.com/shadcn/ui/tree/main/apps/www/app/examples/cards",
   },
-  {
+/*   {
     name: "Tasks",
     href: "/examples/tasks",
     code: "https://github.com/shadcn/ui/tree/main/apps/www/app/examples/tasks",
@@ -48,7 +48,7 @@ const examples = [
     name: "Authentication",
     href: "/examples/authentication",
     code: "https://github.com/shadcn/ui/tree/main/apps/www/app/examples/authentication",
-  },
+  }, */
 ]
 
 interface ExamplesNavProps extends React.HTMLAttributes<HTMLDivElement> {}

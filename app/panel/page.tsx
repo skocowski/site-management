@@ -1,5 +1,4 @@
-
-import Permits from "./permits/page"
+import PermitsMain from "./permits/page";
 
 
 
@@ -12,7 +11,7 @@ export default function MainPanel() {
     <>
 
       <div className="hidden flex-col md:flex">
-   <Permits />
+   <PermitsMain />
       </div>
     </>
   )
