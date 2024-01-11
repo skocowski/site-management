@@ -80,7 +80,7 @@ const pricingData = [
         ],
     },
 ];
-const RightIcon = ({ fillColor }) => {
+const RightIcon = ({ fillColor } : {fillColor: any}) => {
     return (
         <svg
             width="32"
@@ -100,7 +100,7 @@ const RightIcon = ({ fillColor }) => {
         </svg>
     );
 };
-const CloseIcon = ({ fillColor }) => (
+const CloseIcon = ({ fillColor }: { fillColor: any }) => (
     <svg
         width="32"
         height="32"
@@ -116,7 +116,7 @@ const CloseIcon = ({ fillColor }) => (
         />
     </svg>
 );
-const Arrow = ({ strokColor }) => {
+const Arrow = ({ strokColor }: { strokColor: any }) => {
     return (
         <svg
             width="107"
