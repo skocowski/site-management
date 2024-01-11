@@ -13,7 +13,11 @@ const PermitsTypeContext = createContext<PermitContextProps>({
     setType: (): string => ''
 })
 
-export const PermitsTypeContextProvider = ({ children }) => {
+interface ProviderProps {
+    children: React.ReactNode
+}
+
+export const PermitsTypeContextProvider = ({ children } : ProviderProps) => {
     const [type, setType] = useState("all")
 
     return (
