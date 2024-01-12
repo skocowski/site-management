@@ -35,7 +35,7 @@ const Header = () => {
                     <Link href='/' className='flex z-40 font-semibold'><span>Site Management</span></Link>
                     {/*   todo: add mobile navbar */}
 
-                    <div className='hidden items-center space-x-4 sm:flex'>
+                    <div className='items-center space-x-4 flex'>
 
                         <>
                             {/*            {auth.currentUser ?
