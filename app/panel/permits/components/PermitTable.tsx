@@ -20,10 +20,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Button } from "../ui/button"
-import { DataTablePagination } from "./DataTablePagination"
+import { Button } from "../../../../components/ui/button"
+import { DataTablePagination } from "./data-table-pagination"
 import { useState } from "react"
-import { Input } from "../ui/input"
+import { Input } from "../../../../components/ui/input"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
