@@ -25,6 +25,7 @@ import useUserData from '@/hooks/useUserData'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { useUserPermits } from '@/hooks/useUserPermits'
 
 
 
@@ -117,7 +118,7 @@ export default AddPermit
 
 const AccountForm = ({ userData }: { userData: DocumentData }) => {
     const router = useRouter()
-
+const {refetchData} = useUserPermits()
     const [toPermits, setToPermits] = useState(false)
 
     useEffect(() => {
@@ -370,15 +371,15 @@ async function writeData(data: AccountFormValues, userData: DocumentData) {
         applicant: "me" + permitId,
         description: data.description,
         company: userData.company,
-        contactNumber: userData.phone,
+        phoneNumber: userData.phoneNumber,
         location: data.location,
         type: data.permitType,
         rams: data.rams,
         badge: data.badge,
         isolation: data.isolation,
         date: data.date.getTime(),
-        status: "pending",
-        email: userData.email
+        status: "approved",
+        email: auth.currentUser?.email
 
     };
 
@@ -387,6 +388,8 @@ async function writeData(data: AccountFormValues, userData: DocumentData) {
     try {
         await setDoc(ref, permit, { merge: true });
         console.log("Document successfully written!");
+   
+        console.log('refetched?')
     } catch (error) {
         console.error("Error writing document: ", error);
     }

@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator"
 
 const Menu = () => {
     const { setType } = usePermitsTypeContext() 
-    const { data, allAmount, rejectededAmount, pendingAmount, approvedAmount } = useUserPermits()
+    const { allAmount, rejectededAmount, pendingAmount, approvedAmount, refetchData } = useUserPermits()
   
     return (
      
@@ -57,7 +57,14 @@ const Menu = () => {
 
 
 
-                </Link>
+            </Link>
+            
+            <Button onClick={refetchData} variant="default" size="sm" className="justify-start">
+                <ArchiveX className="h-4 w-4 mr-2" />
+                <div>Refetch temporary</div>
+       
+            </Button>
+     
 
 {/*                 <Link
 
