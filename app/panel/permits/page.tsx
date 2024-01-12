@@ -10,8 +10,9 @@ import { usePermitsTypeContext } from '@/app/utils/PermitsTypeContext'
 const PermitsMain = () => {
    /*  const searchParams = useSearchParams()
     const type = searchParams.get("type") || 'all' */
-    const { data } = useUserPermits()
-    const { type } = usePermitsTypeContext() 
+    /*     const { data } = useUserPermits() */
+    const { data, type } = usePermitsTypeContext() 
+  
     const filterDataByStatus = (status: string): Permit[] => {
         return status === 'all' ? data : data.filter((permit) => permit.status === status);
     };

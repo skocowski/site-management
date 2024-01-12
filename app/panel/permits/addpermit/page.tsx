@@ -24,8 +24,9 @@ import { readUser } from '@/app/utils/Functions'
 import useUserData from '@/hooks/useUserData'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useUserPermits } from '@/hooks/useUserPermits'
+import { usePermitsTypeContext } from '@/app/utils/PermitsTypeContext'
 
 
 
@@ -118,8 +119,9 @@ export default AddPermit
 
 const AccountForm = ({ userData }: { userData: DocumentData }) => {
     const router = useRouter()
-const {refetchData} = useUserPermits()
+    const { refetch: refetchData } = usePermitsTypeContext() 
     const [toPermits, setToPermits] = useState(false)
+    const [refetch, setRefetch] = useState(false)
 
     useEffect(() => {
         if (toPermits) {
@@ -127,6 +129,11 @@ const {refetchData} = useUserPermits()
         }
 
     }, [toPermits]) 
+
+    useEffect(() => {
+
+       refetchData()
+    }, [refetch])
 
     const { toast } = useToast()
 
@@ -145,7 +152,10 @@ const {refetchData} = useUserPermits()
                     <code className="text-white">{JSON.stringify(values, null, 2)}</code>
                 </pre>
             ),
-        })
+        }) 
+     
+        setRefetch(true)
+     
         setToPermits(true)
     }
 
@@ -361,7 +371,7 @@ const {refetchData} = useUserPermits()
 
 async function writeData(data: AccountFormValues, userData: DocumentData) {
     console.log("write permit to db");
-
+  
     let permitId = "phuket=" + Date.now();
 
     let permit = {
@@ -378,7 +388,7 @@ async function writeData(data: AccountFormValues, userData: DocumentData) {
         badge: data.badge,
         isolation: data.isolation,
         date: data.date.getTime(),
-        status: "approved",
+        status: "rejected",
         email: auth.currentUser?.email
 
     };
@@ -388,8 +398,8 @@ async function writeData(data: AccountFormValues, userData: DocumentData) {
     try {
         await setDoc(ref, permit, { merge: true });
         console.log("Document successfully written!");
-   
-        console.log('refetched?')
+
+        
     } catch (error) {
         console.error("Error writing document: ", error);
     }

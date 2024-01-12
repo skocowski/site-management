@@ -64,3 +64,7 @@ export const useUserPermits = () => {
 
   return { data, isLoading, error, refetchData: fetchData, allAmount, rejectededAmount, pendingAmount, approvedAmount }; // Expose the refetch function
 };
+
+
+
+
