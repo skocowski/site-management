@@ -4,7 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from '@/app/firebase/config'
 
 import AddPermit from "@/components/AddPermit";
-import PermitsList from "@/components/PermitsList";
+
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { readUser } from "./utils/Functions";
