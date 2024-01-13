@@ -25,7 +25,7 @@ import { DocumentData, doc, setDoc } from 'firebase/firestore'
 import useUserData from '@/hooks/useUserData'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { usePermitsTypeContext } from '@/app/utils/PermitsTypeContext'
+import { useUserPermits } from "@/hooks/useUserPermits"
 
 
 
@@ -130,9 +130,9 @@ export default PermitForm
 
 const AccountForm = ({ userData }: { userData: DocumentData }) => {
     const router = useRouter()
-    const { refetch: refetchData } = usePermitsTypeContext()
+    const { refetchData } = useUserPermits()
     const [toPermits, setToPermits] = useState(false)
-    const [refetch, setRefetch] = useState(false)
+    const [refetch, setRefetch] = useState(false) 
 
     useEffect(() => {
         if (toPermits) {
@@ -144,7 +144,7 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
     useEffect(() => {
 
         refetchData()
-    }, [refetch])
+    }, [refetch]) 
 
     const { toast } = useToast()
 
@@ -166,7 +166,7 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
             ),
         })
 
-        setRefetch(true)
+     /*    setRefetch(true) */
 
         setToPermits(true)
     }
@@ -498,7 +498,7 @@ async function addPermit(data: AccountFormValues, userData: DocumentData) {
         rams: data.rams,
         startDate: data.startDate.getTime(),
         endDate: data.endDate.getTime(),
-        status: "rejected",
+        status: "pending",
         email: auth.currentUser?.email ?? "",
         equipment: data.equipment,
         pointsOfIsolation: data.pointsOfIsolation,

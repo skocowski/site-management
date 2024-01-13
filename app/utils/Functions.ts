@@ -56,7 +56,7 @@ export async function fetchPermitById(permitId: string) {
 }
 
 
-export async function rejectPermit(permitId: string, newStatus: string, newReason: string) {
+export async function reviewPermit(permitId: string, newStatus: string, newReason: string) {
   const ref = doc(db, "permits", permitId);
   try {
     let status = newStatus
