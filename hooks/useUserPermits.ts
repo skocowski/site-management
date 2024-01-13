@@ -4,35 +4,17 @@ import { useState, useEffect, useRef } from "react";
 
 
 export const useUserPermits = () => {
-    const [data, setData] = useState<Permit[]>([]);
-/*   const [data, setData] = useState<Permit[]>(() => {
-    // Retrieve data from localStorage on initial mount
-    const storedData = localStorage.getItem("permitsData");
-    return storedData ? JSON.parse(storedData) : [];
-  }); */
- const [isLoading, setIsLoading] = useState<boolean>(true); 
-  const [error, setError] = useState<Error | null>(null);
+  const [data, setData] = useState<Permit[]>([]);
 
-  // Use useRef to store the initial state and persist it across renders
-/*   const initialData = useRef<Permit[]>([]);
-  const isInitialMount = useRef(true); */
+ const [isLoading, setIsLoading] = useState<boolean>(true); 
+const [error, setError] = useState<Error | null>(null);
 
   const fetchData = async () => {
     try {
-      /*       console.log(isInitialMount) */
       setIsLoading(true);
-
-      // Fetch data only on the initial mount or if explicitly requested
-      /*       const response = isInitialMount.current
-        ? await fetchPermits()
-        : initialData.current; */
       const response = await fetchPermits();
-
       setData(response);
-      /*   initialData.current = response; */
 
-      // Store the data in localStorage
-      /*    localStorage.setItem("permitsData", JSON.stringify(response)); */
     } catch (err) {
       console.error("Error reading data", err);
       setError(err as Error);
@@ -44,12 +26,7 @@ export const useUserPermits = () => {
   useEffect(
     () => {
       fetchData();
- /*      isInitialMount.current = false; // Update the flag after the initial fetch */
-    },
-    [
-      /* Dependencies for when you explicitly want to trigger a refetch */
-    ]
-  );
+    },[]);
 
     const filterDataByStatus = (status: string): Permit[] => {
       return status === "all"
@@ -57,12 +34,16 @@ export const useUserPermits = () => {
         : data.filter((permit) => permit.status === status);
     };
 
-  const allAmount = data.length
-  const approvedAmount = filterDataByStatus("approved").length; 
-  const rejectededAmount = filterDataByStatus("rejected").length; 
-  const pendingAmount = filterDataByStatus("pending").length; 
+  const all = data
+  const approved = filterDataByStatus("approved");
+  const rejected = filterDataByStatus("rejected"); 
+  const pending = filterDataByStatus("pending"); 
+  const allAmount = all.length
+  const rejectedAmount = rejected.length
+  const pendingAmount = pending.length
+  const approvedAmount = approved.length
 
-  return { data, isLoading, error, refetchData: fetchData, allAmount, rejectededAmount, pendingAmount, approvedAmount }; // Expose the refetch function
+  return { all, isLoading, error, refetchData: fetchData, rejected, pending, approved, allAmount, rejectedAmount, pendingAmount, approvedAmount }; 
 };
 
 

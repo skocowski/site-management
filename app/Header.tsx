@@ -34,7 +34,10 @@ const Header = () => {
                 <div className='flex h-14 items-center justify-between'>
                     <Link href='/' className='flex z-40 font-semibold'><span>Site Management</span></Link>
                     {/*   todo: add mobile navbar */}
-
+                    <Link href='/panel/permits' className={buttonVariants({
+                        variant: "default",
+                        size: "sm"
+                    })}>Panel</Link>
                     <div className='items-center space-x-4 flex'>
 
                         <>

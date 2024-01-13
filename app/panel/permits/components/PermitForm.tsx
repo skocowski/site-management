@@ -9,14 +9,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+
 
 
 import { Separator } from '@/components/ui/separator'
@@ -47,7 +40,7 @@ import { useRouter } from 'next/navigation'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useUserPermits } from '@/hooks/useUserPermits'
 import { usePermitsTypeContext } from '@/app/utils/PermitsTypeContext'
-import MeasuresOptions from "./components/MeasuresOptions"
+import MeasuresOptions from "./MeasuresOptions"
 
 
 
@@ -79,9 +72,7 @@ const accountFormSchema = z.object({
     date: z.date({
         required_error: "A date is required.",
     }),
-    permitType: z.string({
-        required_error: "Please select a language.",
-    }),
+
     rams: z.string({
 
         required_error: "RAMS is required.",
@@ -89,13 +80,7 @@ const accountFormSchema = z.object({
         .min(2, {
             message: "RAMS must be at least 2 characters.",
         }),
-    badge: z.string({
 
-        required_error: "Badge is required.",
-    })
-        .min(2, {
-            message: "BADGE must be at least 2 characters.",
-        }),
     description: z
         .string()
         .min(5, {
@@ -112,9 +97,7 @@ const accountFormSchema = z.object({
     actionsTaken: z.string(),
     furtherPrecautions: z.string(),
   variedPrecautions: z.string(),
-    /*     primaryEarthingDevice: z.string(),
-     pointsOfIsolation: z.string(),
-     primaryEarthingDevice: z.string(), */
+
 })
 
 type AccountFormValues = z.infer<typeof accountFormSchema>
@@ -123,11 +106,18 @@ type AccountFormValues = z.infer<typeof accountFormSchema>
 const defaultValues: Partial<AccountFormValues> = {
     location: "",
     date: new Date(),
-    permitType: "",
+   
     rams: "",
-    badge: "",
+   
     description: "",
-    isolation: "yes"
+    isolation: "yes",
+
+    equipment: "",
+    pointsOfIsolation: "",
+    primaryEarthingDevice: "",
+    actionsTaken: "",
+    furtherPrecautions: "",
+    variedPrecautions: ""
 
 
 }
@@ -184,7 +174,8 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
     })
 
     function onSubmit(values: AccountFormValues) {
-        writeData(values, userData)
+        console.log("submit?")
+        addPermit(values, userData)
 
         toast({
             title: "You submitted the following values:",
@@ -466,27 +457,31 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
 
 
 
-async function writeData(data: AccountFormValues, userData: DocumentData) {
+async function addPermit(data: AccountFormValues, userData: DocumentData) {
     console.log("write permit to db");
 
-    let permitId = "phuket=" + Date.now();
+    let permitId = "phk" + Date.now();
 
     let permit = {
         id: permitId,
-        name: userData.name,
-        surname: userData.surname,
+        name: userData.name ?? "",
+        surname: userData.surname ?? "",
         applicant: "me" + permitId,
         description: data.description,
-        company: userData.company,
-        phoneNumber: userData.phoneNumber,
+        company: userData.company ?? "",
+        phoneNumber: userData.phoneNumber ?? "",
         location: data.location,
-        type: data.permitType,
         rams: data.rams,
-        badge: data.badge,
         isolation: data.isolation,
         date: data.date.getTime(),
         status: "rejected",
-        email: auth.currentUser?.email
+        email: auth.currentUser?.email ?? "",
+        equipment: data.equipment,
+        pointsOfIsolation: data.pointsOfIsolation,
+        primaryEarthingDevice: data.primaryEarthingDevice,
+        actionsTaken: data.actionsTaken,
+        furtherPrecautions: data.furtherPrecautions,
+        variedPrecautions: data.variedPrecautions
 
     };
 
@@ -504,52 +499,3 @@ async function writeData(data: AccountFormValues, userData: DocumentData) {
 
 
 
-
-
-
-/*
-
-
-                <FormField
-                    control={form.control}
-                    name="isolation"
-                    render={({ field }) => (
-                        <FormItem className="space-y-3">
-                            <FormLabel>Is isolation required?</FormLabel>
-                            <FormControl>
-                                <RadioGroup
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
-                                    className="flex flex-col space-y-1"
-                                >
-                                    <FormItem className="flex items-center space-x-3 space-y-0">
-                                        <FormControl>
-                                            <RadioGroupItem value="yes" />
-                                        </FormControl>
-                                        <FormLabel className="font-normal">
-                                            Yes
-                                        </FormLabel>
-                                    </FormItem>
-                                    <FormItem className="flex items-center space-x-3 space-y-0">
-                                        <FormControl>
-                                            <RadioGroupItem value="no" />
-                                        </FormControl>
-                                        <FormLabel className="font-normal">
-                                            No
-                                        </FormLabel>
-                                    </FormItem>
-                                    <FormItem className="flex items-center space-x-3 space-y-0">
-                                        <FormControl>
-                                            <RadioGroupItem value="notSure" />
-                                        </FormControl>
-                                        <FormLabel className="font-normal">Not sure</FormLabel>
-                                    </FormItem>
-                                </RadioGroup>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-
-*/

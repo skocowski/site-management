@@ -38,6 +38,44 @@ export async function fetchPermits() {
   return tempResult;
 }
 
+export async function fetchPermitById(permitId: string) {
+  const permitDocRef = doc(db, "permits", permitId);
+
+  try {
+    const permitDocSnapshot = await getDoc(permitDocRef);
+
+    if (permitDocSnapshot.exists()) {
+      return permitDocSnapshot.data();
+    } else {
+      throw new Error(`Permit with ID ${permitId} not found`);
+    }
+  } catch (error) {
+    console.error("Error fetching permit:", error);
+    throw error;
+  } 
+}
+
+
+export async function rejectPermit(permitId: string, newStatus: string, newReason: string) {
+  const ref = doc(db, "permits", permitId);
+  try {
+    let status = newStatus
+    let reason = newReason
+
+        const dataToUpdate = {
+          status: status,
+          reason: reason,
+        };
+
+    await updateDoc(ref, dataToUpdate as any, { merge: true });
+    console.log("Document successfully written!");
+  } catch (error) {
+    console.error("Error writing document: ", error);
+  }
+}
+
+
+
 /* async function rejectPermit(permitId: string) {
   const ref = doc(db, "permits", permitId);
   try {

@@ -151,12 +151,7 @@ const Pricing = () => {
     const [monthPrice, setMonthPrice] = useState(true);
     return (
         <div className=" flex flex-col justify-center items-center py-3 border min-h-screen font-sans">
-            {auth.currentUser &&
-                <Link href='/panel/permits' className={buttonVariants({
-                    variant: "default",
-                    size: "lg"
-                })}>BACK TO THE PANEL</Link>
-            }
+
         
 
             {/* pricing section   */}

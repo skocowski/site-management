@@ -10,8 +10,8 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { readUser } from "./utils/Functions";
 import { Button } from "@/components/ui/button";
 import Pricing from "./pricing/page";
-import PermitForm from "./panel/permits/PermitForm";
-import PermitLayout from "./panel/permits/PermitLayout";
+import PermitForm from "./panel/permits/components/PermitForm";
+import PermitLayout from "./panel/permits/components/PermitLayout";
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { TabsTrigger } from "@radix-ui/react-tabs";
 
@@ -55,18 +55,7 @@ const Home = () => {
       
         
 
-        <Tabs defaultValue="form" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="form">Forma</TabsTrigger>
-            <TabsTrigger value="permit">Permit</TabsTrigger>
-          </TabsList>
-          <TabsContent value="form">
-<PermitForm />
-          </TabsContent>
-          <TabsContent value="permit">
-            <PermitLayout permit={tempPermit} />
-          </TabsContent>
-        </Tabs>
+
 
 
 
@@ -80,7 +69,7 @@ const Home = () => {
         </div>
 
 
-    {/*     <Pricing /> */}
+        <Pricing /> 
 
     
 </div>
@@ -96,6 +85,7 @@ const Home = () => {
 export default Home
 
 const tempPermit = {
+  id: "32894343",
   location: "rhoncus aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant",
   equipment: "rhoncus est pellentesque elit ullamcorper",
   startDate: "10 April 2023, 07:30",

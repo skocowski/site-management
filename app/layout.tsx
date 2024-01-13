@@ -21,8 +21,9 @@ export default function RootLayout({
 
 
   return (
-   /*  <html lang="en" suppressHydrationWarning={true}> */
-      <html lang="en" >
+    <html lang="en" suppressHydrationWarning={true}>  
+
+   
       <head>
     
       </head>

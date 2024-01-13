@@ -90,3 +90,6 @@ export const PermitsTypeContextProvider = ({ children } : ProviderProps) => {
 }
 
 export const usePermitsTypeContext = () => useContext(PermitsTypeContext)
+
+
+
