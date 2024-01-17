@@ -23,4 +23,6 @@ export type Permit = {
   actionsTaken?: string;
   furtherPrecautions?: string;
   variedPrecautions?: string;
+  reason?: string
+  notes?: string
 };

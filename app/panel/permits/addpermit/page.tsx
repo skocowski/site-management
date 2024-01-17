@@ -87,19 +87,14 @@ const defaultValues: Partial<AccountFormValues> = {
      location: "", 
     startDate: new Date(),
     endDate: new Date(), 
-
     rams: "",
-
     description: "",
-
     equipment: "",
     pointsOfIsolation: "N/A",
     primaryEarthingDevice: "N/A",
     actionsTaken: "N/A",
     furtherPrecautions: "N/A",
     variedPrecautions: "N/A"  
-
-
 }
 
 const PermitForm = () => {

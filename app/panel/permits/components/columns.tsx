@@ -140,7 +140,9 @@ export const columns: ColumnDef<Permit>[] = [
                                 primaryEarthingDevice: permit.primaryEarthingDevice,
                                 actionsTaken: permit.actionsTaken,
                                 furtherPrecautions: permit.furtherPrecautions,
-                                variedPrecautions: permit.variedPrecautions
+                                variedPrecautions: permit.variedPrecautions,
+                                reason: permit.reason,
+                                status: permit.status
                             }
                         }} passHref>
                             <DropdownMenuItem >

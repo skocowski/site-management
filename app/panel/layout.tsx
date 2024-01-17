@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator"
 import { TooltipProvider } from "@/components/ui/tooltip"
 
 import { PermitsTypeContextProvider } from "../utils/PermitsTypeContext"
-import Menu from "./permits/Menu"
+import Menu from "./permits/components/Menu"
 import { ExamplesNav } from "@/components/examples-nav"
 
 

@@ -3,9 +3,10 @@ import { useUserPermits } from '@/hooks/useUserPermits'
 import React from 'react'
 import { DataTable } from '../components/PermitTable'
 import { columns } from '../components/columns'
+import { usePermits } from '@/hooks/usePermits'
 
 const PendingPermits = () => {
-    const { pending } = useUserPermits()
+    const { pending } = usePermits()
     return (
         <DataTable columns={columns} data={pending} />
     )
