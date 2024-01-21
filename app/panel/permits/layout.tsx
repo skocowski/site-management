@@ -55,7 +55,7 @@ export default function PermitLayout({
 
 
                 <Separator className="my-6" />
-                <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+                <div className="flex flex-col space-y-8 xl:flex-row xl:space-x-12 xl:space-y-0">
                     <aside className="-mx-4 lg:w-1/5">
                         <Menu />
                     </aside>

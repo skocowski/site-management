@@ -26,8 +26,15 @@ import useUserData from '@/hooks/useUserData'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useUserPermits } from "@/hooks/useUserPermits"
+import { handSignature } from "@/app/utils/fonts"
+import { Label } from "@/components/ui/label"
 
-
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableRow,
+} from "@/components/ui/table"
 
 
 const accountFormSchema = z.object({
@@ -76,7 +83,7 @@ const accountFormSchema = z.object({
     primaryEarthingDevice: z.string(),
     actionsTaken: z.string(),
     furtherPrecautions: z.string(),
-   variedPrecautions: z.string(), 
+    variedPrecautions: z.string(),
 
 })
 
@@ -84,9 +91,9 @@ type AccountFormValues = z.infer<typeof accountFormSchema>
 
 // This can come from your database or API.
 const defaultValues: Partial<AccountFormValues> = {
-     location: "", 
+    location: "",
     startDate: new Date(),
-    endDate: new Date(), 
+    endDate: new Date(),
     rams: "",
     description: "",
     equipment: "",
@@ -94,7 +101,7 @@ const defaultValues: Partial<AccountFormValues> = {
     primaryEarthingDevice: "N/A",
     actionsTaken: "N/A",
     furtherPrecautions: "N/A",
-    variedPrecautions: "N/A"  
+    variedPrecautions: "N/A"
 }
 
 const PermitForm = () => {
@@ -103,20 +110,46 @@ const PermitForm = () => {
     const { data: userData } = useUserData()
 
     return (
-        <Card className="w-full">
-            <CardHeader className="bg-red-600 rounded-t-lg">
-                <CardTitle><div className="text-white text-center">ELECTRICAL PERMIT TO WORK</div></CardTitle>
-                <CardDescription className="ml-auto">Permit number: </CardDescription>
-            </CardHeader>
-            <CardContent>
-                {userData && <AccountForm userData={userData} />}
+        <div className="border-4 border-black">
 
-            </CardContent>
-            <CardFooter className="flex justify-between">
-                {/*     <Button variant="outline">Cancel</Button>
-                <Button>Deploy</Button> */}
-            </CardFooter>
-        </Card>
+            {/*  HEADER  */}
+
+            <div className="border-b-4 border-black flex justify-between bg-[#ff0000] px-1 items-center flex-col lg:flex-row" >
+                <div className="bg-white">YOUR LOGO</div>
+                <div className="text-white lg:text-3xl">ELETRICAL PERMIT TO WORK</div>
+                <div className="flex gap-1">
+                    <div className="text-white">PERMIT NO:</div>
+                    <div className="bg-white w-32 text-white">{ }</div>
+                </div>
+
+            </div>
+
+            {/*     1 */}
+
+            {userData && <AccountForm userData={userData} />}
+
+
+        </div>
+
+        /*         <Card className="w-full">
+                    <CardHeader className="bg-red-600 rounded-t-lg">
+                        <CardTitle><div className="text-white text-center">ELECTRICAL PERMIT TO WORK</div></CardTitle>
+                        <CardDescription className="ml-auto">Permit number: </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        {userData && <AccountForm userData={userData} />}
+        
+                    </CardContent>
+                    <CardFooter className="flex justify-between">
+                     
+                    </CardFooter>
+                </Card>  
+                
+                
+
+                
+                
+                */
     )
 }
 
@@ -127,7 +160,7 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
     const router = useRouter()
     const { refetchData } = useUserPermits()
     const [toPermits, setToPermits] = useState(false)
-    const [refetch, setRefetch] = useState(false) 
+    const [refetch, setRefetch] = useState(false)
 
     useEffect(() => {
         if (toPermits) {
@@ -139,7 +172,7 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
     useEffect(() => {
 
         refetchData()
-    }, [refetch]) 
+    }, [refetch])
 
     const { toast } = useToast()
 
@@ -161,10 +194,402 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
             ),
         })
 
-     /*    setRefetch(true) */
+        /*    setRefetch(true) */
 
         setToPermits(true)
     }
+
+    return (
+        <Form {...form} >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+
+
+                {/*    SECTION 1 */}
+
+
+                <div className="border-b-4 border-black p-1 pb-9" >
+                    <div className="flex space-x-1 text-md font-semibold">
+                        <div>1.</div>
+                        <div></div>
+                    </div>
+
+                    <div className="px-3 space-y-2 md:space-y-0">
+                        <FormField
+                            control={form.control}
+                            name="location"
+
+                            render={({ field }) => (
+                                <FormItem className="md:flex md:items-center">
+                                    <FormLabel className="md:w-40 w-full">(I) LOCATION</FormLabel>
+
+                                    <FormControl>
+                                        <Input placeholder="Work location" {...field} className="rounded-none bg-gray-200 border-black" />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="equipment"
+                            render={({ field }) => (
+                                <FormItem className="md:flex md:items-center">
+                                    <FormLabel className="md:w-40 w-full">(II) EQUIPMENT ID</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Equipment" {...field} className="rounded-none bg-gray-200 border-black" />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                                <FormItem className="md:flex md:items-center">
+                                    <FormLabel className="md:w-40 w-full">(III) WORK TO BE DONE</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder="Provide a brief description of the work"
+                                            className="resize rounded-none bg-gray-200 border-black"
+                                            {...field}
+
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+
+                    </div>
+                </div>
+
+
+
+                {/*    SECTION 2 */}
+
+
+                <div className="border-b-4 border-black p-1 pb-9" >
+                    <div className="flex space-x-1 text-md font-semibold">
+                        <div>2.</div>
+                        <div>PRECAUTIONS TAKEN TO ACHIEVE <span className="font-bold">SAFETY WORK SYSTEM.</span></div>
+                    </div>
+
+                    <div className="px-3 space-y-2 md:space-y-0">
+
+                        <FormField
+                            control={form.control}
+                            name="pointsOfIsolation"
+
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-xs">(I) POINTS OF ISOLATION</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder=""
+                                            className="resize rounded-none bg-gray-200 border-black"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="primaryEarthingDevice"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-xs">(II)PRIMARY EARTHING DEVICE</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder=""
+                                            className="resize rounded-none bg-gray-200 border-black"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+
+                        <FormField
+                            control={form.control}
+                            name="actionsTaken"
+
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-xs">(III) ACTIONS TAKEN TO AVOID <span className="font-bold">DANGER</span> BY DRAINING, VENTING, PURGING AND CONTAINMENT OR DISSIPATION OF STORED ENERGY</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder=""
+                                            className="resize rounded-none bg-gray-200 border-black"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="furtherPrecautions"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-xs">(IV) FURTHER PRECAUTIONS TO BE TAKEN DURING THE COURSE OF THE WORK TO AVOID SYSTEM DERIVED HAZARDS</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder=""
+                                            className="resize rounded-none bg-gray-200 border-black"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="variedPrecautions"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-xs">(V) PRECAUTIONS WHICH MAY BE VARRIED (APPROVED PROCEDURE REQUIRED)</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder=""
+                                            className="resize rounded-none bg-gray-200 border-black"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                    </div>
+                </div>
+
+
+
+                {/*    SECTION 3 */}
+
+
+                <div className="border-b-4 border-black p-1 pb-9" >
+                    <div className="flex space-x-1 text-md font-semibold">
+                        <div>3.</div>
+                        <div>PREPARATIONS</div>
+                    </div>
+
+                    <div className="px-3 space-y-2 md:space-y-0">
+                        <Label className="text-xs">I HAVE CONFIRMED WITHE THE CONTROL ENGINEER THAT THE PRECAUTIONS IN SECTION 2(I) & 2(II) HAVE BEEN CARRIED OUT AND WILL BE MAINTAINED UNTIL THE PERMIT FOR WORK IS CANCELLED.</Label>
+                        <div className="border-2 border-black bg-gray-200 font-semibold flex flex-col md:flex-row">
+                            <div className="p-2 md:border-r-2 border-black md:w-60 w-full text-center border-b-2 md:border-b-0">CONTROL ENGINEER</div>
+                            <div className="flex-grow grid grid-cols-2 items-center ">
+                                <div className='p-2 md:border-r-2 border-black text-center '>John Smith</div>
+                                <div className={` text-2xl text-center ${handSignature.className} `}>J. Smith</div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+
+                    <div className="px-3 space-y-2 md:space-y-0">
+                        <Label className="text-xs">I CERTIFY PRECAUTIONS CARRIED OUT IN SECTION 2 ARE ADEQUATE TO PROVIDE SAFETY.</Label>
+
+                        <Table className="border-2 border-black bg-gray-200 font-semibold text-sm text-center">
+                            <TableBody className="">
+                                <TableRow className="hidden lg:table-row ">
+                                    <TableCell className="border-2 border-black w-60">SENIOR AUTHORISED PERSON / AUTHORISED PERSON</TableCell>
+                                    <TableCell className="border-2 border-black">Michael Jordan</TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>M. Jordan</TableCell>
+                                    <TableCell className="border-2 border-black">KEY SAFE NUMBER</TableCell>
+                                    <TableCell className="border-2 border-black">Date</TableCell>
+                                </TableRow>
+
+                                {/* Small Screen */}
+                                <TableRow className="lg:hidden">
+                                    <TableCell colSpan={2} className="border-2 border-black">SENIOR AUTHORISED PERSON / AUTHORISED PERSON</TableCell>
+                                </TableRow>
+
+                                {/* Small Screen */}
+                                <TableRow className="lg:hidden">
+                                    <TableCell className="border-2 border-black">Michael Jordan</TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>M. Jordan</TableCell>
+                                </TableRow>
+
+                                {/* Small Screen */}
+                                <TableRow className="lg:hidden">
+                                    <TableCell className="border-2 border-black">KEY SAFE NUMBER</TableCell>
+                                    <TableCell className="border-2 border-black">Date</TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+
+
+
+
+                        
+
+
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+                <div className="flex justify-between gap-10">
+                    <div className="w-full">
+                        <FormField
+                            control={form.control}
+                            name="startDate"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                    <FormLabel>Start Date</FormLabel>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <FormControl>
+                                                <Button
+                                                    variant={"outline"}
+                                                    className={cn(
+                                                        "w-[240px] pl-3 text-left font-normal",
+                                                        !field.value && "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    {field.value ? (
+                                                        format(field.value, "PPP")
+                                                    ) : (
+                                                        <span>Pick a date</span>
+                                                    )}
+                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                </Button>
+                                            </FormControl>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0" align="start">
+                                            <Calendar
+                                                mode="single"
+                                                selected={field.value}
+                                                onSelect={field.onChange}
+                                                disabled={(date) =>
+                                                    date < new Date()
+                                                }
+                                                initialFocus
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+
+                    <div className="w-full">
+                        <FormField
+                            control={form.control}
+                            name="endDate"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-col">
+                                    <FormLabel>End Date</FormLabel>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <FormControl>
+                                                <Button
+                                                    variant={"outline"}
+                                                    className={cn(
+                                                        "w-[240px] pl-3 text-left font-normal",
+                                                        !field.value && "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    {field.value ? (
+                                                        format(field.value, "PPP")
+                                                    ) : (
+                                                        <span>Pick a date</span>
+                                                    )}
+                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                </Button>
+                                            </FormControl>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0" align="start">
+                                            <Calendar
+                                                mode="single"
+                                                selected={field.value}
+                                                onSelect={field.onChange}
+                                                disabled={(date) =>
+                                                    date < new Date()
+                                                }
+                                                initialFocus
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+
+                    <div className="w-full">
+                        <FormField
+                            control={form.control}
+                            name="rams"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>RAMS number</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="RAMS" {...field} />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <Button type="submit">Add Permit</Button>
+            </form>
+        </Form>
+    )
 
     return (
         <Form {...form}>
@@ -441,7 +866,7 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
                 </div>
 
                 <FormField
-                    control={form.control} 
+                    control={form.control}
                     name="variedPrecautions"
                     render={({ field }) => (
                         <FormItem>
@@ -461,7 +886,7 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
 
                 {/*    SECTION 3 */}
 
-{/*                 <div className="bg-gray-200 border p-1"><span className="font-bold mr-2">3.</span> <span className="font-bold">Preparation</span></div>
+                {/*                 <div className="bg-gray-200 border p-1"><span className="font-bold mr-2">3.</span> <span className="font-bold">Preparation</span></div>
                 <div className=" p-1">I have confirmed with the control engineer that the precautions in section 2(I) & 2(I) have been carried out and iwll be maintained until the permit for work is cancelled.</div>
 
  */}

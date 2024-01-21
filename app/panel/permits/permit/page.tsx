@@ -17,6 +17,14 @@ import ReviewPermit from "../components/ReviewPermit"
 import useAdminStatus from "@/hooks/useAdminStatus"
 import { format } from "date-fns"
 import { Badge } from "@/components/ui/badge"
+import { Label } from "@/components/ui/label"
+
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableRow,
+} from "@/components/ui/table"
 
 
 
@@ -24,7 +32,7 @@ const PermitTemplate = () => {
     const searchParams = useSearchParams()
     const permitId = searchParams.get("permitId")
     const location = searchParams.get("location")
-    const equipment= searchParams.get("equipment")
+    const equipment = searchParams.get("equipment")
     const startDate = searchParams.get("startDate")
     const endDate = searchParams.get("endDate")
     const rams = searchParams.get("rams")
@@ -40,15 +48,174 @@ const PermitTemplate = () => {
     const isAdmin = useAdminStatus()
     return (
         <>
-            <Card className="w-full text-slate-950">
+
+
+            <div className="border-4 border-black">
+
+                {/*  HEADER  */}
+
+                <div className="border-b-4 border-black flex justify-between bg-[#ff0000] px-1 items-center flex-col lg:flex-row" >
+                    <div className="bg-white">YOUR LOGO</div>
+                    <div className="text-white lg:text-3xl">ELETRICAL PERMIT TO WORK</div>
+                    <div className="flex gap-1">
+                        <div className="text-white">PERMIT NO:</div>
+                        <div className="bg-white w-32 text-white">{ }</div>
+                    </div>
+
+                </div>
+
+                {/*     1 */}
+                <div className="border-b-4 border-black p-1 pb-9" >
+                    <div className="flex space-x-1 text-md font-semibold">
+                        <div>1.</div>
+                        <div></div>
+                    </div>
+
+                    <div className="px-3 space-y-2">
+
+                        <div className="md:flex md:items-center">
+                            <Label className="md:w-40 w-full ">(I) LOCATION</Label>
+                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{location}</div>
+                        </div>
+
+                        <div className="md:flex md:items-center">
+                            <Label className="md:w-40 w-full ">(II) EQUIPMENT</Label>
+                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{equipment}</div>
+                        </div>
+
+                        <div className="md:flex md:items-center">
+                            <Label className="md:w-40 w-full ">(III) WORK TO BE DONE</Label>
+                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{description}</div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                {/*    SECTION 2 */}
+
+
+                <div className="border-b-4 border-black p-1 pb-9" >
+                    <div className="flex space-x-1 text-md font-semibold">
+                        <div>2.</div>
+                        <div>PRECAUTIONS TAKEN TO ACHIEVE <span className="font-bold">SAFETY WORK SYSTEM.</span></div>
+                    </div>
+
+                    <div className="px-3 space-y-2">
+
+                        <div className="">
+                            <Label className="md:w-40 w-full ">(I) POINTS OF ISOLATION</Label>
+                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{pointsOfIsolation}</div>
+                        </div>
+
+                        <div className="">
+                            <Label className="md:w-40 w-full ">(II)PRIMARY EARTHING DEVICE</Label>
+                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{primaryEarthingDevice}</div>
+                        </div>
+
+                        <div className="">
+                            <Label className="md:w-40 w-full ">(III) ACTIONS TAKEN TO AVOID <span className="font-bold">DANGER</span> BY DRAINING, VENTING, PURGING AND CONTAINMENT OR DISSIPATION OF STORED ENERGY</Label>
+                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{actionsTaken}</div>
+                        </div>
+
+                        <div className="">
+                            <Label className="md:w-40 w-full ">(IV) FURTHER PRECAUTIONS TO BE TAKEN DURING THE COURSE OF THE WORK TO AVOID SYSTEM DERIVED HAZARDS</Label>
+                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{furtherPrecautions}</div>
+                        </div>
+
+                        <div className="">
+                            <Label className="md:w-40 w-full ">(V) PRECAUTIONS WHICH MAY BE VARRIED (APPROVED PROCEDURE REQUIRED)</Label>
+                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{variedPrecautions}</div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+                {/*    SECTION 3 */}
+
+
+                <div className="border-b-4 border-black p-1 pb-9" >
+                    <div className="flex space-x-1 text-md font-semibold">
+                        <div>3.</div>
+                        <div>PREPARATIONS</div>
+                    </div>
+
+                    <div className="px-3 space-y-2 md:space-y-0">
+                        <Label className="text-xs">I HAVE CONFIRMED WITHE THE CONTROL ENGINEER THAT THE PRECAUTIONS IN SECTION 2(I) & 2(II) HAVE BEEN CARRIED OUT AND WILL BE MAINTAINED UNTIL THE PERMIT FOR WORK IS CANCELLED.</Label>
+                        <div className="border-2 border-black bg-gray-200 font-semibold flex flex-col md:flex-row">
+                            <div className="p-2 md:border-r-2 border-black md:w-60 w-full text-center border-b-2 md:border-b-0">CONTROL ENGINEER</div>
+                            <div className="flex-grow grid grid-cols-2 items-center ">
+                                <div className='p-2 md:border-r-2 border-black text-center '>John Smith</div>
+                                <div className={` text-2xl text-center ${handSignature.className} `}>J. Smith</div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+
+                    <div className="px-3 space-y-2 md:space-y-0">
+                        <Label className="text-xs">I CERTIFY PRECAUTIONS CARRIED OUT IN SECTION 2 ARE ADEQUATE TO PROVIDE SAFETY.</Label>
+
+                        <Table className="border-2 border-black bg-gray-200 font-semibold text-sm text-center">
+                            <TableBody className="">
+                                <TableRow className="hidden lg:table-row ">
+                                    <TableCell className="border-2 border-black w-60">SENIOR AUTHORISED PERSON / AUTHORISED PERSON</TableCell>
+                                    <TableCell className="border-2 border-black">Michael Jordan</TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>M. Jordan</TableCell>
+                                    <TableCell className="border-2 border-black">KEY SAFE NUMBER</TableCell>
+                                    <TableCell className="border-2 border-black">Date</TableCell>
+                                </TableRow>
+
+                                {/* Small Screen */}
+                                <TableRow className="lg:hidden">
+                                    <TableCell colSpan={2} className="border-2 border-black">SENIOR AUTHORISED PERSON / AUTHORISED PERSON</TableCell>
+                                </TableRow>
+
+                                {/* Small Screen */}
+                                <TableRow className="lg:hidden">
+                                    <TableCell className="border-2 border-black">Michael Jordan</TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>M. Jordan</TableCell>
+                                </TableRow>
+
+                                {/* Small Screen */}
+                                <TableRow className="lg:hidden">
+                                    <TableCell className="border-2 border-black">KEY SAFE NUMBER</TableCell>
+                                    <TableCell className="border-2 border-black">Date</TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+
+                    </div>
+
+
+                    
+
+
+              
+
+                </div>
+
+
+            </div>
+
+
+        {/*     <Card className="w-full text-slate-950">
                 <CardHeader className="bg-blue-600 rounded-t-lg">
                     <CardTitle>
-                        
-              
+
+
                         <div className="text-white text-center">ELECTRICAL PERMIT TO WORK</div></CardTitle>
                     <CardDescription className="">
                         <div className="w-full flex justify-between items-center">
-           
+
                             <div className="">
                                 {status && status === 'pending' && <div><Badge variant="pending" className="ml-auto p-1">{status}</Badge></div>}
                                 {status && status === 'approved' && <Badge variant="approved" className="ml-auto p-1">{status}</Badge>}
@@ -59,22 +226,22 @@ const PermitTemplate = () => {
                                 Permit number: {permitId}
                             </div>
 
-</div>
-              
+                        </div>
+
                     </CardDescription>
 
                 </CardHeader>
                 <CardContent>
-   
+
 
 
                     <div className="space-y-10">
 
-                        {/*    SECTION 1 */}
-  
+                 
+
                         <div className="space-y-3 pt-10">
                             <div className="flex justify-between items-center">
-          
+
                                 <h1 className="pb-5"><span className="font-bold mr-2">1.</span>Work details </h1>
                                 {isAdmin && permitId && <ReviewPermit permitId={permitId} />}
 
@@ -122,7 +289,7 @@ const PermitTemplate = () => {
 
 
 
-                        {/*    SECTION 2 */}
+             
 
                         <div className="space-y-3">
 
@@ -158,7 +325,7 @@ const PermitTemplate = () => {
 
 
 
-                        {/*    SECTION 3 */}
+                     
 
                         <div className="space-y-3">
 
@@ -196,7 +363,7 @@ const PermitTemplate = () => {
 
 
 
-                        {/*    SECTION 4 */}
+                   
 
                         <div className="space-y-3">
 
@@ -252,7 +419,7 @@ const PermitTemplate = () => {
 
 
 
-                        {/*    SECTION 5 */}
+                      
 
                         <div className="space-y-3">
 
@@ -293,10 +460,9 @@ const PermitTemplate = () => {
 
                 </CardContent>
                 <CardFooter className="flex justify-between">
-                    {/*     <Button variant="outline">Cancel</Button>
-                <Button>Deploy</Button> */}
+          
                 </CardFooter>
-            </Card>
+            </Card> */}
 
             <div>Reason: {reason}</div>
         </>
