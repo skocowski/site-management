@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CalendarIcon, CaretSortIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons"
+import { CalendarIcon } from "@radix-ui/react-icons"
 import { format } from "date-fns"
 import { auth, db } from '@/app/firebase/config'
 import * as z from "zod"
@@ -16,9 +16,9 @@ import { useToast } from '@/components/ui/use-toast'
 import { Textarea } from '@/components/ui/textarea'
 import { DocumentData, doc, setDoc } from 'firebase/firestore'
 import useUserData from '@/hooks/useUserData'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { useUserPermits } from "@/hooks/useUserPermits"
+
 import { handSignature } from "@/app/utils/fonts"
 import { Label } from "@/components/ui/label"
 
@@ -28,8 +28,14 @@ import {
     TableCell,
     TableRow,
 } from "@/components/ui/table"
-import { LoaderIcon } from "lucide-react"
+
 import { Skeleton } from "@/components/ui/skeleton"
+
+
+/* const permitId = searchParams.get("permitId")
+const startDate = searchParams.get("startDate")
+const endDate = searchParams.get("endDate") */
+
 
 
 const accountFormSchema = z.object({
@@ -56,7 +62,7 @@ const accountFormSchema = z.object({
     endDate: z.date({
         required_error: "A date is required.",
     })
-,
+    ,
     rams: z.string({
 
         required_error: "RAMS is required.",
@@ -85,34 +91,22 @@ const accountFormSchema = z.object({
 type AccountFormValues = z.infer<typeof accountFormSchema>
 
 // This can come from your database or API.
-const defaultValues: Partial<AccountFormValues> = {
-    location: "",
-    startDate: new Date(),
-    endDate: new Date(),
-    rams: "",
-    description: "",
-    equipment: "",
-    pointsOfIsolation: "N/A",
-    primaryEarthingDevice: "N/A",
-    actionsTaken: "N/A",
-    furtherPrecautions: "N/A",
-    variedPrecautions: "N/A"
-}
 
-const PermitForm = () => {
+
+const EditPermit = () => {
 
 
     const { data: userData } = useUserData()
 
     return (
         <>
-         
-         
-  
-             
-       
-            {userData ? 
-   
+
+
+
+
+
+            {userData ?
+
                 <div className="border-4 border-black">
 
                     {/*  HEADER  */}
@@ -129,12 +123,12 @@ const PermitForm = () => {
 
                     {/*     1 */}
 
-              <AccountForm userData={userData} />
+                    <AccountForm userData={userData} />
 
 
                 </div>
 
-                : 
+                :
 
                 <div className="space-y-2 p-6">
                     <Skeleton className="h-8 w-full" />
@@ -144,22 +138,37 @@ const PermitForm = () => {
                     <Skeleton className="h-8 w-full" />
                     <Skeleton className="h-8 w-full" />
                 </div>
-}
+            }
 
 
         </>
     )
 }
 
-export default PermitForm
+export default EditPermit
 
 
 const AccountForm = ({ userData }: { userData: DocumentData }) => {
     const router = useRouter()
-    const { refetchData } = useUserPermits()
+  
     const [toPermits, setToPermits] = useState(false)
-    const [refetch, setRefetch] = useState(false)
+    const searchParams = useSearchParams()
 
+    const defaultValues: Partial<AccountFormValues> = {
+        location: searchParams.get("location") ?? '',
+        startDate:  new Date(),
+        endDate: new Date(),
+        rams: searchParams.get("rams")  ?? "",
+        description: searchParams.get("description")  ?? "",
+        equipment: searchParams.get("equipment")  ?? "",
+        pointsOfIsolation: searchParams.get("pointsOfIsolation") ?? "N/A",
+        primaryEarthingDevice: searchParams.get("primaryEarthingDevice")  ?? "N/A",
+        actionsTaken: searchParams.get("actionsTaken")  ?? "N/A",
+        furtherPrecautions: searchParams.get("furtherPrecautions")  ?? "N/A",
+        variedPrecautions: searchParams.get("variedPrecautions")  ?? "N/A"
+    }
+
+const permitId = searchParams.get("permitId") ?? ''
     useEffect(() => {
         if (toPermits) {
             router.push('/panel/permits')
@@ -167,12 +176,9 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
 
     }, [toPermits])
 
-    useEffect(() => {
 
-        refetchData()
-    }, [refetch])
 
-    const { toast } = useToast()
+
 
     const form = useForm<AccountFormValues>({
         resolver: zodResolver(accountFormSchema),
@@ -180,19 +186,8 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
     })
 
     function onSubmit(values: AccountFormValues) {
-        console.log("submit?")
-        addPermit(values, userData)
-
-        toast({
-            title: "You submitted the following values:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-                </pre>
-            ),
-        })
-
-        /*    setRefetch(true) */
+ 
+        editPermit(values, userData, permitId)
 
         setToPermits(true)
     }
@@ -463,7 +458,7 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
 
 
 
-                        
+
 
 
 
@@ -599,325 +594,22 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
 
 
 
-                <Button type="submit">Add Permit</Button>
+                <Button type="submit">Edit Permit</Button>
             </form>
         </Form>
     )
 
-    return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-
-                {/*    SECTION 1 */}
-
-                <div className="bg-gray-200 border p-1 mt-5"><span className="font-bold mr-2">1.</span>Work details </div>
-                <div className="flex justify-between gap-10">
-                    <div className="w-full">
-
-                        <FormField
-                            control={form.control}
-                            name="location"
-
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Location</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Work location" {...field} />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="equipment"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Equipment Identification</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Equipment" {...field} />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                </div>
-
-
-                <div className="flex justify-between gap-10">
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="startDate"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>Start Date</FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant={"outline"}
-                                                    className={cn(
-                                                        "w-[240px] pl-3 text-left font-normal",
-                                                        !field.value && "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value ? (
-                                                        format(field.value, "PPP")
-                                                    ) : (
-                                                        <span>Pick a date</span>
-                                                    )}
-                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0" align="start">
-                                            <Calendar
-                                                mode="single"
-                                                selected={field.value}
-                                                onSelect={field.onChange}
-                                                disabled={(date) =>
-                                                    date < new Date()
-                                                }
-                                                initialFocus
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="endDate"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>End Date</FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant={"outline"}
-                                                    className={cn(
-                                                        "w-[240px] pl-3 text-left font-normal",
-                                                        !field.value && "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value ? (
-                                                        format(field.value, "PPP")
-                                                    ) : (
-                                                        <span>Pick a date</span>
-                                                    )}
-                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0" align="start">
-                                            <Calendar
-                                                mode="single"
-                                                selected={field.value}
-                                                onSelect={field.onChange}
-                                                disabled={(date) =>
-                                                    date < new Date()
-                                                }
-                                                initialFocus
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="rams"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>RAMS number</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="RAMS" {...field} />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-
-                </div>
-
-                <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Work to be done</FormLabel>
-                            <FormControl>
-                                <Textarea
-                                    placeholder="Provide a brief description of the work"
-                                    className="resize"
-                                    {...field}
-                                />
-                            </FormControl>
-
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-
-
-                {/*    SECTION 2 */}
-
-                <div className="bg-gray-200 border p-1"><span className="font-bold mr-2">2.</span>Precautions taken to achieve <span className="font-bold">safety from the system</span></div>
-
-
-
-                <div className="flex justify-between gap-10 flex-col lg:flex-row">
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="pointsOfIsolation"
-
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Points of isolation</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder=""
-                                            className="resize"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="primaryEarthingDevice"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Primary earthing device(s)</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder=""
-                                            className="resize"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-
-                <div className="flex justify-between gap-10 flex-col lg:flex-row">
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="actionsTaken"
-
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Actions taken to avoid <span className="font-bold">danger</span> by draining, venting, purging and containment or dissipation of stored energy</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder=""
-                                            className="resize"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="furtherPrecautions"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Further precautions to be taken during the course of the work to avoid system derived hazards</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder=""
-                                            className="resize"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-
-                <FormField
-                    control={form.control}
-                    name="variedPrecautions"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Precautions which may be varried (approved procedure required)</FormLabel>
-                            <FormControl>
-                                <Textarea
-                                    placeholder=""
-                                    className="resize"
-                                    {...field}
-                                />
-                            </FormControl>
-
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                {/*    SECTION 3 */}
-
-                {/*                 <div className="bg-gray-200 border p-1"><span className="font-bold mr-2">3.</span> <span className="font-bold">Preparation</span></div>
-                <div className=" p-1">I have confirmed with the control engineer that the precautions in section 2(I) & 2(I) have been carried out and iwll be maintained until the permit for work is cancelled.</div>
-
- */}
-
-
-
-                <Button type="submit">Add Permit</Button>
-            </form>
-        </Form>
-    )
 }
 
 
 
-async function addPermit(data: AccountFormValues, userData: DocumentData) {
+
+
+async function editPermit(data: AccountFormValues, userData: DocumentData, permitId: string) {
     console.log("write permit to db");
 
-    let permitId = "phk" + Date.now();
+   
 
     let permit = {
         id: permitId,
@@ -953,6 +645,4 @@ async function addPermit(data: AccountFormValues, userData: DocumentData) {
         console.error("Error writing document: ", error);
     }
 }
-
-
 

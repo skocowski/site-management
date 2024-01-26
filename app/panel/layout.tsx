@@ -5,7 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 
 import { PermitsTypeContextProvider } from "../utils/PermitsTypeContext"
 import Menu from "./permits/components/Menu"
-import { ExamplesNav } from "@/components/examples-nav"
+import { MainMenu } from "@/components/MainMenu"
 
 
 
@@ -24,7 +24,7 @@ export default function PanelLayout({
     return (
     <PermitsTypeContextProvider> 
             <TooltipProvider delayDuration={0}>
-                <ExamplesNav />
+             {/*    <MainMenu /> */}
             <div className="flex flex-row gap-3 border rounded-sm shadow-md md:shadow-xl">
                 
 

@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { ExamplesNav } from "@/components/examples-nav"
+import { MainMenu } from "@/components/MainMenu"
 
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export default function ExamplesLayout({ children }: ExamplesLayoutProps) {
             <div className="container relative">
 
                 <section>
-                    <ExamplesNav />
+                    <MainMenu />
                     <div className="overflow-hidden rounded-[0.5rem] border bg-background shadow-md md:shadow-xl">
                         {children}
                     </div>

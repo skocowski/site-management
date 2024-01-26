@@ -12,7 +12,7 @@ import {
 
 import { Separator } from "@/components/ui/separator"
 import { useSearchParams } from "next/navigation"
-import { FC } from "react"
+import { FC, useRef } from "react"
 import ReviewPermit from "../components/ReviewPermit"
 import useAdminStatus from "@/hooks/useAdminStatus"
 import { format } from "date-fns"
@@ -25,7 +25,10 @@ import {
     TableCell,
     TableRow,
 } from "@/components/ui/table"
-
+import { useReactToPrint} from 'react-to-print'
+import { Button, buttonVariants } from "@/components/ui/button"
+import { Printer, PrinterIcon } from "lucide-react"
+import Link from "next/link"
 
 
 const PermitTemplate = () => {
@@ -46,20 +49,25 @@ const PermitTemplate = () => {
     const status = searchParams.get("status")
 
     const isAdmin = useAdminStatus()
+
+    const componentRef = useRef(null)
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current
+    })
     return (
-        <>
+        <div className="space-y-5">
 
 
-            <div className="border-4 border-black">
+            <div className="border-4 border-black" ref={componentRef}>
 
                 {/*  HEADER  */}
 
-                <div className="border-b-4 border-black flex justify-between bg-[#ff0000] px-1 items-center flex-col lg:flex-row" >
+                <div className="border-b-4 border-black flex justify-between bg-[#ff0000] px-1 items-center flex-col lg:flex-row print-lg-flex-row" >
                     <div className="bg-white">YOUR LOGO</div>
                     <div className="text-white lg:text-3xl">ELETRICAL PERMIT TO WORK</div>
                     <div className="flex gap-1">
                         <div className="text-white">PERMIT NO:</div>
-                        <div className="bg-white w-32 text-white">{ }</div>
+                        <div className="bg-white px-1  text-black">{permitId }</div>
                     </div>
 
                 </div>
@@ -75,17 +83,17 @@ const PermitTemplate = () => {
 
                         <div className="md:flex md:items-center">
                             <Label className="md:w-40 w-full ">(I) LOCATION</Label>
-                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{location}</div>
+                            <div className=" bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{location}</div>
                         </div>
 
                         <div className="md:flex md:items-center">
                             <Label className="md:w-40 w-full ">(II) EQUIPMENT</Label>
-                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{equipment}</div>
+                            <div className=" bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{equipment}</div>
                         </div>
 
                         <div className="md:flex md:items-center">
                             <Label className="md:w-40 w-full ">(III) WORK TO BE DONE</Label>
-                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{description}</div>
+                            <div className=" bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{description}</div>
                         </div>
 
                     </div>
@@ -105,27 +113,27 @@ const PermitTemplate = () => {
 
                         <div className="">
                             <Label className="md:w-40 w-full ">(I) POINTS OF ISOLATION</Label>
-                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{pointsOfIsolation}</div>
+                            <div className=" bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{pointsOfIsolation}</div>
                         </div>
 
                         <div className="">
                             <Label className="md:w-40 w-full ">(II)PRIMARY EARTHING DEVICE</Label>
-                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{primaryEarthingDevice}</div>
+                            <div className=" bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{primaryEarthingDevice}</div>
                         </div>
 
                         <div className="">
                             <Label className="md:w-40 w-full ">(III) ACTIONS TAKEN TO AVOID <span className="font-bold">DANGER</span> BY DRAINING, VENTING, PURGING AND CONTAINMENT OR DISSIPATION OF STORED ENERGY</Label>
-                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{actionsTaken}</div>
+                            <div className=" bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{actionsTaken}</div>
                         </div>
 
                         <div className="">
                             <Label className="md:w-40 w-full ">(IV) FURTHER PRECAUTIONS TO BE TAKEN DURING THE COURSE OF THE WORK TO AVOID SYSTEM DERIVED HAZARDS</Label>
-                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{furtherPrecautions}</div>
+                            <div className=" bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{furtherPrecautions}</div>
                         </div>
 
                         <div className="">
                             <Label className="md:w-40 w-full ">(V) PRECAUTIONS WHICH MAY BE VARRIED (APPROVED PROCEDURE REQUIRED)</Label>
-                            <div className="h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{variedPrecautions}</div>
+                            <div className=" bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{variedPrecautions}</div>
                         </div>
 
 
@@ -144,14 +152,33 @@ const PermitTemplate = () => {
 
                     <div className="px-3 space-y-2 md:space-y-0">
                         <Label className="text-xs">I HAVE CONFIRMED WITHE THE CONTROL ENGINEER THAT THE PRECAUTIONS IN SECTION 2(I) & 2(II) HAVE BEEN CARRIED OUT AND WILL BE MAINTAINED UNTIL THE PERMIT FOR WORK IS CANCELLED.</Label>
-                        <div className="border-2 border-black bg-gray-200 font-semibold flex flex-col md:flex-row">
-                            <div className="p-2 md:border-r-2 border-black md:w-60 w-full text-center border-b-2 md:border-b-0">CONTROL ENGINEER</div>
-                            <div className="flex-grow grid grid-cols-2 items-center ">
-                                <div className='p-2 md:border-r-2 border-black text-center '>John Smith</div>
-                                <div className={` text-2xl text-center ${handSignature.className} `}>J. Smith</div>
-                            </div>
 
-                        </div>
+                        <Table className="border-2 border-black bg-gray-200 font-semibold text-sm text-center">
+                            <TableBody className="">
+                                <TableRow className="hidden lg:table-row ">
+                                    <TableCell className="border-2 border-black w-60">CONTROL ENGINEER</TableCell>
+                                    <TableCell className="border-2 border-black">John Smith</TableCell>
+                                    <TableCell className={`border-2 border-black text-2xl ${handSignature.className}`}>J. Smith</TableCell>
+
+                                </TableRow>
+
+                                {/* Small Screen */}
+                                <TableRow className="lg:hidden">
+                                    <TableCell colSpan={2} className="border-2 border-black">CONTROL ENGINEER</TableCell>
+                                </TableRow>
+
+                                {/* Small Screen */}
+                                <TableRow className="lg:hidden">
+                                    <TableCell className="border-2 border-black">John Smith</TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>J. Smith</TableCell>
+                                </TableRow>
+
+
+                            </TableBody>
+                            </Table>
+
+
+
 
 
 
@@ -207,7 +234,59 @@ const PermitTemplate = () => {
             </div>
 
 
-        {/*     <Card className="w-full text-slate-950">
+
+         
+            
+            <Card>
+                <CardHeader>
+                    {reason && <CardTitle>Comment</CardTitle>}
+                 
+                
+                </CardHeader>
+                <CardContent>
+
+                    <CardDescription>  {reason}  </CardDescription>
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                    {isAdmin && permitId && <ReviewPermit permitId={permitId} />}
+                   {status === 'rejected' && 
+                                        <Link  href={{
+                            pathname: `/panel/permits/editpermit`, query: {
+                                permitId: permitId,
+                                location: location,
+                                equipment: equipment,
+                                startDate: startDate,
+                                endDate: endDate,
+                                rams: rams,
+                                description: description,
+                                pointsOfIsolation: pointsOfIsolation,
+                                primaryEarthingDevice: primaryEarthingDevice,
+                                actionsTaken: actionsTaken,
+                                furtherPrecautions: furtherPrecautions,
+                                variedPrecautions: variedPrecautions,
+
+                            }
+                        }} passHref className={buttonVariants({ variant: "default" })}>
+                          
+                                Edit permit
+                         
+                        </Link>
+                    } 
+                    <Button onClick={handlePrint}><PrinterIcon className="mr-2 h-4 w-4" />Print the Permit</Button>
+                </CardFooter>
+            </Card>
+           
+        </div>
+
+    )
+}
+
+
+
+export default PermitTemplate
+
+
+{/*     <Card className="w-full text-slate-950">
                 <CardHeader className="bg-blue-600 rounded-t-lg">
                     <CardTitle>
 
@@ -463,13 +542,3 @@ const PermitTemplate = () => {
           
                 </CardFooter>
             </Card> */}
-
-            <div>Reason: {reason}</div>
-        </>
-
-    )
-}
-
-
-
-export default PermitTemplate
