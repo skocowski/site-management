@@ -375,12 +375,12 @@ const PermitTemplate = () => {
 
                         <div className="">
                             <Label className="md:w-40 w-full ">Start Date</Label>
-                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.startDate?.stringValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.startDate?.integerValue}</div>
                         </div>
 
                         <div className="">
                             <Label className="md:w-40 w-full ">End Date</Label>
-                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.endDate?.stringValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.endDate?.integerValue}</div>
                         </div>
 
 
