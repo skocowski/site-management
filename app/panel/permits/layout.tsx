@@ -25,7 +25,7 @@ export default function PermitLayout({
 
 
     return (
-    <PermitsTypeContextProvider> 
+   
   
             <div className="space-y-6 p-10 pb-16 md:block">
                 <div className="flex justify-between">
@@ -66,25 +66,9 @@ export default function PermitLayout({
 
 
 
-{/*             <div className="flex flex-row gap-3 border rounded-sm shadow-md md:shadow-xl">
-                
-                <div className="w-64">
-                
-                   <Menu /> 
-                    <Separator />
-
-
-                </div>
-
-                <div className="w-full">
-                    {children}
-                </div>
-
-
-            </div> */}
 
    
-       </PermitsTypeContextProvider> 
+
     )
 }
 

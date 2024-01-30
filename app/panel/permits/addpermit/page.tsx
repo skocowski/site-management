@@ -26,10 +26,13 @@ import {
     Table,
     TableBody,
     TableCell,
+    TableHead,
+    TableHeader,
     TableRow,
 } from "@/components/ui/table"
 import { LoaderIcon } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 
 const accountFormSchema = z.object({
@@ -45,10 +48,10 @@ const accountFormSchema = z.object({
     equipment: z
         .string()
         .min(2, {
-            message: "Location must be at least 2 characters.",
+            message: "Equipment must be at least 2 characters.",
         })
         .max(30, {
-            message: "Location must not be longer than 30 characters.",
+            message: "Equipment must not be longer than 30 characters.",
         }),
     startDate: z.date({
         required_error: "A date is required.",
@@ -56,7 +59,7 @@ const accountFormSchema = z.object({
     endDate: z.date({
         required_error: "A date is required.",
     })
-,
+    ,
     rams: z.string({
 
         required_error: "RAMS is required.",
@@ -73,6 +76,17 @@ const accountFormSchema = z.object({
         .max(300, {
             message: "Description must not be longer than 300 characters.",
         }),
+    isolation: z.enum(["yes", "no"], {
+        required_error: "Required.",
+    }),
+    sap: z.enum(["yes", "no"], {
+        required_error: "Required.",
+    }),
+    workType: z.enum(["mechanical", "electrical"], {
+        required_error: "Required.",
+    }),
+    workDuration: z.string(),
+    otherInformation: z.string(),
 
     pointsOfIsolation: z.string(),
     primaryEarthingDevice: z.string(),
@@ -96,7 +110,9 @@ const defaultValues: Partial<AccountFormValues> = {
     primaryEarthingDevice: "N/A",
     actionsTaken: "N/A",
     furtherPrecautions: "N/A",
-    variedPrecautions: "N/A"
+    variedPrecautions: "N/A",
+    workDuration: "",
+    otherInformation: ""
 }
 
 const PermitForm = () => {
@@ -106,13 +122,13 @@ const PermitForm = () => {
 
     return (
         <>
-         
-         
-  
-             
-       
-            {userData ? 
-   
+
+
+
+
+
+            {userData ?
+
                 <div className="border-4 border-black">
 
                     {/*  HEADER  */}
@@ -129,12 +145,12 @@ const PermitForm = () => {
 
                     {/*     1 */}
 
-              <AccountForm userData={userData} />
+                    <AccountForm userData={userData} />
 
 
                 </div>
 
-                : 
+                :
 
                 <div className="space-y-2 p-6">
                     <Skeleton className="h-8 w-full" />
@@ -144,7 +160,7 @@ const PermitForm = () => {
                     <Skeleton className="h-8 w-full" />
                     <Skeleton className="h-8 w-full" />
                 </div>
-}
+            }
 
 
         </>
@@ -156,9 +172,8 @@ export default PermitForm
 
 const AccountForm = ({ userData }: { userData: DocumentData }) => {
     const router = useRouter()
-    const { refetchData } = useUserPermits()
+
     const [toPermits, setToPermits] = useState(false)
-    const [refetch, setRefetch] = useState(false)
 
     useEffect(() => {
         if (toPermits) {
@@ -167,35 +182,24 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
 
     }, [toPermits])
 
-    useEffect(() => {
 
-        refetchData()
-    }, [refetch])
 
-    const { toast } = useToast()
 
     const form = useForm<AccountFormValues>({
         resolver: zodResolver(accountFormSchema),
         defaultValues,
     })
+    const [workParty, setWorkParty] = useState<WorkPartyMember[]>([]);
 
     function onSubmit(values: AccountFormValues) {
-        console.log("submit?")
-        addPermit(values, userData)
 
-        toast({
-            title: "You submitted the following values:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-                </pre>
-            ),
-        })
-
-        /*    setRefetch(true) */
+        addPermit(values, userData, workParty)
+console.log(workParty)
 
         setToPermits(true)
     }
+
+
 
     return (
         <Form {...form} >
@@ -274,7 +278,7 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
                 {/*    SECTION 2 */}
 
 
-                <div className="border-b-4 border-black p-1 pb-9" >
+                <div className="border-b-4 border-black p-1 pb-9">
                     <div className="flex space-x-1 text-md font-semibold">
                         <div>2.</div>
                         <div>PRECAUTIONS TAKEN TO ACHIEVE <span className="font-bold">SAFETY WORK SYSTEM.</span></div>
@@ -400,8 +404,8 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
                             <TableBody className="">
                                 <TableRow className="hidden lg:table-row ">
                                     <TableCell className="border-2 border-black w-60">CONTROL ENGINEER</TableCell>
-                                    <TableCell className="border-2 border-black">John Smith</TableCell>
-                                    <TableCell className={`border-2 border-black text-2xl ${handSignature.className}`}>J. Smith</TableCell>
+                                    <TableCell className="border-2 border-black"></TableCell>
+                                    <TableCell className={`border-2 border-black text-2xl ${handSignature.className}`}></TableCell>
 
                                 </TableRow>
 
@@ -412,8 +416,8 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
 
                                 {/* Small Screen */}
                                 <TableRow className="lg:hidden">
-                                    <TableCell className="border-2 border-black">John Smith</TableCell>
-                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>J. Smith</TableCell>
+                                    <TableCell className="border-2 border-black"></TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}></TableCell>
                                 </TableRow>
 
 
@@ -435,10 +439,10 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
                             <TableBody className="">
                                 <TableRow className="hidden lg:table-row ">
                                     <TableCell className="border-2 border-black w-60">SENIOR AUTHORISED PERSON / AUTHORISED PERSON</TableCell>
-                                    <TableCell className="border-2 border-black">Michael Jordan</TableCell>
-                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>M. Jordan</TableCell>
-                                    <TableCell className="border-2 border-black">KEY SAFE NUMBER</TableCell>
-                                    <TableCell className="border-2 border-black">Date</TableCell>
+                                    <TableCell className="border-2 border-black"></TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}></TableCell>
+                                    <TableCell className="border-2 border-black w-44">KEY SAFE NUMBER</TableCell>
+                                    <TableCell className="border-2 border-black"></TableCell>
                                 </TableRow>
 
                                 {/* Small Screen */}
@@ -448,14 +452,14 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
 
                                 {/* Small Screen */}
                                 <TableRow className="lg:hidden">
-                                    <TableCell className="border-2 border-black">Michael Jordan</TableCell>
-                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>M. Jordan</TableCell>
+                                    <TableCell className="border-2 border-black"></TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}></TableCell>
                                 </TableRow>
 
                                 {/* Small Screen */}
                                 <TableRow className="lg:hidden">
                                     <TableCell className="border-2 border-black">KEY SAFE NUMBER</TableCell>
-                                    <TableCell className="border-2 border-black">Date</TableCell>
+                                    <TableCell className="border-2 border-black"></TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
@@ -463,7 +467,7 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
 
 
 
-                        
+
 
 
 
@@ -472,128 +476,338 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
 
 
 
+                {/* Section 4 */}
 
 
 
 
-
-
-                <div className="flex justify-between gap-10">
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="startDate"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>Start Date</FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant={"outline"}
-                                                    className={cn(
-                                                        "w-[240px] pl-3 text-left font-normal",
-                                                        !field.value && "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value ? (
-                                                        format(field.value, "PPP")
-                                                    ) : (
-                                                        <span>Pick a date</span>
-                                                    )}
-                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0" align="start">
-                                            <Calendar
-                                                mode="single"
-                                                selected={field.value}
-                                                onSelect={field.onChange}
-                                                disabled={(date) =>
-                                                    date < new Date()
-                                                }
-                                                initialFocus
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                <div className="border-b-4 border-black p-1 pb-9">
+                    <div className="flex space-x-1 text-md font-semibold">
+                        <div>4.</div>
+                        <div>WORK PARTY REGISTER </div>
                     </div>
 
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="endDate"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>End Date</FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant={"outline"}
-                                                    className={cn(
-                                                        "w-[240px] pl-3 text-left font-normal",
-                                                        !field.value && "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value ? (
-                                                        format(field.value, "PPP")
-                                                    ) : (
-                                                        <span>Pick a date</span>
-                                                    )}
-                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0" align="start">
-                                            <Calendar
-                                                mode="single"
-                                                selected={field.value}
-                                                onSelect={field.onChange}
-                                                disabled={(date) =>
-                                                    date < new Date()
-                                                }
-                                                initialFocus
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                    <div className="px-3 space-y-2 md:space-y-0">
+                        <Label className="text-xs">(I) THE COMPETENT PERSON (CP) ENSURED ALL MEMBERS OF THE WORKING PARTY HAVE BEEN INSTRUCTED AND ARE AWARE OF THEIR RESPONSIBILITIES WITH REGARDS TO THE CONTENTS OF THE: SAFETY DOCUMENT RISK ASSESMENT & METHOD STATEMENT (RAMS) TOOLBOX TALK</Label>
+                        <Table className="border-2 border-black  font-semibold text-sm text-center">
+                            <TableHeader className="bg-[#ff0000]">
+                                <TableRow className="">
+                                    <TableHead className="border-2 border-black text-white text-center">NAME</TableHead>
+                                    <TableHead className="border-2 border-black text-white text-center">COMPANY</TableHead>
+                                    <TableHead className="border-2 border-black text-white text-center">CONTACT</TableHead>
+                                </TableRow>
+
+                            </TableHeader>
+                            <TableBody className="">
+
+                                <TableRow className="hidden lg:table-row ">
+                                    <TableCell className="border-2 border-black">{userData.name} {userData.surname}</TableCell>
+                                    <TableCell className="border-2 border-black">{userData.company}</TableCell>
+                                    <TableCell className={`border-2 border-black`}>{userData.phoneNumber}</TableCell>
+
+                                </TableRow>
+
+                                {/* Rows from workParty */}
+                                {workParty.map((member, index) => (
+                                    <TableRow key={index} className="hidden lg:table-row">
+                                        <TableCell className="border-2 border-black">{member.surname}</TableCell>
+                                        <TableCell className="border-2 border-black">{member.company}</TableCell>
+                                        <TableCell className={`border-2 border-black`}>{member.phone}</TableCell>
+                                    </TableRow>
+                                ))}
+
+
+                            </TableBody>
+                        </Table>
+
+                        <WorkParty setWorkParty={setWorkParty} />
+
+
+
+
+                    </div>
+                </div>
+
+
+                {/* Section 5 */}
+
+
+
+
+                <div className="border-b-4 border-black p-1 pb-9">
+                    <div className="flex space-x-1 text-md font-semibold">
+                        <div>5.</div>
+                        <div>DETAILS </div>
                     </div>
 
-                    <div className="w-full">
+                    <div className="px-3 space-y-2 md:space-y-0">
+                        <div className="mx-auto pb-10">
+                            <Table className="border-2 border-black  font-semibold text-sm text-center max-w-[600px]">
+
+                                <TableBody className="">
+
+                                    <TableRow className="table-row ">
+                                        <TableCell className="border-2 border-black bg-[#ff0000] text-white">ISOLATION REQUIRED?</TableCell>
+                                        <TableCell className="border-2 border-black " colSpan={2}>
+                                            <FormField
+                                                control={form.control}
+                                                name="isolation"
+                                                render={({ field }) => (
+                                                    <FormItem className="space-y-3">
+                                                        <FormControl>
+                                                            <RadioGroup
+                                                                onValueChange={field.onChange}
+                                                                defaultValue={field.value}
+                                                                className="flex justify-between"
+                                                            >
+                                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                    <FormLabel className="font-normal">YES</FormLabel>
+                                                                    <FormControl>
+                                                                        <RadioGroupItem value="yes" />
+                                                                    </FormControl>
+                                                                </FormItem>
+                                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                    <FormLabel className="font-normal">NO</FormLabel>
+                                                                    <FormControl>
+                                                                        <RadioGroupItem value="no" />
+                                                                    </FormControl>
+                                                                </FormItem>
+                                                            </RadioGroup>
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </TableCell>
+
+                                    </TableRow>
+
+                                    <TableRow className="table-row ">
+                                        <TableCell className="border-2 border-black bg-[#ff0000] text-white">Will an SAP/AP be required to operate equipment?</TableCell>
+                                        <TableCell className="border-2 border-black" colSpan={2}>
+                                            <FormField
+                                                control={form.control}
+                                                name="sap"
+                                                render={({ field }) => (
+                                                    <FormItem className="space-y-3">
+                                                        <FormControl>
+                                                            <RadioGroup
+                                                                onValueChange={field.onChange}
+                                                                defaultValue={field.value}
+                                                                className="flex justify-between"
+                                                            >
+                                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                    <FormLabel className="font-normal">YES</FormLabel>
+                                                                    <FormControl>
+                                                                        <RadioGroupItem value="yes" />
+                                                                    </FormControl>
+                                                                </FormItem>
+                                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                    <FormLabel className="font-normal">NO</FormLabel>
+                                                                    <FormControl>
+                                                                        <RadioGroupItem value="no" />
+                                                                    </FormControl>
+                                                                </FormItem>
+                                                            </RadioGroup>
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </TableCell>
+
+                                    </TableRow>
+
+                                    <TableRow className="table-row ">
+                                        <TableCell className="border-2 border-black bg-[#ff0000] text-white">Is this work Mechanical or Electrical?</TableCell>
+                                        <TableCell className="border-2 border-black" colSpan={2}>
+                                            <FormField
+                                                control={form.control}
+                                                name="workType"
+                                                render={({ field }) => (
+                                                    <FormItem className="space-y-3">
+                                                        <FormControl>
+                                                            <RadioGroup
+                                                                onValueChange={field.onChange}
+                                                                defaultValue={field.value}
+                                                                className="flex justify-between"
+                                                            >
+                                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                    <FormLabel className="font-normal">MECHANICAL</FormLabel>
+                                                                    <FormControl>
+                                                                        <RadioGroupItem value="mechanical" />
+                                                                    </FormControl>
+                                                                </FormItem>
+                                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                    <FormLabel className="font-normal">ELECTRICAL</FormLabel>
+                                                                    <FormControl>
+                                                                        <RadioGroupItem value="electrical" />
+                                                                    </FormControl>
+                                                                </FormItem>
+                                                            </RadioGroup>
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </TableCell>
+
+                                    </TableRow>
+
+
+
+                                </TableBody>
+                            </Table>
+
+                        </div>
+
+
+
                         <FormField
                             control={form.control}
                             name="rams"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>RAMS number</FormLabel>
+                                    <FormLabel>Risk Assesment/Method Statement Number (RAMS)</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="RAMS" {...field} />
+                                        <Input placeholder="" {...field} className="rounded-none bg-gray-200 border-black" />
                                     </FormControl>
 
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+
+                        <FormField
+                            control={form.control}
+                            name="workDuration"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Expected Duration of Work</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="" {...field} className="rounded-none bg-gray-200 border-black" />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="otherInformation"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Any other Information</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="" {...field} className="rounded-none bg-gray-200 border-black" />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+
+                        <div className="flex justify-between gap-10 pt-10">
+                            <div className="w-full">
+                                <FormField
+                                    control={form.control}
+                                    name="startDate"
+                                    render={({ field }) => (
+                                        <FormItem className="flex flex-col">
+                                            <FormLabel>Start Date</FormLabel>
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <FormControl>
+                                                        <Button
+                                                            variant={"outline"}
+                                                            className={cn(
+                                                                "w-[240px] pl-3 text-left font-normal",
+                                                                !field.value && "text-muted-foreground"
+                                                            )}
+                                                        >
+                                                            {field.value ? (
+                                                                format(field.value, "PPP")
+                                                            ) : (
+                                                                <span>Pick a date</span>
+                                                            )}
+                                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                        </Button>
+                                                    </FormControl>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-auto p-0" align="start">
+                                                    <Calendar
+                                                        mode="single"
+                                                        selected={field.value}
+                                                        onSelect={field.onChange}
+                                                        disabled={(date) =>
+                                                            date < new Date()
+                                                        }
+                                                        initialFocus
+                                                    />
+                                                </PopoverContent>
+                                            </Popover>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            <div className="w-full">
+                                <FormField
+                                    control={form.control}
+                                    name="endDate"
+                                    render={({ field }) => (
+                                        <FormItem className="flex flex-col">
+                                            <FormLabel>End Date</FormLabel>
+                                            <Popover>
+                                                <PopoverTrigger asChild>
+                                                    <FormControl>
+                                                        <Button
+                                                            variant={"outline"}
+                                                            className={cn(
+                                                                "w-[240px] pl-3 text-left font-normal",
+                                                                !field.value && "text-muted-foreground"
+                                                            )}
+                                                        >
+                                                            {field.value ? (
+                                                                format(field.value, "PPP")
+                                                            ) : (
+                                                                <span>Pick a date</span>
+                                                            )}
+                                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                        </Button>
+                                                    </FormControl>
+                                                </PopoverTrigger>
+                                                <PopoverContent className="w-auto p-0" align="start">
+                                                    <Calendar
+                                                        mode="single"
+                                                        selected={field.value}
+                                                        onSelect={field.onChange}
+                                                        disabled={(date) =>
+                                                            date < new Date()
+                                                        }
+                                                        initialFocus
+                                                    />
+                                                </PopoverContent>
+                                            </Popover>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+
                     </div>
-
-
                 </div>
-
-
-
-
-
-
-
-
 
 
 
@@ -604,317 +818,12 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
         </Form>
     )
 
-    return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-
-                {/*    SECTION 1 */}
-
-                <div className="bg-gray-200 border p-1 mt-5"><span className="font-bold mr-2">1.</span>Work details </div>
-                <div className="flex justify-between gap-10">
-                    <div className="w-full">
-
-                        <FormField
-                            control={form.control}
-                            name="location"
-
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Location</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Work location" {...field} />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="equipment"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Equipment Identification</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Equipment" {...field} />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                </div>
-
-
-                <div className="flex justify-between gap-10">
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="startDate"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>Start Date</FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant={"outline"}
-                                                    className={cn(
-                                                        "w-[240px] pl-3 text-left font-normal",
-                                                        !field.value && "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value ? (
-                                                        format(field.value, "PPP")
-                                                    ) : (
-                                                        <span>Pick a date</span>
-                                                    )}
-                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0" align="start">
-                                            <Calendar
-                                                mode="single"
-                                                selected={field.value}
-                                                onSelect={field.onChange}
-                                                disabled={(date) =>
-                                                    date < new Date()
-                                                }
-                                                initialFocus
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="endDate"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-col">
-                                    <FormLabel>End Date</FormLabel>
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <FormControl>
-                                                <Button
-                                                    variant={"outline"}
-                                                    className={cn(
-                                                        "w-[240px] pl-3 text-left font-normal",
-                                                        !field.value && "text-muted-foreground"
-                                                    )}
-                                                >
-                                                    {field.value ? (
-                                                        format(field.value, "PPP")
-                                                    ) : (
-                                                        <span>Pick a date</span>
-                                                    )}
-                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                                </Button>
-                                            </FormControl>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0" align="start">
-                                            <Calendar
-                                                mode="single"
-                                                selected={field.value}
-                                                onSelect={field.onChange}
-                                                disabled={(date) =>
-                                                    date < new Date()
-                                                }
-                                                initialFocus
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="rams"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>RAMS number</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="RAMS" {...field} />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-
-                </div>
-
-                <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Work to be done</FormLabel>
-                            <FormControl>
-                                <Textarea
-                                    placeholder="Provide a brief description of the work"
-                                    className="resize"
-                                    {...field}
-                                />
-                            </FormControl>
-
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-
-
-                {/*    SECTION 2 */}
-
-                <div className="bg-gray-200 border p-1"><span className="font-bold mr-2">2.</span>Precautions taken to achieve <span className="font-bold">safety from the system</span></div>
-
-
-
-                <div className="flex justify-between gap-10 flex-col lg:flex-row">
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="pointsOfIsolation"
-
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Points of isolation</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder=""
-                                            className="resize"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="primaryEarthingDevice"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Primary earthing device(s)</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder=""
-                                            className="resize"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-
-                <div className="flex justify-between gap-10 flex-col lg:flex-row">
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="actionsTaken"
-
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Actions taken to avoid <span className="font-bold">danger</span> by draining, venting, purging and containment or dissipation of stored energy</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder=""
-                                            className="resize"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <div className="w-full">
-                        <FormField
-                            control={form.control}
-                            name="furtherPrecautions"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Further precautions to be taken during the course of the work to avoid system derived hazards</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder=""
-                                            className="resize"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div>
-
-                <FormField
-                    control={form.control}
-                    name="variedPrecautions"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Precautions which may be varried (approved procedure required)</FormLabel>
-                            <FormControl>
-                                <Textarea
-                                    placeholder=""
-                                    className="resize"
-                                    {...field}
-                                />
-                            </FormControl>
-
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                {/*    SECTION 3 */}
-
-                {/*                 <div className="bg-gray-200 border p-1"><span className="font-bold mr-2">3.</span> <span className="font-bold">Preparation</span></div>
-                <div className=" p-1">I have confirmed with the control engineer that the precautions in section 2(I) & 2(I) have been carried out and iwll be maintained until the permit for work is cancelled.</div>
-
- */}
-
-
-
-                <Button type="submit">Add Permit</Button>
-            </form>
-        </Form>
-    )
 }
 
 
 
-async function addPermit(data: AccountFormValues, userData: DocumentData) {
+async function addPermit(data: AccountFormValues, userData: DocumentData, workParty: WorkPartyMember[]) {
     console.log("write permit to db");
 
     let permitId = "phk" + Date.now();
@@ -938,7 +847,12 @@ async function addPermit(data: AccountFormValues, userData: DocumentData) {
         primaryEarthingDevice: data.primaryEarthingDevice,
         actionsTaken: data.actionsTaken,
         furtherPrecautions: data.furtherPrecautions,
-        variedPrecautions: data.variedPrecautions
+        variedPrecautions: data.variedPrecautions,
+        isolation: data.isolation,
+        sap: data.sap,
+        workType: data.workType,
+        workDuration: data.workDuration,
+        workParty: workParty
 
     };
 
@@ -955,4 +869,57 @@ async function addPermit(data: AccountFormValues, userData: DocumentData) {
 }
 
 
+interface WorkPartyMember {
+    surname: string;
+    company: string;
+    phone: string;
+}
 
+const WorkParty = ({ setWorkParty }: { setWorkParty: React.Dispatch<React.SetStateAction<WorkPartyMember[]>> }) => {
+
+    const [surname, setSurname] = useState('');
+    const [company, setCompany] = useState('');
+    const [phone, setPhone] = useState('');
+
+    const handleWorkPartyAdd = (e: React.FormEvent) => {
+        e.preventDefault();
+
+
+        // Create a new object with data from the form
+        const newWorkPartyMember: WorkPartyMember = {
+            surname,
+            company,
+            phone,
+        };
+
+        // Add the new object to the workParty array
+        setWorkParty((prevWorkParty: WorkPartyMember[]) => [...prevWorkParty, newWorkPartyMember]);
+
+        // Clear the form fields
+        setSurname('');
+        setCompany('');
+        setPhone('');
+    };
+
+    return (
+        <div className="flex w-full items-center space-x-2 pt-10">
+            <Button onClick={handleWorkPartyAdd}>Add</Button>
+            <Input
+                placeholder="Name and Surname"
+                value={surname}
+                onChange={(e) => setSurname(e.target.value)}
+            />
+            <Input
+                placeholder="Company"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+            />
+            <Input
+                type="phone"
+                placeholder="Phone"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+            />
+        </div>
+    );
+};

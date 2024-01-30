@@ -35,7 +35,7 @@ export const columns: ColumnDef<Permit>[] = [
                                         <Link href={{
                             pathname: `/panel/permits/permit`, query: {
                                 permitId: permit.id,
-                                location: permit.location,
+/*                                 location: permit.location,
                                 equipment: permit.equipment,
                                 startDate: permit.startDate,
                                 endDate: permit.endDate,
@@ -47,7 +47,7 @@ export const columns: ColumnDef<Permit>[] = [
                                 furtherPrecautions: permit.furtherPrecautions,
                                 variedPrecautions: permit.variedPrecautions,
                                 reason: permit.reason,
-                                status: permit.status
+                                status: permit.status */
                             }
                         }} passHref>
                     <div className=''>...{typeof val === 'string' && val.slice(11)}</div>
@@ -70,7 +70,7 @@ export const columns: ColumnDef<Permit>[] = [
                 <Link href={{
                     pathname: `/panel/permits/permit`, query: {
                         permitId: permit.id,
-                        location: permit.location,
+/*                         location: permit.location,
                         equipment: permit.equipment,
                         startDate: permit.startDate,
                         endDate: permit.endDate,
@@ -82,7 +82,7 @@ export const columns: ColumnDef<Permit>[] = [
                         furtherPrecautions: permit.furtherPrecautions,
                         variedPrecautions: permit.variedPrecautions,
                         reason: permit.reason,
-                        status: permit.status
+                        status: permit.status */
                     }
                 }} passHref>
                     <div className=''>{ row.getValue("location") }</div>
@@ -100,7 +100,7 @@ export const columns: ColumnDef<Permit>[] = [
                 <Link href={{
                     pathname: `/panel/permits/permit`, query: {
                         permitId: permit.id,
-                        location: permit.location,
+/*                         location: permit.location,
                         equipment: permit.equipment,
                         startDate: permit.startDate,
                         endDate: permit.endDate,
@@ -112,7 +112,7 @@ export const columns: ColumnDef<Permit>[] = [
                         furtherPrecautions: permit.furtherPrecautions,
                         variedPrecautions: permit.variedPrecautions,
                         reason: permit.reason,
-                        status: permit.status
+                        status: permit.status */
                     }
                 }} passHref>
                     <div className='lowercase'>{row.getValue("description")}</div>
@@ -146,7 +146,7 @@ export const columns: ColumnDef<Permit>[] = [
                                 <Link href={{
                     pathname: `/panel/permits/permit`, query: {
                         permitId: permit.id,
-                        location: permit.location,
+/*                         location: permit.location,
                         equipment: permit.equipment,
                         startDate: permit.startDate,
                         endDate: permit.endDate,
@@ -158,7 +158,7 @@ export const columns: ColumnDef<Permit>[] = [
                         furtherPrecautions: permit.furtherPrecautions,
                         variedPrecautions: permit.variedPrecautions,
                         reason: permit.reason,
-                        status: permit.status
+                        status: permit.status */
                     }
                 }} passHref>
                     <div className='lowercase'>{formatted && formatted}</div>
@@ -203,7 +203,7 @@ export const columns: ColumnDef<Permit>[] = [
                         <Link href={{
                             pathname: `/panel/permits/permit`, query: {
                                 permitId: permit.id,
-                                location: permit.location,
+/*                                 location: permit.location,
                                 equipment: permit.equipment,
                                 startDate: permit.startDate,
                                 endDate: permit.endDate,
@@ -215,7 +215,7 @@ export const columns: ColumnDef<Permit>[] = [
                                 furtherPrecautions: permit.furtherPrecautions,
                                 variedPrecautions: permit.variedPrecautions,
                                 reason: permit.reason,
-                                status: permit.status
+                                status: permit.status */
                             }
                         }} passHref>
                             <DropdownMenuItem >

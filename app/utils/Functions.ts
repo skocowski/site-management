@@ -6,7 +6,41 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../firebase/config";
+import { db, functions } from "../firebase/config";
+import { httpsCallable } from "firebase/functions";
+
+
+/* export const fetchPermit = (permitId: string) => {
+  let getPermit = httpsCallable(functions, "getPermit");
+
+  try {
+    getPermit({ id: permitId })
+      .then((result) => {
+        console.log("result");
+        console.log(result.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  } catch (ex) {
+    console.log(ex);
+  }
+}; */
+
+export const fetchPermit = async (permitId: string) => {
+  const getPermit = httpsCallable(functions, "getPermit");
+
+  try {
+    const result = await getPermit({ id: permitId });
+console.log(result.data)
+    return result.data
+   
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+
 
 export async function readData() {
   console.log("read all permits");
@@ -73,6 +107,8 @@ export async function reviewPermit(permitId: string, newStatus: string, newReaso
     console.error("Error writing document: ", error);
   }
 }
+
+
 
 
 

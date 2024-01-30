@@ -1,22 +1,25 @@
 'use client'
 
-import { useState, useEffect } from "react";
-import { collection, onSnapshot } from "firebase/firestore";
-import { useUserPermits } from '@/hooks/useUserPermits'
+
 import React from 'react'
 import { DataTable } from '../components/PermitTable'
 import { columns } from '../components/columns'
-import { db } from "@/app/firebase/config";
+import { auth, db } from "@/app/firebase/config";
 import { usePermits } from "@/hooks/usePermits";
+import TestSer from "./TestSer";
 
 const AllPermits = () => {
-  /*     const {all} = useUserPermits() */
+
   
-  const {permits} = usePermits()
+const email = auth.currentUser?.email ?? ""
+
+  const { permits } = usePermits(email)
+  
 
 
   return (
-      <DataTable columns={columns} data={permits} />
+    <DataTable columns={columns} data={permits} /> 
+   
   )
 }
 

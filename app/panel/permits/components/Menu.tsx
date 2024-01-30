@@ -2,19 +2,19 @@
 
 import { Button, buttonVariants } from "@/components/ui/button"
 import { ArchiveX, BookCheck, Inbox, Loader2, Settings, PlusCircle } from "lucide-react"
-import { usePermitsTypeContext } from "../../../utils/PermitsTypeContext"
-import { useEffect, useState } from "react"
+
 import Link from "next/link"
 import { cn } from "@/lib/utils"
-import { useUserPermits } from "@/hooks/useUserPermits"
+
 import { Separator } from "@/components/ui/separator"
 import { auth } from "@/app/firebase/config"
 import useAdminStatus from "@/hooks/useAdminStatus"
 import { usePermits } from "@/hooks/usePermits"
 
 const Menu = () => {
-   /*  const { setType, allAmount, rejectededAmount, pendingAmount, approvedAmount } = usePermitsTypeContext() */
-    const { allAmount, pendingAmount, rejectedAmount, approvedAmount  } = usePermits() 
+    /*  const { setType, allAmount, rejectededAmount, pendingAmount, approvedAmount } = usePermitsTypeContext() */
+    const email = auth.currentUser?.email ?? ""
+    const { allAmount, pendingAmount, rejectedAmount, approvedAmount  } = usePermits(email) 
     const isAdmin = useAdminStatus()
 
     return (
