@@ -54,7 +54,7 @@ const Menu = () => {
             </Link>
 
 
-
+<Separator />
             {isAdmin &&
 
                 <Link
