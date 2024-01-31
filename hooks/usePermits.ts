@@ -39,6 +39,12 @@ export function usePermits(email: string) {
     );
   };
 
+    const toReview = (status: string): any[] => {
+      return status === "all"
+        ? permits
+        : permits.filter((permit) => permit.status === status);
+    };
+
   const all = filteredPermitsByEmail;
   const approved = filterDataByStatus("approved");
   const rejected = filterDataByStatus("rejected");
@@ -49,6 +55,8 @@ export function usePermits(email: string) {
   const pendingAmount = pending.length;
   const approvedAmount = approved.length;
   const activePermitsAmount = activePermits.length;
+  const permitsToReview = toReview("pending")
+  const toReviewAmount = permitsToReview.length
 
   return {
     permits: filteredPermitsByEmail,
@@ -62,5 +70,7 @@ export function usePermits(email: string) {
     pendingAmount,
     approvedAmount,
     activePermitsAmount,
+    permitsToReview,
+    toReviewAmount
   };
 }

@@ -32,7 +32,7 @@ export const fetchPermit = async (permitId: string) => {
 
   try {
     const result = await getPermit({ id: permitId });
-console.log(result.data)
+
     return result.data
    
   } catch (e) {

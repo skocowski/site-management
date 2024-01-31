@@ -1,14 +1,8 @@
 import { z } from "zod";
 
 export const permitFormSchema = z.object({
-  location: z
-    .string()
-    .min(2, {
-      message: "Location must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Location must not be longer than 30 characters.",
-    }),
+  location: z.string({ required_error: "Location is required." }),
+
   equipment: z
     .string()
     .min(2, {
@@ -23,13 +17,7 @@ export const permitFormSchema = z.object({
   endDate: z.date({
     required_error: "A date is required.",
   }),
-  rams: z
-    .string({
-      required_error: "RAMS is required.",
-    })
-    .min(2, {
-      message: "RAMS must be at least 2 characters.",
-    }),
+  rams: z.string({ required_error: "Rams is required." }),
 
   description: z
     .string()

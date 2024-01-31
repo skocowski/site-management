@@ -26,3 +26,9 @@ export type Permit = {
   reason?: string
   notes?: string
 };
+
+export interface WorkPartyMember {
+  surname: string;
+  company: string;
+  phone: string;
+}

@@ -50,16 +50,17 @@ const PermitTemplate = () => {
         content: () => componentRef.current
     })
 
-    const [permit, setPermit] = useState<any | null>(null);
+    const [data, setData] = useState<any | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const result = await fetchPermit(permitId as string);
-                setPermit(result);
+                setData(result);
+            
             } catch (error) {
                 console.error('Error fetching permit:', error);
-                setPermit(null);
+                setData(null);
             }
         };
 
@@ -70,9 +71,9 @@ const PermitTemplate = () => {
 
     // Rest of your component logic...
 
-    const parsedPermit = JSON.parse(String(permit));
+    const permit = JSON.parse(String(data));
 
-    if (!parsedPermit) {
+    if (!data) {
         return <div>Loading...</div>;
     }
   
@@ -80,7 +81,7 @@ const PermitTemplate = () => {
 
 
 
-    if (parsedPermit  === null) return <div>Error</div>;
+    if (data  === null) return <div>Error</div>;
 
 
     return (
@@ -96,7 +97,7 @@ const PermitTemplate = () => {
                     <div className="text-white lg:text-3xl">ELETRICAL PERMIT TO WORK</div>
                     <div className="flex gap-1">
                         <div className="text-white">PERMIT NO:</div>
-                        <div className="bg-white px-1  text-black">{parsedPermit?.id?.stringValue}</div>
+                        <div className="bg-white px-1  text-black">{permit.id}</div>
                     </div>
 
                 </div>
@@ -112,17 +113,17 @@ const PermitTemplate = () => {
 
                         <div className="md:flex md:items-center">
                             <Label className="md:w-40 w-full ">(I) LOCATION</Label>
-                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.location?.stringValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{permit.location}</div>
                         </div>
 
                         <div className="md:flex md:items-center">
                             <Label className="md:w-40 w-full ">(II) EQUIPMENT</Label>
-                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.equipment?.stringValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{permit.equipment}</div>
                         </div>
 
                         <div className="md:flex md:items-center">
                             <Label className="md:w-40 w-full ">(III) WORK TO BE DONE</Label>
-                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.description?.stringValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{permit.description}</div>
                         </div>
 
                     </div>
@@ -142,27 +143,27 @@ const PermitTemplate = () => {
 
                         <div className="">
                             <Label className="md:w-40 w-full ">(I) POINTS OF ISOLATION</Label>
-                            <div className=" bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.pointsOfIsolation?.stringValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{permit.pointsOfIsolation}</div>
                         </div>
 
                         <div className="">
                             <Label className="md:w-40 w-full ">(II)PRIMARY EARTHING DEVICE</Label>
-                            <div className=" bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.primaryEarthingDevice?.stringValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{permit.primaryEarthingDevice}</div>
                         </div>
 
                         <div className="">
                             <Label className="md:w-40 w-full ">(III) ACTIONS TAKEN TO AVOID <span className="font-bold">DANGER</span> BY DRAINING, VENTING, PURGING AND CONTAINMENT OR DISSIPATION OF STORED ENERGY</Label>
-                            <div className=" bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.actionsTaken?.stringValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{permit.actionsTaken}</div>
                         </div>
 
                         <div className="">
                             <Label className="md:w-40 w-full ">(IV) FURTHER PRECAUTIONS TO BE TAKEN DURING THE COURSE OF THE WORK TO AVOID SYSTEM DERIVED HAZARDS</Label>
-                            <div className=" bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.furtherPrecautions?.stringValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{permit.furtherPrecautions}</div>
                         </div>
 
                         <div className="">
                             <Label className="md:w-40 w-full ">(V) PRECAUTIONS WHICH MAY BE VARRIED (APPROVED PROCEDURE REQUIRED)</Label>
-                            <div className=" bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.variedPrecautions?.stringValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{permit.variedPrecautions}</div>
                         </div>
 
 
@@ -186,8 +187,8 @@ const PermitTemplate = () => {
                             <TableBody className="">
                                 <TableRow className="hidden lg:table-row ">
                                     <TableCell className="border-2 border-black w-60">CONTROL ENGINEER</TableCell>
-                                    <TableCell className="border-2 border-black">    {parsedPermit.status.stringValue === 'approved' && <div>John Smith</div>}</TableCell>
-                                    <TableCell className={`border-2 border-black text-2xl ${handSignature.className}`}> {parsedPermit.status.stringValue === 'approved' && <div>J. Smith</div>}</TableCell>
+                                    <TableCell className="border-2 border-black">{permit.status === 'approved' && <div>Dariusz Gólczyński</div>}</TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>{permit.status === 'approved' && <div>D. Gólczyński</div>}</TableCell>
 
                                 </TableRow>
 
@@ -198,8 +199,8 @@ const PermitTemplate = () => {
 
                                 {/* Small Screen */}
                                 <TableRow className="lg:hidden">
-                                    <TableCell className="border-2 border-black">John Smith</TableCell>
-                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>J. Smith</TableCell>
+                                    <TableCell className="border-2 border-black">{permit.status === 'approved' && <div>Dariusz Gólczyński</div>}</TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>{permit.status === 'approved' && <div>D. Gólczyński</div>}</TableCell>
                                 </TableRow>
 
 
@@ -224,10 +225,10 @@ const PermitTemplate = () => {
                             <TableBody className="">
                                 <TableRow className="hidden lg:table-row ">
                                     <TableCell className="border-2 border-black w-60">SENIOR AUTHORISED PERSON / AUTHORISED PERSON</TableCell>
-                                    <TableCell className="border-2 border-black">{parsedPermit.status.stringValue === 'approved' && <div>J. Smith</div>}</TableCell>
-                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>{parsedPermit.status.stringValue === 'approved' && <div>J. Smith</div>}</TableCell>
+                                    <TableCell className="border-2 border-black">{permit.status === 'approved' && <div>Dariusz Gólczyński</div>}</TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>{permit.status === 'approved' && <div>D. Gólczyński</div>}</TableCell>
                                     <TableCell className="border-2 border-black">KEY SAFE NUMBER</TableCell>
-                                    <TableCell className="border-2 border-black">Date</TableCell>
+                                    <TableCell className="border-2 border-black"></TableCell>
                                 </TableRow>
 
                                 {/* Small Screen */}
@@ -237,14 +238,14 @@ const PermitTemplate = () => {
 
                                 {/* Small Screen */}
                                 <TableRow className="lg:hidden">
-                                    <TableCell className="border-2 border-black">Michael Jordan</TableCell>
-                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>M. Jordan</TableCell>
+                                    <TableCell className="border-2 border-black">{permit.status === 'approved' && <div>Dariusz Gólczyński</div>}</TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>{permit.status === 'approved' && <div>D. Gólczyński</div>}</TableCell>
                                 </TableRow>
 
                                 {/* Small Screen */}
                                 <TableRow className="lg:hidden">
                                     <TableCell className="border-2 border-black">KEY SAFE NUMBER</TableCell>
-                                    <TableCell className="border-2 border-black">Date</TableCell>
+                                    <TableCell className="border-2 border-black"></TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
@@ -285,21 +286,21 @@ const PermitTemplate = () => {
                             <TableBody className="">
 
                                 <TableRow className="hidden lg:table-row ">
-                                    <TableCell className="border-2 border-black">{parsedPermit?.name?.stringValue} { parsedPermit?.surname?.stringValue }</TableCell>
-                                    <TableCell className="border-2 border-black">{ parsedPermit?.company?.stringValue }</TableCell>
-                                    <TableCell className={`border-2 border-black`}>{parsedPermit?.phoneNumber?.stringValue}</TableCell>
+                                    <TableCell className="border-2 border-black">{permit.name} { permit.surname }</TableCell>
+                                    <TableCell className="border-2 border-black">{ permit.company }</TableCell>
+                                    <TableCell className={`border-2 border-black`}>{permit.phoneNumber}</TableCell>
 
                                 </TableRow>
 
 
                                 {/* Rows from workParty */}
-                                {parsedPermit.workParty && Array.isArray(parsedPermit.workParty.arrayValue.values) && parsedPermit.workParty.arrayValue.values.map((member: any, index: number) => (
-                                    <TableRow key={index} className="hidden lg:table-row">
-                                        <TableCell className="border-2 border-black">{member.mapValue.fields.surname.stringValue}</TableCell>
-                                        <TableCell className="border-2 border-black">{member.mapValue.fields.company.stringValue}</TableCell>
-                                        <TableCell className={`border-2 border-black`}>{member.mapValue.fields.phone.stringValue}</TableCell>
+                                {Array.isArray(permit.workParty) && permit.workParty.map((member: any, index: number) => (
+                                    <TableRow key={index} className="">
+                                        <TableCell className="border-2 border-black">{member.surname}</TableCell>
+                                        <TableCell className="border-2 border-black">{member.company}</TableCell>
+                                        <TableCell className={`border-2 border-black`}>{member.phone}</TableCell>
                                     </TableRow>
-                                ))}
+                                ))} 
 
 
 
@@ -335,20 +336,20 @@ const PermitTemplate = () => {
 
                                     <TableRow className="table-row ">
                                         <TableCell className="border-2 border-black bg-[#ff0000] text-white">ISOLATION REQUIRED?</TableCell>
-                                        <TableCell className="border-2 border-black ">{parsedPermit?.isolation?.stringValue }</TableCell>
+                                        <TableCell className="border-2 border-black ">{permit.isolation }</TableCell>
                                       
 
                                     </TableRow>
 
                                     <TableRow className="table-row ">
                                         <TableCell className="border-2 border-black bg-[#ff0000] text-white">Will an SAP/AP be required to operate equipment?</TableCell>
-                                        <TableCell className="border-2 border-black ">{parsedPermit?.sap?.stringValue}</TableCell>
+                                        <TableCell className="border-2 border-black ">{permit.sap}</TableCell>
 
                                     </TableRow>
 
                                     <TableRow className="table-row ">
                                         <TableCell className="border-2 border-black bg-[#ff0000] text-white">Is this work Mechanical or Electrical?</TableCell>
-                                        <TableCell className="border-2 border-black ">{parsedPermit?.workType?.stringValue}</TableCell>
+                                        <TableCell className="border-2 border-black ">{permit.workType}</TableCell>
 
                                     </TableRow>
 
@@ -363,27 +364,27 @@ const PermitTemplate = () => {
 
                         <div className="">
                             <Label className="md:w-40 w-full ">Risk Assesment/Method Statement Number (RAMS)</Label>
-                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.rams?.stringValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{permit.rams}</div>
                         </div>
 
                         <div className="">
                             <Label className="md:w-40 w-full ">Expected Duration of Work</Label>
-                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.workDuration?.stringValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{permit.workDuration}</div>
                         </div>
 
                         <div className="">
                             <Label className="md:w-40 w-full ">Any other Information</Label>
-                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.otherInformation?.stringValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{permit.otherInformation}</div>
                         </div>
 
                         <div className="">
                             <Label className="md:w-40 w-full ">Start Date</Label>
-                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{format(new Date(Number(parsedPermit?.startDate?.integerValue)), 'dd MMMM, yyyy') }</div>
+                             <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{format(new Date(Number(permit.startDate)), 'dd MMMM, yyyy') }</div> 
                         </div>
 
                         <div className="">
                             <Label className="md:w-40 w-full ">End Date</Label>
-                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{format(new Date(Number(parsedPermit?.endDate?.integerValue)), 'dd MMMM, yyyy')}</div>
+                       <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{format(new Date(Number(permit.endDate)), 'dd MMMM, yyyy')}</div> 
                         </div>
 
 
@@ -402,17 +403,17 @@ const PermitTemplate = () => {
 
             <Card>
                 <CardHeader>
-                    {parsedPermit?.reason?.stringValue && <CardTitle>Comment</CardTitle>}
+                    {permit.reason && <CardTitle>Comment</CardTitle>}
 
 
                 </CardHeader>
                 <CardContent>
 
-                    <CardDescription>  {parsedPermit?.reason?.stringValue}  </CardDescription>
+                    <CardDescription>  {permit.reason}  </CardDescription>
                 </CardContent>
                 <CardFooter className="flex justify-between">
                             {isAdmin && permitId && <ReviewPermit permitId={permitId} />}
-                   {parsedPermit.status.stringValue === 'rejected' && 
+                   {permit.status === 'rejected' && 
                                         <Link  href={{
                             pathname: `/panel/permits/editpermit`, query: {
                                 permitId: permitId,
