@@ -33,70 +33,12 @@ import {
 import { LoaderIcon } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { permitFormSchema } from "@/app/utils/Forms"
 
 
-const accountFormSchema = z.object({
 
-    location: z
-        .string()
-        .min(2, {
-            message: "Location must be at least 2 characters.",
-        })
-        .max(30, {
-            message: "Location must not be longer than 30 characters.",
-        }),
-    equipment: z
-        .string()
-        .min(2, {
-            message: "Equipment must be at least 2 characters.",
-        })
-        .max(30, {
-            message: "Equipment must not be longer than 30 characters.",
-        }),
-    startDate: z.date({
-        required_error: "A date is required.",
-    }),
-    endDate: z.date({
-        required_error: "A date is required.",
-    })
-    ,
-    rams: z.string({
 
-        required_error: "RAMS is required.",
-    })
-        .min(2, {
-            message: "RAMS must be at least 2 characters.",
-        }),
-
-    description: z
-        .string()
-        .min(5, {
-            message: "Description must be at least 5 characters.",
-        })
-        .max(300, {
-            message: "Description must not be longer than 300 characters.",
-        }),
-    isolation: z.enum(["yes", "no"], {
-        required_error: "Required.",
-    }),
-    sap: z.enum(["yes", "no"], {
-        required_error: "Required.",
-    }),
-    workType: z.enum(["mechanical", "electrical"], {
-        required_error: "Required.",
-    }),
-    workDuration: z.string(),
-    otherInformation: z.string(),
-
-    pointsOfIsolation: z.string(),
-    primaryEarthingDevice: z.string(),
-    actionsTaken: z.string(),
-    furtherPrecautions: z.string(),
-    variedPrecautions: z.string(),
-
-})
-
-type AccountFormValues = z.infer<typeof accountFormSchema>
+type AccountFormValues = z.infer<typeof permitFormSchema>
 
 // This can come from your database or API.
 const defaultValues: Partial<AccountFormValues> = {
@@ -122,10 +64,6 @@ const PermitForm = () => {
 
     return (
         <>
-
-
-
-
 
             {userData ?
 
@@ -186,7 +124,7 @@ const AccountForm = ({ userData }: { userData: DocumentData }) => {
 
 
     const form = useForm<AccountFormValues>({
-        resolver: zodResolver(accountFormSchema),
+        resolver: zodResolver(permitFormSchema),
         defaultValues,
     })
     const [workParty, setWorkParty] = useState<WorkPartyMember[]>([]);
@@ -500,7 +438,7 @@ console.log(workParty)
                             </TableHeader>
                             <TableBody className="">
 
-                                <TableRow className="hidden lg:table-row ">
+                                <TableRow className="">
                                     <TableCell className="border-2 border-black">{userData.name} {userData.surname}</TableCell>
                                     <TableCell className="border-2 border-black">{userData.company}</TableCell>
                                     <TableCell className={`border-2 border-black`}>{userData.phoneNumber}</TableCell>
@@ -509,7 +447,7 @@ console.log(workParty)
 
                                 {/* Rows from workParty */}
                                 {workParty.map((member, index) => (
-                                    <TableRow key={index} className="hidden lg:table-row">
+                                    <TableRow key={index} className="">
                                         <TableCell className="border-2 border-black">{member.surname}</TableCell>
                                         <TableCell className="border-2 border-black">{member.company}</TableCell>
                                         <TableCell className={`border-2 border-black`}>{member.phone}</TableCell>
@@ -539,8 +477,7 @@ console.log(workParty)
                         <div>5.</div>
                         <div>DETAILS </div>
                     </div>
-
-                    <div className="px-3 space-y-2 md:space-y-0">
+                    <div className="flex justify-center">
                         <div className="mx-auto pb-10">
                             <Table className="border-2 border-black  font-semibold text-sm text-center max-w-[600px]">
 
@@ -548,43 +485,47 @@ console.log(workParty)
 
                                     <TableRow className="table-row ">
                                         <TableCell className="border-2 border-black bg-[#ff0000] text-white">ISOLATION REQUIRED?</TableCell>
-                                        <TableCell className="border-2 border-black " colSpan={2}>
+                            <TableCell className="border-2 border-black "> 
                                             <FormField
                                                 control={form.control}
                                                 name="isolation"
                                                 render={({ field }) => (
-                                                    <FormItem className="space-y-3">
+                                                    <FormItem className="space-y-3 ">
                                                         <FormControl>
                                                             <RadioGroup
                                                                 onValueChange={field.onChange}
                                                                 defaultValue={field.value}
-                                                                className="flex justify-between"
+                                                                className="flex "
                                                             >
-                                                                <FormItem className="flex items-center space-x-3 space-y-0">
-                                                                    <FormLabel className="font-normal">YES</FormLabel>
-                                                                    <FormControl>
-                                                                        <RadioGroupItem value="yes" />
-                                                                    </FormControl>
-                                                                </FormItem>
-                                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                         
+                                                                <FormItem className="flex items-center space-x-3 space-y-0 w-full justify-end text-end">
+                                                                        <FormLabel className="font-normal">YES</FormLabel>
+                                                                        <FormControl>
+                                                                            <RadioGroupItem value="yes" className="rounded-none bg-gray-200 h-5 w-5  " />
+                                                                        </FormControl>
+                                                                    </FormItem>
+                                                           
+                                                           
+                                                                    <FormItem className="flex items-center space-x-3 space-y-0 justify-end text-end w-full">
                                                                     <FormLabel className="font-normal">NO</FormLabel>
                                                                     <FormControl>
-                                                                        <RadioGroupItem value="no" />
+                                                                        <RadioGroupItem value="no" className="rounded-none border-black bg-gray-200 h-5 w-5" />
                                                                     </FormControl>
-                                                                </FormItem>
+                                                                    </FormItem>
+                                                              
                                                             </RadioGroup>
                                                         </FormControl>
                                                         <FormMessage />
                                                     </FormItem>
                                                 )}
                                             />
-                                        </TableCell>
+                                   </TableCell> 
 
                                     </TableRow>
 
                                     <TableRow className="table-row ">
                                         <TableCell className="border-2 border-black bg-[#ff0000] text-white">Will an SAP/AP be required to operate equipment?</TableCell>
-                                        <TableCell className="border-2 border-black" colSpan={2}>
+                                        <TableCell className="border-2 border-black">
                                             <FormField
                                                 control={form.control}
                                                 name="sap"
@@ -596,16 +537,16 @@ console.log(workParty)
                                                                 defaultValue={field.value}
                                                                 className="flex justify-between"
                                                             >
-                                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                <FormItem className="flex items-center space-x-3 space-y-0 w-full justify-end text-end">
                                                                     <FormLabel className="font-normal">YES</FormLabel>
                                                                     <FormControl>
-                                                                        <RadioGroupItem value="yes" />
+                                                                        <RadioGroupItem value="yes" className="rounded-none border-black bg-gray-200 h-5 w-5" />
                                                                     </FormControl>
                                                                 </FormItem>
-                                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                <FormItem className="flex items-center space-x-3 space-y-0 w-full justify-end text-end">
                                                                     <FormLabel className="font-normal">NO</FormLabel>
                                                                     <FormControl>
-                                                                        <RadioGroupItem value="no" />
+                                                                        <RadioGroupItem value="no" className="rounded-none border-black bg-gray-200 h-5 w-5" />
                                                                     </FormControl>
                                                                 </FormItem>
                                                             </RadioGroup>
@@ -620,7 +561,7 @@ console.log(workParty)
 
                                     <TableRow className="table-row ">
                                         <TableCell className="border-2 border-black bg-[#ff0000] text-white">Is this work Mechanical or Electrical?</TableCell>
-                                        <TableCell className="border-2 border-black" colSpan={2}>
+                                        <TableCell className="border-2 border-black">
                                             <FormField
                                                 control={form.control}
                                                 name="workType"
@@ -632,16 +573,16 @@ console.log(workParty)
                                                                 defaultValue={field.value}
                                                                 className="flex justify-between"
                                                             >
-                                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                <FormItem className="flex items-center space-x-3 space-y-0 w-full justify-end text-end">
                                                                     <FormLabel className="font-normal">MECHANICAL</FormLabel>
                                                                     <FormControl>
-                                                                        <RadioGroupItem value="mechanical" />
+                                                                        <RadioGroupItem value="mechanical" className="rounded-none border-black bg-gray-200 h-5 w-5" />
                                                                     </FormControl>
                                                                 </FormItem>
-                                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                <FormItem className="flex items-center space-x-3 space-y-0 w-full justify-end text-end">
                                                                     <FormLabel className="font-normal">ELECTRICAL</FormLabel>
                                                                     <FormControl>
-                                                                        <RadioGroupItem value="electrical" />
+                                                                        <RadioGroupItem value="electrical" className="rounded-none border-black bg-gray-200 h-5 w-5" />
                                                                     </FormControl>
                                                                 </FormItem>
                                                             </RadioGroup>
@@ -660,6 +601,9 @@ console.log(workParty)
                             </Table>
 
                         </div>
+</div>
+                    <div className="px-3 space-y-2 md:space-y-0">
+
 
 
 
@@ -742,7 +686,7 @@ console.log(workParty)
                                                         selected={field.value}
                                                         onSelect={field.onChange}
                                                         disabled={(date) =>
-                                                            date < new Date()
+                                                            new Date() > date
                                                         }
                                                         initialFocus
                                                     />
@@ -832,7 +776,6 @@ async function addPermit(data: AccountFormValues, userData: DocumentData, workPa
         id: permitId,
         name: userData.name,
         surname: userData.surname ?? "",
-        applicant: "me" + permitId,
         description: data.description,
         company: userData.company ?? "",
         phoneNumber: userData.phoneNumber ?? "",
@@ -852,7 +795,8 @@ async function addPermit(data: AccountFormValues, userData: DocumentData, workPa
         sap: data.sap,
         workType: data.workType,
         workDuration: data.workDuration,
-        workParty: workParty
+        workParty: workParty,
+        otherInformation: data.otherInformation
 
     };
 

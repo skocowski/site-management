@@ -30,73 +30,51 @@ import {
 } from "@/components/ui/table"
 
 import { Skeleton } from "@/components/ui/skeleton"
-
-
-/* const permitId = searchParams.get("permitId")
-const startDate = searchParams.get("startDate")
-const endDate = searchParams.get("endDate") */
+import { permitFormSchema } from "@/app/utils/Forms"
+import { fetchPermit } from "@/app/utils/Functions"
 
 
 
-const accountFormSchema = z.object({
 
-    location: z
-        .string()
-        .min(2, {
-            message: "Location must be at least 2 characters.",
-        })
-        .max(30, {
-            message: "Location must not be longer than 30 characters.",
-        }),
-    equipment: z
-        .string()
-        .min(2, {
-            message: "Location must be at least 2 characters.",
-        })
-        .max(30, {
-            message: "Location must not be longer than 30 characters.",
-        }),
-    startDate: z.date({
-        required_error: "A date is required.",
-    }),
-    endDate: z.date({
-        required_error: "A date is required.",
-    })
-    ,
-    rams: z.string({
 
-        required_error: "RAMS is required.",
-    })
-        .min(2, {
-            message: "RAMS must be at least 2 characters.",
-        }),
-
-    description: z
-        .string()
-        .min(5, {
-            message: "Description must be at least 5 characters.",
-        })
-        .max(300, {
-            message: "Description must not be longer than 300 characters.",
-        }),
-
-    pointsOfIsolation: z.string(),
-    primaryEarthingDevice: z.string(),
-    actionsTaken: z.string(),
-    furtherPrecautions: z.string(),
-    variedPrecautions: z.string(),
-
-})
-
-type AccountFormValues = z.infer<typeof accountFormSchema>
+type AccountFormValues = z.infer<typeof permitFormSchema>
 
 // This can come from your database or API.
 
 
 const EditPermit = () => {
-
+    const searchParams = useSearchParams()
+    const permitId = searchParams.get('permitId')
 
     const { data: userData } = useUserData()
+
+    const [permit, setPermit] = useState<any | null>(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await fetchPermit(permitId as string);
+                setPermit(result);
+            } catch (error) {
+                console.error('Error fetching permit:', error);
+                setPermit(null);
+            }
+        };
+
+        if (permitId) {
+            fetchData();
+        }
+    }, [permitId]);
+
+    // Rest of your component logic...
+
+    const parsedPermit = JSON.parse(String(permit));
+
+    if (!parsedPermit) {
+        return <div>Loading...</div>;
+    }
+
+    if (parsedPermit === null) return <div>Error</div>;
 
     return (
         <>
@@ -116,14 +94,14 @@ const EditPermit = () => {
                         <div className="text-white lg:text-3xl">ELETRICAL PERMIT TO WORK</div>
                         <div className="flex gap-1">
                             <div className="text-white">PERMIT NO:</div>
-                            <div className="bg-white w-32 text-white">{ }</div>
+                            <div className="bg-white w-32 text-white">{permitId }</div>
                         </div>
 
                     </div>
 
                     {/*     1 */}
 
-                    <AccountForm userData={userData} />
+                    <AccountForm userData={userData} parsedPermit={parsedPermit} />
 
 
                 </div>
@@ -148,24 +126,24 @@ const EditPermit = () => {
 export default EditPermit
 
 
-const AccountForm = ({ userData }: { userData: DocumentData }) => {
+const AccountForm = ({ userData, parsedPermit }: { userData: DocumentData, parsedPermit: any }) => {
     const router = useRouter()
   
     const [toPermits, setToPermits] = useState(false)
     const searchParams = useSearchParams()
 
     const defaultValues: Partial<AccountFormValues> = {
-        location: searchParams.get("location") ?? '',
+        location: parsedPermit.location.stringValue ?? '',
         startDate:  new Date(),
         endDate: new Date(),
-        rams: searchParams.get("rams")  ?? "",
-        description: searchParams.get("description")  ?? "",
-        equipment: searchParams.get("equipment")  ?? "",
-        pointsOfIsolation: searchParams.get("pointsOfIsolation") ?? "N/A",
-        primaryEarthingDevice: searchParams.get("primaryEarthingDevice")  ?? "N/A",
-        actionsTaken: searchParams.get("actionsTaken")  ?? "N/A",
-        furtherPrecautions: searchParams.get("furtherPrecautions")  ?? "N/A",
-        variedPrecautions: searchParams.get("variedPrecautions")  ?? "N/A"
+        rams: parsedPermit.rams.stringValue  ?? "",
+        description: parsedPermit.description.stringValue  ?? "",
+        equipment: parsedPermit.equipment.stringValue  ?? "",
+        pointsOfIsolation: parsedPermit.pointsOfIsolation.stringValue ?? "N/A",
+        primaryEarthingDevice: parsedPermit.primaryEarthingDevice.stringValue  ?? "N/A",
+        actionsTaken: parsedPermit.actionsTaken.stringValue  ?? "N/A",
+        furtherPrecautions: parsedPermit.furtherPrecautions.stringValue  ?? "N/A",
+        variedPrecautions: parsedPermit.variedPrecautions.stringValue  ?? "N/A"
     }
 
 const permitId = searchParams.get("permitId") ?? ''
@@ -181,7 +159,7 @@ const permitId = searchParams.get("permitId") ?? ''
 
 
     const form = useForm<AccountFormValues>({
-        resolver: zodResolver(accountFormSchema),
+        resolver: zodResolver(permitFormSchema),
         defaultValues,
     })
 

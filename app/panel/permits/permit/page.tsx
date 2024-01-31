@@ -31,6 +31,8 @@ import { Button, buttonVariants } from "@/components/ui/button"
 import { Printer, PrinterIcon } from "lucide-react"
 
 import { fetchPermit } from "@/app/utils/Functions"
+import Link from "next/link"
+import { format } from "date-fns"
 
 
 
@@ -291,7 +293,7 @@ const PermitTemplate = () => {
 
 
                                 {/* Rows from workParty */}
-                                {Array.isArray(parsedPermit.workParty.arrayValue.values) && parsedPermit.workParty.arrayValue.values.map((member: any, index: number) => (
+                                {parsedPermit.workParty && Array.isArray(parsedPermit.workParty.arrayValue.values) && parsedPermit.workParty.arrayValue.values.map((member: any, index: number) => (
                                     <TableRow key={index} className="hidden lg:table-row">
                                         <TableCell className="border-2 border-black">{member.mapValue.fields.surname.stringValue}</TableCell>
                                         <TableCell className="border-2 border-black">{member.mapValue.fields.company.stringValue}</TableCell>
@@ -318,14 +320,15 @@ const PermitTemplate = () => {
 
 
 
-                <div className="border-b-4 border-black p-1 pb-9">
+                <div className=" border-black p-1 pb-9">
                     <div className="flex space-x-1 text-md font-semibold">
                         <div>5.</div>
                         <div>DETAILS </div>
                     </div>
 
                     <div className="px-3 space-y-2 md:space-y-0">
-                        <div className="mx-auto pb-10">
+                        <div className="flex justify-center">
+                        <div className="pb-10 mx-auto">
                             <Table className="border-2 border-black  font-semibold text-sm text-center max-w-[600px]">
 
                                 <TableBody className="">
@@ -355,7 +358,7 @@ const PermitTemplate = () => {
                             </Table>
 
                         </div>
-
+                        </div>
 
 
                         <div className="">
@@ -375,12 +378,12 @@ const PermitTemplate = () => {
 
                         <div className="">
                             <Label className="md:w-40 w-full ">Start Date</Label>
-                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.startDate?.integerValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{format(new Date(Number(parsedPermit?.startDate?.integerValue)), 'dd MMMM, yyyy') }</div>
                         </div>
 
                         <div className="">
                             <Label className="md:w-40 w-full ">End Date</Label>
-                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{parsedPermit?.endDate?.integerValue}</div>
+                            <div className="min-h-9 bg-gray-200 border-black border border-input w-full px-3 py-2 text-sm shadow-sm">{format(new Date(Number(parsedPermit?.endDate?.integerValue)), 'dd MMMM, yyyy')}</div>
                         </div>
 
 
@@ -399,31 +402,21 @@ const PermitTemplate = () => {
 
             <Card>
                 <CardHeader>
-                    {permit?.reason && <CardTitle>Comment</CardTitle>}
+                    {parsedPermit?.reason?.stringValue && <CardTitle>Comment</CardTitle>}
 
 
                 </CardHeader>
                 <CardContent>
 
-                    <CardDescription>  {permit?.reason}  </CardDescription>
+                    <CardDescription>  {parsedPermit?.reason?.stringValue}  </CardDescription>
                 </CardContent>
                 <CardFooter className="flex justify-between">
-{/*                            {isAdmin && permitId && <ReviewPermit permitId={permitId} />}
-                   {status === 'rejected' && 
+                            {isAdmin && permitId && <ReviewPermit permitId={permitId} />}
+                   {parsedPermit.status.stringValue === 'rejected' && 
                                         <Link  href={{
                             pathname: `/panel/permits/editpermit`, query: {
                                 permitId: permitId,
-                                location: location,
-                                equipment: equipment,
-                                startDate: startDate,
-                                endDate: endDate,
-                                rams: rams,
-                                description: description,
-                                pointsOfIsolation: pointsOfIsolation,
-                                primaryEarthingDevice: primaryEarthingDevice,
-                                actionsTaken: actionsTaken,
-                                furtherPrecautions: furtherPrecautions,
-                                variedPrecautions: variedPrecautions,
+
 
                             }
                         }} passHref className={buttonVariants({ variant: "default" })}>
@@ -431,7 +424,7 @@ const PermitTemplate = () => {
                                 Edit permit
                          
                         </Link>
-                    }   */}
+                    }   
                     <Button onClick={handlePrint}><PrinterIcon className="mr-2 h-4 w-4" />Print the Permit</Button>
                 </CardFooter>
             </Card>
