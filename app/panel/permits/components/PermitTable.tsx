@@ -20,11 +20,11 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Button } from "../../../../components/ui/button"
+
 import { DataTablePagination } from "./data-table-pagination"
 import { useState } from "react"
 import { Input } from "../../../../components/ui/input"
-import Link from "next/link"
+
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -71,7 +71,7 @@ export function DataTable<TData, TValue>({
 
 
             {/* Table */}
-        <div className="rounded-md border">
+        <div className="rounded-md border mb-5">
             <Table>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -121,25 +121,7 @@ export function DataTable<TData, TValue>({
             </Table>
             </div>
 
-            {/* Pagination */}
-{/*             <div className="flex items-center justify-end space-x-2 py-4">
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    Previous
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                >
-                    Next
-                </Button>
-            </div> */}
+
 
             <DataTablePagination table={table} />
 

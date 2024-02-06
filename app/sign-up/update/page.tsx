@@ -95,7 +95,7 @@ export default UpdateProfile
 
 const AccountForm = ({ setToMain }: { setToMain: Dispatch<SetStateAction<boolean>> }) => {
 
-    const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth)
+ 
 
 
     const handleUpdateUser = async (data: AccountFormValues) => {
@@ -194,21 +194,7 @@ const AccountForm = ({ setToMain }: { setToMain: Dispatch<SetStateAction<boolean
                     )}
                 />
 
-{/*                 <FormField
-                  control={form.control}
-                    name="photo" 
-                    render={({ field }) => ( 
-                        <FormItem>
-                            <FormLabel>Phone</FormLabel>
-                            <FormControl>
-                            <Input type="file" {...field} /> 
-                        <Input id="picture" type="file" />
-                            </FormControl>
 
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />  */}
 
                 <Button type="submit">Sign up</Button>
             </form>

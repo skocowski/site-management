@@ -9,47 +9,26 @@ import {
 import { db, functions } from "../firebase/config";
 import { httpsCallable } from "firebase/functions";
 
-
-/* export const fetchPermit = (permitId: string) => {
-  let getPermit = httpsCallable(functions, "getPermit");
-
-  try {
-    getPermit({ id: permitId })
-      .then((result) => {
-        console.log("result");
-        console.log(result.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  } catch (ex) {
-    console.log(ex);
-  }
-}; */
-
 export const fetchPermit = async (permitId: string) => {
   const getPermit = httpsCallable(functions, "getPermit");
 
   try {
     const result = await getPermit({ id: permitId });
 
-    return result.data
-   
+    return result.data;
   } catch (e) {
     console.log(e);
   }
 };
 
-
-
-export async function readData() {
+/* export async function readData() {
   console.log("read all permits");
 
   const querySnapshot = await getDocs(collection(db, "permits"));
   querySnapshot.forEach((doc) => {
     console.log(doc.data());
   });
-}
+} */
 
 export async function readUser(userId: string) {
   const docSnap = await getDoc(doc(db, "users", userId));
@@ -61,7 +40,7 @@ export async function readUser(userId: string) {
   }
 }
 
-export async function fetchPermits() {
+/* export async function fetchPermits() {
   let tempResult = <any>[];
   const querySnapshot = await getDocs(collection(db, "permits"));
 
@@ -70,9 +49,9 @@ export async function fetchPermits() {
   });
 
   return tempResult;
-}
+} */
 
-export async function fetchPermitById(permitId: string) {
+/* export async function fetchPermitById(permitId: string) {
   const permitDocRef = doc(db, "permits", permitId);
 
   try {
@@ -87,19 +66,44 @@ export async function fetchPermitById(permitId: string) {
     console.error("Error fetching permit:", error);
     throw error;
   } 
-}
+} */
 
-
-export async function reviewPermit(permitId: string, newStatus: string, newReason: string) {
+export async function reviewPermit(
+  permitId: string,
+  newStatus: string,
+  newReason: string,
+  email: string,
+  sapApproved: boolean,
+  engineerApproved: boolean
+) {
   const ref = doc(db, "permits", permitId);
   try {
-    let status = newStatus
-    let reason = newReason
+    let status = newStatus;
+    let reason = newReason;
+    let sap = sapApproved;
+    let engineer = engineerApproved;
 
-        const dataToUpdate = {
-          status: status,
-          reason: reason,
-        };
+
+
+    if (status === "approved") {
+          if (email === "sap@rawai.pl") {
+            sap = true;
+          }
+
+          if (email === "engineer@rawai.pl") {
+            engineer = true;
+          }
+      // If both SAP and Engineer approved, set status to 'approved', otherwise set to 'pending'
+      status = sap && engineer ? "approved" : "pending";
+    }
+
+    const dataToUpdate = {
+      status: status,
+      reason: reason,
+      sapApproved: sap,
+      engineerApproved: engineer
+    };
+  
 
     await updateDoc(ref, dataToUpdate as any, { merge: true });
     console.log("Document successfully written!");
@@ -107,10 +111,6 @@ export async function reviewPermit(permitId: string, newStatus: string, newReaso
     console.error("Error writing document: ", error);
   }
 }
-
-
-
-
 
 /* async function rejectPermit(permitId: string) {
   const ref = doc(db, "permits", permitId);

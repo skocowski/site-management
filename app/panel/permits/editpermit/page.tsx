@@ -1,47 +1,13 @@
 'use client'
-import { Button } from "@/components/ui/button"
-
-import { Input } from "@/components/ui/input"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { CalendarIcon } from "@radix-ui/react-icons"
-import { format } from "date-fns"
-import { auth, db } from '@/app/firebase/config'
 import * as z from "zod"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Calendar } from '@/components/ui/calendar'
-import { cn } from '@/lib/utils'
-import { useToast } from '@/components/ui/use-toast'
-import { Textarea } from '@/components/ui/textarea'
-import { DocumentData, doc, setDoc } from 'firebase/firestore'
 import useUserData from '@/hooks/useUserData'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-
-import { handSignature } from "@/app/utils/fonts"
-import { Label } from "@/components/ui/label"
-
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableRow,
-} from "@/components/ui/table"
-
 import { Skeleton } from "@/components/ui/skeleton"
 import { permitFormSchema } from "@/app/utils/Forms"
 import { fetchPermit } from "@/app/utils/Functions"
-import { WorkPartyMember } from "@/app/utils/types"
 import AddEditForm from "../components/AddEditForm"
 
-
-
-
-
-type AccountFormValues = z.infer<typeof permitFormSchema>
-
-// This can come from your database or API.
 
 
 const EditPermit = () => {
@@ -107,9 +73,6 @@ const EditPermit = () => {
         <>
 
 
-
-
-
             {userData ?
 
                 <div className="border-4 border-black">
@@ -128,7 +91,6 @@ const EditPermit = () => {
 
                     {/*     1 */}
 
-                    {/*     {permitId && <AccountForm userData={userData} parsedPermit={parsedPermit} permitId={permitId} />} */}
                     {permitId && <AddEditForm userData={userData} defaultValues={defaultValues} type="edit" permitId={permitId} workers={workers} />}
 
 

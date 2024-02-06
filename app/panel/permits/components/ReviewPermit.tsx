@@ -41,11 +41,11 @@ const defaultValues: Partial<ReviewFormValues> = {
 
 }
 
-const ReviewPermit = ({ permitId }: { permitId: string }) => {
+const ReviewPermit = ({ permitId, email, sapApproved, engineerApproved }: { permitId: string, email: string, sapApproved: boolean, engineerApproved: boolean }) => {
     const router = useRouter()
     
     const [toPermits, setToPermits] = useState(false)
-    const {toast} = useToast()
+
 
     useEffect(() => {
         if (toPermits) {
@@ -63,16 +63,9 @@ const ReviewPermit = ({ permitId }: { permitId: string }) => {
 
     function onSubmit(values: ReviewFormValues) {
       
-        reviewPermit(permitId, values.status, values.notes)
+        reviewPermit(permitId, values.status, values.notes, email, sapApproved, engineerApproved)
 
-        toast({
-            title: "You submitted the following values:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-                </pre>
-            ),
-        })
+
 
       
 
@@ -91,7 +84,8 @@ const ReviewPermit = ({ permitId }: { permitId: string }) => {
         <DialogHeader>
           <DialogTitle>Review work permit</DialogTitle>
           <DialogDescription>
-         Please review the permit.
+                        Please review the permit.
+
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">

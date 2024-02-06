@@ -27,7 +27,7 @@ import { auth, db } from "@/app/firebase/config"
 
 type FormValues = z.infer<typeof permitFormSchema>
 
-interface addEditForm {
+interface addEditFormProps {
     userData: DocumentData
     defaultValues: Partial<FormValues>
     type: string
@@ -35,12 +35,10 @@ interface addEditForm {
     workers?: any[]
 }
 
-const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEditForm) => {
-
+const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEditFormProps) => {
 
 
     const router = useRouter()
-
     const [toPermits, setToPermits] = useState(false)
 
     useEffect(() => {
@@ -49,9 +47,6 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
         }
 
     }, [toPermits])
-
-
-
 
     const form = useForm<FormValues>({
         resolver: zodResolver(permitFormSchema),
@@ -71,8 +66,7 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
             editPermit(values, userData, workParty, permitId )
 }
      
-      
-
+    
         setToPermits(true)
     }
 
@@ -154,211 +148,9 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
 
                 {/*    SECTION 2 */}
 
-
                 <div className="border-b-4 border-black p-1 pb-9">
                     <div className="flex space-x-1 text-md font-semibold">
                         <div>2.</div>
-                        <div>PRECAUTIONS TAKEN TO ACHIEVE <span className="font-bold">SAFETY WORK SYSTEM.</span></div>
-                    </div>
-
-                    <div className="px-3 space-y-2 md:space-y-0">
-
-                        <FormField
-                            control={form.control}
-                            name="pointsOfIsolation"
-
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-xs">(I) POINTS OF ISOLATION</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder=""
-                                            className="resize rounded-none bg-gray-200 border-black"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="primaryEarthingDevice"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-xs">(II)PRIMARY EARTHING DEVICE</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder=""
-                                            className="resize rounded-none bg-gray-200 border-black"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-
-                        <FormField
-                            control={form.control}
-                            name="actionsTaken"
-
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-xs">(III) ACTIONS TAKEN TO AVOID <span className="font-bold">DANGER</span> BY DRAINING, VENTING, PURGING AND CONTAINMENT OR DISSIPATION OF STORED ENERGY</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder=""
-                                            className="resize rounded-none bg-gray-200 border-black"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="furtherPrecautions"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-xs">(IV) FURTHER PRECAUTIONS TO BE TAKEN DURING THE COURSE OF THE WORK TO AVOID SYSTEM DERIVED HAZARDS</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder=""
-                                            className="resize rounded-none bg-gray-200 border-black"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="variedPrecautions"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-xs">(V) PRECAUTIONS WHICH MAY BE VARRIED (APPROVED PROCEDURE REQUIRED)</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder=""
-                                            className="resize rounded-none bg-gray-200 border-black"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                    </div>
-                </div>
-
-
-
-                {/*    SECTION 3 */}
-
-
-                <div className="border-b-4 border-black p-1 pb-9" >
-                    <div className="flex space-x-1 text-md font-semibold">
-                        <div>3.</div>
-                        <div>PREPARATIONS</div>
-                    </div>
-
-                    <div className="px-3 space-y-2 md:space-y-0">
-                        <Label className="text-xs">I HAVE CONFIRMED WITHE THE CONTROL ENGINEER THAT THE PRECAUTIONS IN SECTION 2(I) & 2(II) HAVE BEEN CARRIED OUT AND WILL BE MAINTAINED UNTIL THE PERMIT FOR WORK IS CANCELLED.</Label>
-                        <Table className="border-2 border-black bg-gray-200 font-semibold text-sm text-center">
-                            <TableBody className="">
-                                <TableRow className="hidden lg:table-row ">
-                                    <TableCell className="border-2 border-black w-60">CONTROL ENGINEER</TableCell>
-                                    <TableCell className="border-2 border-black"></TableCell>
-                                    <TableCell className={`border-2 border-black text-2xl ${handSignature.className}`}></TableCell>
-
-                                </TableRow>
-
-                                {/* Small Screen */}
-                                <TableRow className="lg:hidden">
-                                    <TableCell colSpan={2} className="border-2 border-black">CONTROL ENGINEER</TableCell>
-                                </TableRow>
-
-                                {/* Small Screen */}
-                                <TableRow className="lg:hidden">
-                                    <TableCell className="border-2 border-black"></TableCell>
-                                    <TableCell className={`border-2 border-black ${handSignature.className}`}></TableCell>
-                                </TableRow>
-
-
-                            </TableBody>
-                        </Table>
-
-
-
-                    </div>
-
-
-
-
-
-                    <div className="px-3 space-y-2 md:space-y-0">
-                        <Label className="text-xs">I CERTIFY PRECAUTIONS CARRIED OUT IN SECTION 2 ARE ADEQUATE TO PROVIDE SAFETY.</Label>
-
-                        <Table className="border-2 border-black bg-gray-200 font-semibold text-sm text-center">
-                            <TableBody className="">
-                                <TableRow className="hidden lg:table-row ">
-                                    <TableCell className="border-2 border-black w-60">SENIOR AUTHORISED PERSON / AUTHORISED PERSON</TableCell>
-                                    <TableCell className="border-2 border-black"></TableCell>
-                                    <TableCell className={`border-2 border-black ${handSignature.className}`}></TableCell>
-                                    <TableCell className="border-2 border-black w-44">KEY SAFE NUMBER</TableCell>
-                                    <TableCell className="border-2 border-black"></TableCell>
-                                </TableRow>
-
-                                {/* Small Screen */}
-                                <TableRow className="lg:hidden">
-                                    <TableCell colSpan={2} className="border-2 border-black">SENIOR AUTHORISED PERSON / AUTHORISED PERSON</TableCell>
-                                </TableRow>
-
-                                {/* Small Screen */}
-                                <TableRow className="lg:hidden">
-                                    <TableCell className="border-2 border-black"></TableCell>
-                                    <TableCell className={`border-2 border-black ${handSignature.className}`}></TableCell>
-                                </TableRow>
-
-                                {/* Small Screen */}
-                                <TableRow className="lg:hidden">
-                                    <TableCell className="border-2 border-black">KEY SAFE NUMBER</TableCell>
-                                    <TableCell className="border-2 border-black"></TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-
-
-
-
-
-
-
-
-                    </div>
-                </div>
-
-
-
-                {/* Section 4 */}
-
-
-                <div className="border-b-4 border-black p-1 pb-9">
-                    <div className="flex space-x-1 text-md font-semibold">
-                        <div>4.</div>
                         <div>WORK PARTY REGISTER </div>
                     </div>
 
@@ -389,7 +181,7 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
                                         <TableCell className="border-2 border-black">{member.company}</TableCell>
                                         <TableCell className={`border-2 border-black`}>{member.phone}</TableCell>
                                     </TableRow>
-                                ))} 
+                                ))}
 
 
                             </TableBody>
@@ -402,14 +194,15 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
 
                     </div>
                 </div>
+          
 
 
-                {/* Section 5 */}
 
+                {/*    SECTION 3 */}
 
                 <div className=" border-black p-1 pb-9">
                     <div className="flex space-x-1 text-md font-semibold">
-                        <div>5.</div>
+                        <div>3.</div>
                         <div>DETAILS </div>
                     </div>
                     <div className="flex justify-center">
@@ -689,7 +482,152 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
                 </div>
 
 
+                <div className="border-b-4 border-black p-1 pb-9" >
+                    <div className="flex space-x-1 text-md font-semibold">
+                        <div>3.</div>
+                        <div>PREPARATIONS</div>
+                    </div>
 
+                    <div className="px-3 space-y-2 md:space-y-0">
+                        <Label className="text-xs">I HAVE CONFIRMED WITHE THE CONTROL ENGINEER THAT THE PRECAUTIONS IN SECTION 2(I) & 2(II) HAVE BEEN CARRIED OUT AND WILL BE MAINTAINED UNTIL THE PERMIT FOR WORK IS CANCELLED.</Label>
+                        <Table className="border-2 border-black bg-gray-200 font-semibold text-sm text-center">
+                            <TableBody className="">
+                                <TableRow className="hidden lg:table-row ">
+                                    <TableCell className="border-2 border-black w-60">CONTROL ENGINEER</TableCell>
+                                    <TableCell className="border-2 border-black"></TableCell>
+                                    <TableCell className={`border-2 border-black text-2xl ${handSignature.className}`}></TableCell>
+
+                                </TableRow>
+
+                             
+                                <TableRow className="lg:hidden">
+                                    <TableCell colSpan={2} className="border-2 border-black">CONTROL ENGINEER</TableCell>
+                                </TableRow>
+
+                                <TableRow className="lg:hidden">
+                                    <TableCell className="border-2 border-black"></TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}></TableCell>
+                                </TableRow>
+
+
+                            </TableBody>
+                        </Table>
+
+
+
+                    </div>
+
+
+
+
+
+      
+                </div>
+
+
+
+                {/* Section 4 */}
+
+                <div className="border-b-4 border-black p-1 pb-9">
+                    <div className="flex space-x-1 text-md font-semibold pb-10">
+                        <div>4.</div>
+                        <div>APPROVALS</div>
+                    </div>
+
+                    <div className="px-3 space-y-2 md:space-y-0">
+                        <Table className="border-2 border-black  font-semibold text-sm text-center">
+                            <TableHeader className="">
+                                <TableRow className="">
+                                    <TableHead className="bg-[#ff0000] border-2 border-black text-white text-center">POSITION</TableHead>
+                                    <TableHead className="border-2 border-black text-black text-center">NAME</TableHead>
+                                    <TableHead className="border-2 border-black text-black text-center">CONTACT NUMBER</TableHead>
+                                    <TableHead className="border-2 border-black text-black text-center">SIGNATURE</TableHead>
+                                </TableRow>
+
+                            </TableHeader>
+                            <TableBody className="">
+
+                                <TableRow className="hidden lg:table-row ">
+                                    <TableCell className="bg-[#ff0000] border-2 border-black text-white text-center">CONTROL ENGINEER</TableCell>
+                                    <TableCell className="border-2 border-black"> </TableCell>
+                                    <TableCell className="border-2 border-black"> </TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}></TableCell>
+
+                                </TableRow>
+
+                                <TableRow className="hidden lg:table-row ">
+                                    <TableCell className="bg-[#ff0000] border-2 border-black text-white text-center">SAP</TableCell>
+                                    <TableCell className="border-2 border-black"> </TableCell>
+                                    <TableCell className="border-2 border-black"></TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}></TableCell>
+
+                                </TableRow>
+
+
+
+
+
+
+                            </TableBody>
+                        </Table>
+
+
+
+
+
+
+                    </div>
+                </div>
+
+
+
+                {/* Section 5 */}
+
+
+                <div className="border-b-4 border-black p-1 pb-9">
+                    <div className="flex space-x-1 text-md font-semibold pb-10">
+                        <div>5.</div>
+                        <div>Receiver</div>
+                    </div>
+
+                    <div className="px-3 space-y-2 md:space-y-0">
+                        <Table className="border-2 border-black  font-semibold text-sm text-center">
+                            <TableHeader className="">
+                                <TableRow className="">
+                                    <TableHead className="bg-[#ff0000] border-2 border-black text-white text-center">POSITION</TableHead>
+                                    <TableHead className="border-2 border-black text-black text-center">NAME</TableHead>
+                                    <TableHead className="border-2 border-black text-black text-center">CONTACT NUMBER</TableHead>
+                                    <TableHead className="border-2 border-black text-black text-center">SIGNATURE</TableHead>
+                                </TableRow>
+
+                            </TableHeader>
+                            <TableBody className="">
+
+                                <TableRow className="hidden lg:table-row ">
+                                    <TableCell className="bg-[#ff0000] border-2 border-black text-white text-center">COMPETENT PERSON</TableCell>
+                                    <TableCell className="border-2 border-black">{userData.name} {userData.surname}</TableCell>
+                                    <TableCell className="border-2 border-black">{userData.phoneNumber} </TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}>{userData.name.slice(0, 1)} {userData.surname}</TableCell>
+
+                                </TableRow>
+
+
+
+
+
+
+
+                            </TableBody>
+                        </Table>
+
+
+
+
+
+
+                    </div>
+                </div>
+ 
 
 
                 <Button type="submit" className="mx-5">Add Permit</Button>
@@ -731,7 +669,9 @@ async function addPermit(data: FormValues, userData: DocumentData, workParty: Wo
         workType: data.workType,
         workDuration: data.workDuration,
         workParty: workParty,
-        otherInformation: data.otherInformation
+        otherInformation: data.otherInformation,
+        sapApproved: false,
+        engineerApproved: false
 
     };
 
@@ -793,3 +733,162 @@ async function editPermit(data: FormValues, userData: DocumentData, workParty: W
 }
 
 
+
+
+/*
+
+
+      <div className="border-b-4 border-black p-1 pb-9">
+                    <div className="flex space-x-1 text-md font-semibold">
+                        <div>2.</div>
+                        <div>PRECAUTIONS TAKEN TO ACHIEVE <span className="font-bold">SAFETY WORK SYSTEM.</span></div>
+                    </div>
+
+                    <div className="px-3 space-y-2 md:space-y-0">
+
+                        <FormField
+                            control={form.control}
+                            name="pointsOfIsolation"
+
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-xs">(I) POINTS OF ISOLATION</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder=""
+                                            className="resize rounded-none bg-gray-200 border-black"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="primaryEarthingDevice"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-xs">(II)PRIMARY EARTHING DEVICE</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder=""
+                                            className="resize rounded-none bg-gray-200 border-black"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+
+                        <FormField
+                            control={form.control}
+                            name="actionsTaken"
+
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-xs">(III) ACTIONS TAKEN TO AVOID <span className="font-bold">DANGER</span> BY DRAINING, VENTING, PURGING AND CONTAINMENT OR DISSIPATION OF STORED ENERGY</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder=""
+                                            className="resize rounded-none bg-gray-200 border-black"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="furtherPrecautions"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-xs">(IV) FURTHER PRECAUTIONS TO BE TAKEN DURING THE COURSE OF THE WORK TO AVOID SYSTEM DERIVED HAZARDS</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder=""
+                                            className="resize rounded-none bg-gray-200 border-black"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="variedPrecautions"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-xs">(V) PRECAUTIONS WHICH MAY BE VARRIED (APPROVED PROCEDURE REQUIRED)</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder=""
+                                            className="resize rounded-none bg-gray-200 border-black"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                    </div>
+                </div>
+
+
+
+              <div className="px-3 space-y-2 md:space-y-0">
+                        <Label className="text-xs">I CERTIFY PRECAUTIONS CARRIED OUT IN SECTION 2 ARE ADEQUATE TO PROVIDE SAFETY.</Label>
+
+                        <Table className="border-2 border-black bg-gray-200 font-semibold text-sm text-center">
+                            <TableBody className="">
+                                <TableRow className="hidden lg:table-row ">
+                                    <TableCell className="border-2 border-black w-60">SENIOR AUTHORISED PERSON / AUTHORISED PERSON</TableCell>
+                                    <TableCell className="border-2 border-black"></TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}></TableCell>
+                                    <TableCell className="border-2 border-black w-44">KEY SAFE NUMBER</TableCell>
+                                    <TableCell className="border-2 border-black"></TableCell>
+                                </TableRow>
+
+                          
+                                <TableRow className="lg:hidden">
+                                    <TableCell colSpan={2} className="border-2 border-black">SENIOR AUTHORISED PERSON / AUTHORISED PERSON</TableCell>
+                                </TableRow>
+
+                           
+                                <TableRow className="lg:hidden">
+                                    <TableCell className="border-2 border-black"></TableCell>
+                                    <TableCell className={`border-2 border-black ${handSignature.className}`}></TableCell>
+                                </TableRow>
+
+                            
+                                <TableRow className="lg:hidden">
+                                    <TableCell className="border-2 border-black">KEY SAFE NUMBER</TableCell>
+                                    <TableCell className="border-2 border-black"></TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+
+
+
+
+
+
+
+
+                    </div>
+
+
+*/

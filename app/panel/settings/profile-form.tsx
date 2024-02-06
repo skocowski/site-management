@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useFieldArray, useForm } from "react-hook-form"
 import * as z from "zod"
@@ -17,18 +16,13 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
+
 import { toast } from "@/components/ui/use-toast"
-import { auth } from "@/app/firebase/config"
-import { updateProfile } from "firebase/auth"
-import InputFile from "@/components/InputFile"
+import { auth, db } from "@/app/firebase/config"
+import useUserData from "@/hooks/useUserData"
+import { User, updateProfile } from "firebase/auth"
+import { doc, updateDoc } from "firebase/firestore"
+
 
 
 
@@ -42,7 +36,7 @@ export function ProfileForm() {
   return (
     <div className="space-y-10">
       <ChangePhone />
-    
+
       <ChangePassword />
     </div>
 
@@ -50,6 +44,7 @@ export function ProfileForm() {
 }
 
 const ChangePhone = () => {
+  const { data: userData } = useUserData()
 
   const phoneFormSchema = z.object({
     phone: z
@@ -79,17 +74,23 @@ const ChangePhone = () => {
 
 
   const onSubmit = async (data: PhoneFormValues) => {
+
     try {
-      if (auth.currentUser) {
-        const user = auth.currentUser
-        toast({
-          title: "You submitted the following values:",
-          description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-            </pre>
-          ),
-        })
+      const user = auth.currentUser
+
+      if (user && user.uid) {
+        const userId = user.uid
+
+        const ref = doc(db, "users", userId);
+
+        let newPhoneNumber = data.phone
+
+  
+
+        await updateDoc(ref, {phoneNumber: newPhoneNumber} as any, { merge: true });
+        console.log("Document successfully written!");
+
+
       }
     } catch (err) {
       console.error(err)
@@ -107,7 +108,7 @@ const ChangePhone = () => {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Change phone number</FormLabel>
+              <FormLabel>Current phone number: {userData?.phoneNumber}</FormLabel>
               <FormControl>
                 <Input placeholder="Your new phone number" {...field} />
               </FormControl>
@@ -174,14 +175,7 @@ const ChangePassword = () => {
     try {
       if (auth.currentUser) {
         const user = auth.currentUser
-        toast({
-          title: "You submitted the following values:",
-          description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-            </pre>
-          ),
-        })
+
       }
     } catch (err) {
       console.error(err)

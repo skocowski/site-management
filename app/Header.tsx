@@ -19,6 +19,7 @@ const Header = () => {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
 
 
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);
@@ -34,6 +35,7 @@ const Header = () => {
             <MaxWidthWrapper>
                 <div className='flex h-14 items-center justify-between'>
                     <Link href='/' className='flex z-40 font-semibold'><span>Site Management</span></Link>
+                
                     {/*   todo: add mobile navbar */}
                     {auth.currentUser && <MainMenu />}
 {/*                     <Link href='/panel/permits' className={buttonVariants({

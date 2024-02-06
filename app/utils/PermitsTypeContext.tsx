@@ -1,4 +1,4 @@
-'use client'
+/* 'use client'
 
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react"
 import { Permit } from "./types"
@@ -93,3 +93,4 @@ export const usePermitsTypeContext = () => useContext(PermitsTypeContext)
 
 
 
+ */

@@ -44,9 +44,13 @@ export function usePermits(email: string) {
         ? permits
         : permits.filter((permit) => permit.status === status);
     };
+  
+    const approved = filterDataByStatus("approved");
 
   const all = filteredPermitsByEmail;
-  const approved = filterDataByStatus("approved");
+
+
+
   const rejected = filterDataByStatus("rejected");
   const pending = filterDataByStatus("pending");
   const activePermits = filterDataByDate();

@@ -54,7 +54,7 @@ const Menu = () => {
             </Link>
 
 
-<Separator />
+<Separator className="hidden xl:block"/>
             {isAdmin &&
 
                 <Link

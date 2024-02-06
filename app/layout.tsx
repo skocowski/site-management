@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Header from './Header';
 import { Toaster } from '@/components/ui/toaster';
+
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 export const metadata: Metadata = {
   title: 'Site Management',
@@ -35,7 +36,8 @@ export default function RootLayout({
           disableTransitionOnChange 
         >  
       <Header />  
-<Toaster />
+          <Toaster />
+      {/*     <Notifications /> */}
              <ToastContainer
                 position="top-right"
                 autoClose={5000}

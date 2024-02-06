@@ -2,7 +2,7 @@
 import { Separator } from "@/components/ui/separator"
 
 import Menu from "./components/Menu"
-import { PermitsTypeContextProvider } from "@/app/utils/PermitsTypeContext"
+
 import { Metadata } from "next"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
