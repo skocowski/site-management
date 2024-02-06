@@ -3,17 +3,10 @@
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from '@/app/firebase/config'
 
-import AddPermit from "@/components/AddPermit";
 
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import { readUser } from "./utils/Functions";
-import { Button } from "@/components/ui/button";
 import Pricing from "./pricing/page";
-import PermitForm from "./panel/permits/components/PermitForm";
-import PermitLayout from "./panel/permits/components/PermitLayout";
-import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
-import { TabsTrigger } from "@radix-ui/react-tabs";
+
+
 
 
 
