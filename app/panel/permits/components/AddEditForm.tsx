@@ -661,16 +661,16 @@ async function editPermit(data: FormValues, userData: DocumentData, workParty: W
         phoneNumber: userData.phoneNumber ?? "",
         location: data.location,
         rams: data.rams,
-        startDate: data.startDate.getTime(),
-        endDate: data.endDate.getTime(),
+/*         startDate: data.startDate.getTime(),
+        endDate: data.endDate.getTime(), */
         status: "pending",
         email: auth.currentUser?.email ?? "",
         equipment: data.equipment,
-        pointsOfIsolation: data.pointsOfIsolation,
+/*         pointsOfIsolation: data.pointsOfIsolation,
         primaryEarthingDevice: data.primaryEarthingDevice,
         actionsTaken: data.actionsTaken,
         furtherPrecautions: data.furtherPrecautions,
-        variedPrecautions: data.variedPrecautions
+        variedPrecautions: data.variedPrecautions */
 
     };
 
