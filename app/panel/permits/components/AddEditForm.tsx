@@ -80,7 +80,7 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
                 {/*    SECTION 1 */}
 
 
-                <div className="border-b-4 border-black p-1 pb-9" >
+             <div className="border-b-4 border-black p-1 pb-9" >
                     <div className="flex space-x-1 text-md font-semibold">
                         <div>1.</div>
                         <div></div>
@@ -142,13 +142,13 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
 
 
                     </div>
-                </div>
+                </div> 
 
 
 
                 {/*    SECTION 2 */}
 
-                <div className="border-b-4 border-black p-1 pb-9">
+               <div className="border-b-4 border-black p-1 pb-9">
                     <div className="flex space-x-1 text-md font-semibold">
                         <div>2.</div>
                         <div>WORK PARTY REGISTER </div>
@@ -167,14 +167,9 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
                             </TableHeader>
                             <TableBody className="">
 
-                                <TableRow className="">
-                                    <TableCell className="border-2 border-black">{userData.name} {userData.surname}</TableCell>
-                                    <TableCell className="border-2 border-black">{userData.company}</TableCell>
-                                    <TableCell className={`border-2 border-black`}>{userData.phoneNumber}</TableCell>
 
-                                </TableRow>
 
-                                {/* Rows from workParty */}
+                          
                                 {workParty.map((member, index) => (
                                     <TableRow key={index} className="">
                                         <TableCell className="border-2 border-black">{member.surname}</TableCell>
@@ -193,14 +188,14 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
 
 
                     </div>
-                </div>
+                </div> 
           
 
 
 
                 {/*    SECTION 3 */}
 
-{/*                 <div className=" border-black p-1 pb-9">
+             <div className=" border-black p-1 pb-9">
                     <div className="flex space-x-1 text-md font-semibold">
                         <div>3.</div>
                         <div>DETAILS </div>
@@ -381,7 +376,7 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
                         />
 
 
-                        <div className="flex justify-between gap-10 pt-10">
+           {/*              <div className="flex justify-between gap-10 pt-10">
                             <div className="w-full">
                                 <FormField
                                     control={form.control}
@@ -475,60 +470,19 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
 
 
 
-                        </div>
+                        </div> */}
 
 
                     </div>
-                </div>
+                </div> 
 
 
-                <div className="border-b-4 border-black p-1 pb-9" >
-                    <div className="flex space-x-1 text-md font-semibold">
-                        <div>3.</div>
-                        <div>PREPARATIONS</div>
-                    </div>
-
-                    <div className="px-3 space-y-2 md:space-y-0">
-                        <Label className="text-xs">I HAVE CONFIRMED WITHE THE CONTROL ENGINEER THAT THE PRECAUTIONS IN SECTION 2(I) & 2(II) HAVE BEEN CARRIED OUT AND WILL BE MAINTAINED UNTIL THE PERMIT FOR WORK IS CANCELLED.</Label>
-                        <Table className="border-2 border-black bg-gray-200 font-semibold text-sm text-center">
-                            <TableBody className="">
-                                <TableRow className="hidden lg:table-row ">
-                                    <TableCell className="border-2 border-black w-60">CONTROL ENGINEER</TableCell>
-                                    <TableCell className="border-2 border-black"></TableCell>
-                                    <TableCell className={`border-2 border-black text-2xl ${handSignature.className}`}></TableCell>
-
-                                </TableRow>
-
-                             
-                                <TableRow className="lg:hidden">
-                                    <TableCell colSpan={2} className="border-2 border-black">CONTROL ENGINEER</TableCell>
-                                </TableRow>
-
-                                <TableRow className="lg:hidden">
-                                    <TableCell className="border-2 border-black"></TableCell>
-                                    <TableCell className={`border-2 border-black ${handSignature.className}`}></TableCell>
-                                </TableRow>
-
-
-                            </TableBody>
-                        </Table>
-
-
-
-                    </div>
-
-
-
-
-
-      
-                </div> */}
 
 
 
                 {/* Section 4 */}
 
-                <div className="border-b-4 border-black p-1 pb-9">
+              <div className="border-b-4 border-black p-1 pb-9">
                     <div className="flex space-x-1 text-md font-semibold pb-10">
                         <div>4.</div>
                         <div>APPROVALS</div>
@@ -577,14 +531,14 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
 
 
                     </div>
-                </div>
+                </div> 
 
 
 
                 {/* Section 5 */}
 
 
-                <div className="border-b-4 border-black p-1 pb-9">
+               <div className="border-b-4 border-black p-1 pb-9">
                     <div className="flex space-x-1 text-md font-semibold pb-10">
                         <div>5.</div>
                         <div>Receiver</div>
@@ -626,7 +580,7 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
 
 
                     </div>
-                </div>
+                </div> 
  
 
 
@@ -654,16 +608,16 @@ async function addPermit(data: FormValues, userData: DocumentData, workParty: Wo
         phoneNumber: userData.phoneNumber ?? "",
         location: data.location,
         rams: data.rams,
-        startDate: data.startDate.getTime(),
-        endDate: data.endDate.getTime(),
+/*         startDate: data.startDate.getTime(),
+        endDate: data.endDate.getTime(), */
         status: "pending",
         email: auth.currentUser?.email ?? "",
         equipment: data.equipment,
-        pointsOfIsolation: data.pointsOfIsolation,
+/*         pointsOfIsolation: data.pointsOfIsolation,
         primaryEarthingDevice: data.primaryEarthingDevice,
         actionsTaken: data.actionsTaken,
         furtherPrecautions: data.furtherPrecautions,
-        variedPrecautions: data.variedPrecautions,
+        variedPrecautions: data.variedPrecautions, */
         isolation: data.isolation,
         sap: data.sap,
         workType: data.workType,

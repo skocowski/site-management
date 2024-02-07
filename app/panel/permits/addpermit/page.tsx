@@ -12,13 +12,11 @@ type FormValues = z.infer<typeof permitFormSchema>
  const defaultValues: Partial<FormValues> = {
     description: "",
     equipment: "",
-    pointsOfIsolation: "N/A",
-    primaryEarthingDevice: "N/A",
-    actionsTaken: "N/A",
-    furtherPrecautions: "N/A",
-    variedPrecautions: "N/A",
+rams: "",
     workDuration: "",
-    otherInformation: ""
+     otherInformation: "",
+     location: "",
+   
 } 
 
 const PermitForm = () => {
