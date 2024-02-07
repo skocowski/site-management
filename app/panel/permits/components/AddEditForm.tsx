@@ -178,6 +178,15 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
                                     </TableRow>
                                 ))}
 
+                                {workParty.length === 0 &&
+                                    <TableRow>
+                                        <TableCell className="border-2 border-black h-9"></TableCell>
+                                        <TableCell className="border-2 border-black"></TableCell>
+                                        <TableCell className={`border-2 border-black`}></TableCell>
+                                    </TableRow>
+                                
+                                }
+
 
                             </TableBody>
                         </Table>
