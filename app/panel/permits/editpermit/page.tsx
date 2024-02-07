@@ -46,18 +46,18 @@ const EditPermit = () => {
         description: permit?.description ?? "",
         equipment: permit?.equipment ?? "",
         rams: permit?.rams ?? "",
-        pointsOfIsolation: permit?.pointsOfIsolation ?? "N/A",
+/*         pointsOfIsolation: permit?.pointsOfIsolation ?? "N/A",
         primaryEarthingDevice: permit?.primaryEarthingDevice ?? "N/A",
         actionsTaken: permit?.actionsTaken ?? "N/A",
         furtherPrecautions: permit?.furtherPrecautions ?? "N/A",
-        variedPrecautions: permit?.variedPrecautions ?? "N/A",
+        variedPrecautions: permit?.variedPrecautions ?? "N/A", */
         workDuration: permit?.workDuration ?? "",
         otherInformation: permit?.otherInformation ?? "",
         isolation: permit?.isolation ?? "",
         sap: permit?.sap ?? "",
         workType: permit?.workType ?? "",
-        startDate: permit?.startDate ?? new Date(),
-        endDate: permit?.endDate ?? new Date(),
+/*         startDate: permit?.startDate ?? new Date(),
+        endDate: permit?.endDate ?? new Date(), */
       
     } 
 
