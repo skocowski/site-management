@@ -200,7 +200,7 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
 
                 {/*    SECTION 3 */}
 
-                <div className=" border-black p-1 pb-9">
+{/*                 <div className=" border-black p-1 pb-9">
                     <div className="flex space-x-1 text-md font-semibold">
                         <div>3.</div>
                         <div>DETAILS </div>
@@ -522,7 +522,7 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
 
 
       
-                </div>
+                </div> */}
 
 
 
