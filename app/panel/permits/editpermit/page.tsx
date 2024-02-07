@@ -56,8 +56,8 @@ const EditPermit = () => {
         isolation: permit?.isolation ?? "",
         sap: permit?.sap ?? "",
         workType: permit?.workType ?? "",
-/*         startDate: permit?.startDate ?? new Date(),
-        endDate: permit?.endDate ?? new Date(), */
+        startDate: permit?.startDate ?? new Date(),
+        endDate: permit?.endDate ?? new Date(), 
       
     } 
 

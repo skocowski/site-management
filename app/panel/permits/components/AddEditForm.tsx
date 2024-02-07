@@ -376,7 +376,7 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
                         />
 
 
-           {/*              <div className="flex justify-between gap-10 pt-10">
+                         <div className="flex justify-between gap-10 pt-10">
                             <div className="w-full">
                                 <FormField
                                     control={form.control}
@@ -470,7 +470,7 @@ const AddEditForm = ({ userData, defaultValues, type, permitId, workers }: addEd
 
 
 
-                        </div> */}
+                        </div> 
 
 
                     </div>
@@ -608,8 +608,8 @@ async function addPermit(data: FormValues, userData: DocumentData, workParty: Wo
         phoneNumber: userData.phoneNumber ?? "",
         location: data.location,
         rams: data.rams,
-/*         startDate: data.startDate.getTime(),
-        endDate: data.endDate.getTime(), */
+        startDate: data.startDate.getTime(),
+        endDate: data.endDate.getTime(), 
         status: "pending",
         email: auth.currentUser?.email ?? "",
         equipment: data.equipment,
@@ -661,8 +661,8 @@ async function editPermit(data: FormValues, userData: DocumentData, workParty: W
         phoneNumber: userData.phoneNumber ?? "",
         location: data.location,
         rams: data.rams,
-/*         startDate: data.startDate.getTime(),
-        endDate: data.endDate.getTime(), */
+       startDate: data.startDate.getTime(),
+        endDate: data.endDate.getTime(), 
         status: "pending",
         email: auth.currentUser?.email ?? "",
         equipment: data.equipment,

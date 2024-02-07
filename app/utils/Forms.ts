@@ -11,12 +11,12 @@ export const permitFormSchema = z.object({
     .max(30, {
       message: "Equipment must not be longer than 30 characters.",
     }),
-/*   startDate: z.date({
+  startDate: z.date({
     required_error: "A date is required.",
   }),
   endDate: z.date({
     required_error: "A date is required.",
-  }), */
+  }), 
   rams: z.string({ required_error: "Rams is required." }),
 
   description: z
@@ -45,3 +45,4 @@ export const permitFormSchema = z.object({
   furtherPrecautions: z.string(),
   variedPrecautions: z.string(), */
 });
+
