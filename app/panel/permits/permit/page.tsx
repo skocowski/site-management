@@ -36,6 +36,7 @@ import { format } from "date-fns"
 import { Skeleton } from "@/components/ui/skeleton"
 import { auth } from "@/app/firebase/config"
 import { CheckIcon } from "@radix-ui/react-icons"
+import TransferPermit from "../components/TransferPermit"
 
 
 
@@ -109,7 +110,7 @@ const PermitTemplate = () => {
 
     return (
         <div className="space-y-5">
-<Button onClick={() => console.log(permit.isolation)}>Permit</Button>
+            <Button onClick={() => console.log(permit.isolation)}>Permit</Button>
 
             <div className="border-4 border-black" ref={componentRef}>
 
@@ -390,7 +391,7 @@ const PermitTemplate = () => {
 
                                 <TableRow className="hidden lg:table-row ">
                                     <TableCell className="bg-[#ff0000] border-2 border-black text-white text-center">CONTROL ENGINEER</TableCell>
-                                    <TableCell className="border-2 border-black">{permit.engineerApproved && <div>John Smith</div> } </TableCell>
+                                    <TableCell className="border-2 border-black">{permit.engineerApproved && <div>John Smith</div>} </TableCell>
                                     <TableCell className="border-2 border-black">{permit.engineerApproved && <div>+3483764783</div>} </TableCell>
                                     <TableCell className={`border-2 border-black ${handSignature.className}`}>{permit.engineerApproved && <div>J. Smith</div>}</TableCell>
 
@@ -447,8 +448,8 @@ const PermitTemplate = () => {
 
                                 <TableRow className="hidden lg:table-row ">
                                     <TableCell className="bg-[#ff0000] border-2 border-black text-white text-center">COMPETENT PERSON</TableCell>
-                                    <TableCell className="border-2 border-black">{permit.name} { permit.surname}</TableCell>
-                                    <TableCell className="border-2 border-black">{permit.phoneNumber } </TableCell>
+                                    <TableCell className="border-2 border-black">{permit.name} {permit.surname}</TableCell>
+                                    <TableCell className="border-2 border-black">{permit.phoneNumber} </TableCell>
                                     <TableCell className={`border-2 border-black ${handSignature.className}`}>{permit.name.slice(0, 1)} {permit.surname}</TableCell>
 
                                 </TableRow>
@@ -471,7 +472,7 @@ const PermitTemplate = () => {
                 </div>
 
 
-{/*                 <div className="border-b-4 border-black p-1 pb-9" >
+                {/*                 <div className="border-b-4 border-black p-1 pb-9" >
                     <div className="flex space-x-1 text-md font-semibold">
                         <div>3.</div>
                         <div>PREPARATIONS</div>
@@ -617,6 +618,11 @@ const PermitTemplate = () => {
 
                         </Link>
                     }
+
+                    {permit.status === 'approved' && permitId &&
+                        <TransferPermit permitId={permitId} />
+                    }
+
                     <Button onClick={handlePrint}><PrinterIcon className="mr-2 h-4 w-4" />Print the Permit</Button>
                 </CardFooter>
             </Card>

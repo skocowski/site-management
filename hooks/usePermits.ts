@@ -13,7 +13,14 @@ export function usePermits(email: string) {
       querySnapshot.forEach((doc) => {
         tempResult.push(doc.data());
       });
+      tempResult.sort((a, b) => {
+        // Extract the timestamp from the IDs
+  const timestampA = a.id ? parseInt(a.id.replace("phk", "")) : 0;
+  const timestampB = b.id ? parseInt(b.id.replace("phk", "")) : 0;
 
+        // Compare timestamps for sorting
+        return timestampB - timestampA;
+      });
       // Update the state with the new permits data
       setPermits(tempResult);
     });
@@ -51,7 +58,7 @@ export function usePermits(email: string) {
   
     const approved = filterDataByStatus("approved");
 
-  const all = filteredPermitsByEmail;
+  const all = filteredPermitsByEmail
 
 
 
