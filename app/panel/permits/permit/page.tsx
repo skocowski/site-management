@@ -110,7 +110,7 @@ const PermitTemplate = () => {
 
     return (
         <div className="space-y-5">
-            <Button onClick={() => console.log(permit.isolation)}>Permit</Button>
+         
 
             <div className="border-4 border-black" ref={componentRef}>
 
