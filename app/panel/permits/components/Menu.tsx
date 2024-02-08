@@ -15,18 +15,45 @@ import { Badge } from "@/components/ui/badge"
 const Menu = () => {
     /*  const { setType, allAmount, rejectededAmount, pendingAmount, approvedAmount } = usePermitsTypeContext() */
     const email = auth.currentUser?.email ?? ""
-    const { allAmount, pendingAmount, rejectedAmount, approvedAmount, permitsToReview, toReviewAmount  } = usePermits(email) 
+    const { allAmount, pendingAmount, rejectedAmount, approvedAmount, permitsToReview, toReviewAmount, allApprovedAmount  } = usePermits(email) 
     const isAdmin = useAdminStatus()
 
     return (
 
         <nav className="flex space-x-2 xl:flex-col xl:space-x-0 xl:space-y-1">
 
+            
+            {isAdmin &&
+            <>
+                <div className={cn(buttonVariants({variant: "default", size: "sm"})) }>All Permits</div>
+          
+                <Link
+                    href="/panel/permits/toreview"
+                    className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "justify-start")}>
+                    <Loader2 className="mr-2 h-4 w-4" />
+                    <div>To review</div>
+    {/*                 {toReviewAmount > 0 && <Badge variant="destructive" className="ml-auto ">NEW!</Badge>} */}
+                    <span className="lg:ml-auto ml-5">{toReviewAmount}</span>
+                </Link>
 
+                <Link
+                    href="/panel/permits/allApproved"
+                    className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "justify-start")}>
+                    <Inbox className="mr-2 h-4 w-4" />
+                    <div>All Approved</div>
+               
+                    <span className="lg:ml-auto ml-5">{allApprovedAmount}</span>
+                </Link>
+
+                 
+            </>
+            }
+
+            <div className={cn(buttonVariants({ variant: "default", size: "sm" }))}>Your Permits</div>
 
             <Link
                 href="/panel/permits/all"
-                className={cn(buttonVariants({ variant: "default", size: "sm" }), "justify-start")}>
+                className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "justify-start")}>
                 <Inbox className="mr-2 h-4 w-4" />
                 <div>All</div>
                 <span className="lg:ml-auto ml-5">{allAmount}</span>
@@ -54,19 +81,7 @@ const Menu = () => {
             </Link>
 
 
-<Separator className="hidden xl:block"/>
-            {isAdmin &&
 
-                <Link
-                    href="/panel/permits/toreview"
-                    className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "justify-start")}>
-                    <Loader2 className="mr-2 h-4 w-4" />
-                    <div>Review</div>
-                    {toReviewAmount > 0 && <Badge variant="destructive" className="ml-auto ">NEW!</Badge>}
-                    <span className="lg:ml-auto ml-5">{toReviewAmount}</span>
-                </Link>
-            
-            }
 
 
             <div className="hidden mg:block">

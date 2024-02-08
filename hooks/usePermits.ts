@@ -32,6 +32,10 @@ export function usePermits(email: string) {
       : filteredPermitsByEmail.filter((permit) => permit.status === status);
   };
 
+    const filterAllApproved = (): any[] => {
+      return permits.filter((permit) => permit.status === 'approved');
+    };
+
   const filterDataByDate = (): any[] => {
     const currentDate = new Date().getTime();
     return filteredPermitsByEmail.filter(
@@ -61,6 +65,8 @@ export function usePermits(email: string) {
   const activePermitsAmount = activePermits.length;
   const permitsToReview = toReview("pending")
   const toReviewAmount = permitsToReview.length
+  const allApproved = filterAllApproved()
+  const allApprovedAmount = allApproved.length
 
   return {
     permits: filteredPermitsByEmail,
@@ -75,6 +81,8 @@ export function usePermits(email: string) {
     approvedAmount,
     activePermitsAmount,
     permitsToReview,
-    toReviewAmount
+    toReviewAmount,
+    allApproved,
+    allApprovedAmount
   };
 }
