@@ -19,13 +19,11 @@ const {permits} = usePermits(email)
 
     
   return (
-      <section className=''>
-          <div className='container'>
+
          
             
               <DataTable columns={columns} data={permits} />
-          </div>
-  </section>
+
   )
 }
 

@@ -175,12 +175,12 @@ const PermitTemplate = () => {
                             </TableHeader>
                             <TableBody className="">
 
-                                <TableRow className="hidden lg:table-row ">
+{/*                                 <TableRow className="hidden lg:table-row ">
                                     <TableCell className="border-2 border-black">{permit.name} {permit.surname}</TableCell>
                                     <TableCell className="border-2 border-black">{permit.company}</TableCell>
                                     <TableCell className={`border-2 border-black`}>{permit.phoneNumber}</TableCell>
 
-                                </TableRow>
+                                </TableRow> */}
 
 
                                 {/* Rows from workParty */}
@@ -427,7 +427,7 @@ const PermitTemplate = () => {
                 {/* Section 5 */}
 
 
-                <div className="border-b-4 border-black p-1 pb-9">
+                <div className=" border-black p-1 pb-9">
                     <div className="flex space-x-1 text-md font-semibold pb-10">
                         <div>5.</div>
                         <div>RECEIVER</div>

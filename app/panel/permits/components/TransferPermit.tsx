@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import useUserData from '@/hooks/useUserData'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useRouter } from 'next/navigation'
@@ -12,15 +13,18 @@ import { z } from 'zod'
 
 const transferFormSchema = z.object({
 
-    email: z
-        .string()
+    email: z.string(),
+    name: z.string(),
+    surname: z.string()
 
 })
 
 type TransferFormValues = z.infer<typeof transferFormSchema>
 
 const defaultValues: Partial<TransferFormValues> = {
-    email: ""
+    email: "",
+    name: "",
+    surname: ""
 }
 
 interface TransferPermitProps {
@@ -33,7 +37,7 @@ const TransferPermit = ({permitId} : TransferPermitProps) => {
     const router = useRouter()
 
     const [toPermits, setToPermits] = useState(false)
-
+const {data} = useUserData()
 
     useEffect(() => {
         if (toPermits) {
@@ -49,7 +53,7 @@ const TransferPermit = ({permitId} : TransferPermitProps) => {
     
     function onSubmit(values: TransferFormValues) {
 
-        transferPermit(permitId, values.email)
+        transferPermit(permitId, values.email, values.name, values.surname)
         setToPermits(true)
     }
 
@@ -89,6 +93,36 @@ const TransferPermit = ({permitId} : TransferPermitProps) => {
                                   </FormItem>
                               )}
                           />
+
+                          <FormField
+                              control={form.control}
+                              name="name"
+                              render={({ field }) => (
+                                  <FormItem>
+                                      <FormLabel>Name</FormLabel>
+                                      <FormControl>
+                                          <Input placeholder="Name" {...field} />
+                                      </FormControl>
+
+                                      <FormMessage />
+                                  </FormItem>
+                              )}
+                          />
+
+                          <FormField
+                              control={form.control}
+                              name="surname"
+                              render={({ field }) => (
+                                  <FormItem>
+                                      <FormLabel>Surname</FormLabel>
+                                      <FormControl>
+                                          <Input placeholder="Surname" {...field} />
+                                      </FormControl>
+
+                                      <FormMessage />
+                                  </FormItem>
+                              )}
+                          />
                           <Button type="submit">Transfer</Button>
                       </form>
                   </Form> 
@@ -107,18 +141,26 @@ export default TransferPermit
 
  async function transferPermit(
     permitId: string,
-    newEmail: string,
+     newEmail: string,
+     _newName: string,
+    _newSurname: string
 
 ) {
     const ref = doc(db, "permits", permitId);
     try {
         let mail = newEmail;
+        let newName = _newName
+        let newSurname = _newSurname
 
 
 
 
         const dataToUpdate = {
-            email: mail
+            email: mail,
+            name: newName,
+            surname: newSurname,
+            sapApproved: false,
+            status: "pending"
         };
 
 
