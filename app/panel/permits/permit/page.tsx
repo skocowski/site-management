@@ -623,7 +623,11 @@ const PermitTemplate = () => {
                         <TransferPermit permitId={permitId} />
                     }
 
-                    <Button onClick={handlePrint}><PrinterIcon className="mr-2 h-4 w-4" />Print the Permit</Button>
+                    {permit.status === 'approved' && permitId &&
+                        <Button onClick={handlePrint}><PrinterIcon className="mr-2 h-4 w-4" />Print the Permit</Button>
+                    }
+
+                
                 </CardFooter>
             </Card>
 

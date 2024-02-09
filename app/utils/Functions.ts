@@ -86,7 +86,7 @@ export async function reviewPermit(
 
 
     if (status === "approved") {
-          if (email === "sap@rawai.pl") {
+          if (email === "sap@rawai.pl" || email === "permitoffice@proton.me") {
             sap = true;
           }
 
