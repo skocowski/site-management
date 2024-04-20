@@ -4,7 +4,7 @@ import React from 'react'
 import { DataTable } from '../components/PermitTable'
 import { columns } from '../components/columns'
 import { usePermits } from '@/hooks/usePermits'
-import { auth } from '@/app/firebase/config'
+import { auth } from '@/app/firebase/firebaseConfig'
 
 const PendingPermits = () => {
     const email = auth.currentUser?.email ?? ""

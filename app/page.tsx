@@ -1,7 +1,7 @@
 'use client'
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from '@/app/firebase/config'
+import { auth } from '@/app/firebase/firebaseConfig'
 
 
 import Pricing from "./pricing/page";

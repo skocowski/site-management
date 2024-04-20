@@ -6,7 +6,7 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { db, functions } from "../firebase/config";
+import { db, functions } from "../firebase/firebaseConfig";
 import { httpsCallable } from "firebase/functions";
 
 export const fetchPermit = async (permitId: string) => {

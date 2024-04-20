@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
-import { auth, db } from '@/app/firebase/config'
+import { auth, db } from '@/app/firebase/firebaseConfig'
 import * as z from "zod"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"

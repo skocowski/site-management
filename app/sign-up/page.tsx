@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
-import { auth } from '@/app/firebase/config'
+import { auth } from '@/app/firebase/firebaseConfig'
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"

@@ -20,7 +20,7 @@ import { format } from "date-fns"
 import { CalendarIcon } from "@radix-ui/react-icons"
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils"
-import { auth, db } from "@/app/firebase/config"
+import { auth, db } from "@/app/firebase/firebaseConfig"
 
 
 

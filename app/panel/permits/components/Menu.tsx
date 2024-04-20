@@ -7,7 +7,7 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 
 import { Separator } from "@/components/ui/separator"
-import { auth } from "@/app/firebase/config"
+import { auth } from "@/app/firebase/firebaseConfig"
 import useAdminStatus from "@/hooks/useAdminStatus"
 import { usePermits } from "@/hooks/usePermits"
 import { Badge } from "@/components/ui/badge"

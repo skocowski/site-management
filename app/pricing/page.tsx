@@ -2,7 +2,7 @@
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
-import { auth } from "../firebase/config";
+import { auth } from "../firebase/firebaseConfig";
 const pricingData = [
     {
         mainTitle: "Freebie",

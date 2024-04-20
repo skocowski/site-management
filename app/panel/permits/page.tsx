@@ -4,7 +4,7 @@ import { DataTable } from '@/app/panel/permits/components/PermitTable'
 import React, { useEffect, useState } from 'react'
 import { columns } from './components/columns'
 
-import { auth } from '@/app/firebase/config'
+import { auth } from '@/app/firebase/firebaseConfig'
 import { usePermits } from '@/hooks/usePermits'
 
 const PermitsMain = () => {

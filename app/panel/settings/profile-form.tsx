@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input"
 
 import { toast } from "@/components/ui/use-toast"
-import { auth, db } from "@/app/firebase/config"
+import { auth, db } from "@/app/firebase/firebaseConfig"
 import useUserData from "@/hooks/useUserData"
 import { User, updateProfile } from "firebase/auth"
 import { doc, updateDoc } from "firebase/firestore"

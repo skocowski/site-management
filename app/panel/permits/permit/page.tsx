@@ -34,7 +34,7 @@ import { fetchPermit } from "@/app/utils/Functions"
 import Link from "next/link"
 import { format } from "date-fns"
 import { Skeleton } from "@/components/ui/skeleton"
-import { auth } from "@/app/firebase/config"
+import { auth } from "@/app/firebase/firebaseConfig"
 import { CheckIcon } from "@radix-ui/react-icons"
 import TransferPermit from "../components/TransferPermit"
 

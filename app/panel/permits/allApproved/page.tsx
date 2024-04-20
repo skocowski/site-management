@@ -1,5 +1,5 @@
 'use client'
-import { auth } from '@/app/firebase/config'
+import { auth } from '@/app/firebase/firebaseConfig'
 import { usePermits } from '@/hooks/usePermits'
 import React from 'react'
 import { DataTable } from '../components/PermitTable'

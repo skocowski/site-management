@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { auth } from "@/app/firebase/config";
+import { auth } from "@/app/firebase/firebaseConfig";
 
 const useAdminStatus = () => {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);

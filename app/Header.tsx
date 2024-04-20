@@ -5,7 +5,7 @@ import DarkModeToggle from '@/components/DarkModeToggle';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { Button, buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
-import { auth } from '@/app/firebase/config'
+import { auth } from '@/app/firebase/firebaseConfig'
 import { User, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
